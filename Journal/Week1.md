@@ -12,10 +12,13 @@ Required Deliverables:
 - [ ] implementation schedule
 -----
 ## Monday Jul 27, 2026
+### Tasks Done Today
 - Created class GitHub repository
 - Exploring implementation schedule system
 - Developping project idea, scope, and target users
 - Drawing base wireframe ideas
+
+### What is blocking me?
 
 ### To Do
 - [ ] rewrite notes into more comprehensive and easy to follow format
@@ -23,10 +26,31 @@ Required Deliverables:
 - [ ] add repo link to class forum
 
 ## Tuesday Jul 28, 2026
+### Tasks Done Today
 - 
+
+### What is blocking me?
+- 
+
+### To Do
+- [ ] ...
 
 ## Wednesday Jul 29, 2026
+### Tasks Done Today
 - 
 
-## Thursday Jul 30, 2026
+### What is blocking me?
 - 
+
+### To Do
+- [ ] ...
+
+## Thursday Jul 30, 2026
+### Tasks Done Today
+- 
+
+### What is blocking me?
+- 
+
+### To Do
+- [ ] ...
