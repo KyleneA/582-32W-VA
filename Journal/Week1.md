@@ -5,7 +5,7 @@ Required Deliverables:
 - [ ] target user
 - [ ] scope
 - [ ] Figma design
-- [ ] rationale
+- [ ] design rationale
 - [ ] model diagram
 - [ ] route or endpoint plan
 - [x] repository
