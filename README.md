@@ -31,7 +31,17 @@ Target Users:
 - Building Residents 
 
 ### Project Scope
+Description:
+- Website where residents can easily access building administration announcements, building guidelines, and building administration contact information. Residants will also be able to post about set categories like (used item, in search of, something to share) which admin will approve.
 
+Deliverables:
+- Home page, 
+- dashboard for authenticated users where announcements and posts will appear, 
+- create announcement page for admin
+- edit and delete announcement feature for admin
+- create post page for residents that also contains posting guidelines
+- edit and delete post feature for resident's own posts
+- approve or decline post feature for resident posts
 
 ### Implementation Schedule
 
