@@ -48,3 +48,27 @@ Deliverables:
 ### Proposed Database Models & Relationships
 ![Primary Content Model](./Primary%20Content%20Model.png)
 ![User Model](./User%20Model.png)
+
+### Route Endpoint List
+ADMIN
+```
+Apartment Website
+    ├── Home (Unauthenticated and Authenticated)
+    ├── Dashboard (Authenticated)
+        ├── Create_announcement (Authenticated)
+        ├── Edit_announcement (Authenticated)
+        ├── Delete_announcement (Authenticated)
+        ├── Create_building_info (Authenticated)
+        ├── Edit_building_info (Authenticated)
+        └── Manage_posts (Authenticated)
+```
+
+Resident
+```
+Apartment Website
+    ├── Home (Unauthenticated and Authenticated)
+    ├── Dashboard (Authenticated)
+        ├── Create_post (Authenticated)
+        ├── Edit_post (Authenticated)
+        └── Delete_post (Authenticated)
+```
