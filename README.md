@@ -46,5 +46,5 @@ Deliverables:
 ### Implementation Schedule
 
 ### Proposed Database Models & Relationships
-
-### 
+![Primary Content Model](./Primary%20Content%20Model.png)
+![User Model](./User%20Model.png)
