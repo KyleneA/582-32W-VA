@@ -1,7 +1,7 @@
 # 582-32W-VA | Web Project 1
 > [!note]
-> Relevant links
-> [Task Board](!https://docs.google.com/spreadsheets/d/15zLd31JY0NQlfsA56kHXHvdHl8BFEj11LDNxC7QleA0/edit?usp=sharing)
+> Relevant links:
+> [Task Board](https://docs.google.com/spreadsheets/d/15zLd31JY0NQlfsA56kHXHvdHl8BFEj11LDNxC7QleA0/edit?usp=sharing)
 
 ## Project Summary
 For web project 1, I am developping a website that can be used by administration staff and tenants of an apartment complex to display important information or announcements from admin and community posts from tenants that can help foster a sense of community within the complex. 
@@ -14,7 +14,7 @@ It can be difficult to ensure that all residents receive important announcements
 
 ### Client Needs and Target Users
 Needs:
-- Centralized location residents can access ongoing projects, construction, planned outages, and other announcements the building admin may need to share.
+- Centralized location where residents can access ongoing projects, construction plans, planned outages, and other announcements the building admin may need to share.
 - An area for building guidelines and how to contact building admin if needed
     - it would be nice if admin can change update this section in case of any changes
 - Being able to create and delete accounts for tenants as they move in or out of the complex
