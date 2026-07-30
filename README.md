@@ -34,7 +34,7 @@ Target Users:
 
 ### Project Scope
 Description:
-- Website where residents can easily access building administration announcements, building guidelines, and building administration contact information. Residants will also be able to post about set categories like (used item, in search of, something to share) which admin will approve.
+- Website where residents can easily access building administration announcements, building guidelines, and building administration contact information. Residants will also be able to post about set categories like (used item (to give away), in search of, something to share) which admin will approve.
 
 Deliverables:
 - Home page, 
@@ -55,6 +55,7 @@ Deliverables:
 ### Proposed Database Models & Relationships
 ![Primary Content Model](./Project%20Progress%20Assets/Primary%20Content%20Model.png)
 ![User Model](./Project%20Progress%20Assets/User%20Model.png)
+![Relationship](./Project%20Progress%20Assets/Relationship.png)
 
 ### Route Endpoint List
 ADMIN
