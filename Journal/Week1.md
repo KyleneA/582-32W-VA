@@ -36,20 +36,23 @@ Required Deliverables:
 - I realise I am also having a bit of trouble verbalizing what I am thinking in terms of development (features and components) so I am trying to draw out some diagrams and think of keywords that will help me better represent these ideas outside of my head.
 
 ### To Do
-- [ ] Define project scope in README based on notes
-- [ ] Draw out db model based on notes
+- [x] Define project scope in README based on notes
+- [x] Draw out db model based on notes
 - [ ] Preliminary wireframing (lo-med fidelity)
 - [ ] Set preliminary project timeline
 
 ## Wednesday Jul 29, 2026
 ### Tasks Done Today
-- 
+- I recreated the model I thought up in my notebook into model diagrams in FigJam
+- I expanded on my notebook notes for the project scope
+- I started making the low fidelity wireframes (Home pages completed & dashboard started (admin))
+- I created the base for the [color palette](/Project%20Progress%20Assets/Base%20Color%20Palette.png) to confirm contrast and color accessibility
 
 ### What is blocking me?
-- 
+- I am having a lot of trouble conceptualizing how long each step will take so I am not too sure how to write the milestone plan
 
 ### To Do
-- [ ] ...
+- [ ] 
 
 ## Thursday Jul 30, 2026
 ### Tasks Done Today

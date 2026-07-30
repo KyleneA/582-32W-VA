@@ -44,6 +44,11 @@ Deliverables:
 - approve or decline post feature for resident posts
 
 ### Implementation Schedule
+- Week 1: Definition & Design Plan
+- Week 2: Backend Foundation
+- Week 3: Frontend Integration
+- Week 4: Integrated Working Prototype
+- Week 5: Feature Completion and Testing
 
 ### Proposed Database Models & Relationships
 ![Primary Content Model](./Project%20Progress%20Assets/Primary%20Content%20Model.png)
