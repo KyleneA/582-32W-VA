@@ -1,7 +1,7 @@
 # 582-32W-VA | Web Project 1
 > [!note]
 > Relevant links:
-> [Task Board](https://docs.google.com/spreadsheets/d/15zLd31JY0NQlfsA56kHXHvdHl8BFEj11LDNxC7QleA0/edit?usp=sharing) | [Figma Project](https://www.figma.com/design/C8FLnd8EbB3cwVpigYFweI/Web-Project-1?node-id=2-2&t=ZOdOSHOynxtSMTV2-1)
+> [Task Board](https://docs.google.com/spreadsheets/d/15zLd31JY0NQlfsA56kHXHvdHl8BFEj11LDNxC7QleA0/edit?usp=sharing) | [Figma Project](https://www.figma.com/design/C8FLnd8EbB3cwVpigYFweI/Web-Project-1?node-id=2-2&t=ZOdOSHOynxtSMTV2-1) | [FigJam](https://www.figma.com/board/wgPoQGhjeiqtdBq2w2v1YQ/Web-Project-1?node-id=0-1&t=AABfADxx5VSAiwnU-1)
 
 ## Project Summary
 For web project 1, I am developping a website that can be used by administration staff and tenants of an apartment complex to display important information or announcements from admin and community posts from tenants that can help foster a sense of community within the complex.
