@@ -4,7 +4,9 @@
 > [Task Board](https://docs.google.com/spreadsheets/d/15zLd31JY0NQlfsA56kHXHvdHl8BFEj11LDNxC7QleA0/edit?usp=sharing) | [Figma Project](https://www.figma.com/design/C8FLnd8EbB3cwVpigYFweI/Web-Project-1?node-id=2-2&t=ZOdOSHOynxtSMTV2-1)
 
 ## Project Summary
-For web project 1, I am developping a website that can be used by administration staff and tenants of an apartment complex to display important information or announcements from admin and community posts from tenants that can help foster a sense of community within the complex. 
+For web project 1, I am developping a website that can be used by administration staff and tenants of an apartment complex to display important information or announcements from admin and community posts from tenants that can help foster a sense of community within the complex.
+
+As a `Building Admin`, I want to `be able to show announcements relating to the building in one place` so that `residents can find important information in one place`.
 
 ### Frontend Track
 Flask & JavaScript
