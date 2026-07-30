@@ -1,7 +1,7 @@
 # 582-32W-VA | Web Project 1
 > [!note]
 > Relevant links:
-> [Task Board](https://docs.google.com/spreadsheets/d/15zLd31JY0NQlfsA56kHXHvdHl8BFEj11LDNxC7QleA0/edit?usp=sharing)
+> [Task Board](https://docs.google.com/spreadsheets/d/15zLd31JY0NQlfsA56kHXHvdHl8BFEj11LDNxC7QleA0/edit?usp=sharing) | [Figma Project](https://www.figma.com/design/C8FLnd8EbB3cwVpigYFweI/Web-Project-1?node-id=2-2&t=ZOdOSHOynxtSMTV2-1)
 
 ## Project Summary
 For web project 1, I am developping a website that can be used by administration staff and tenants of an apartment complex to display important information or announcements from admin and community posts from tenants that can help foster a sense of community within the complex. 
@@ -46,15 +46,15 @@ Deliverables:
 ### Implementation Schedule
 
 ### Proposed Database Models & Relationships
-![Primary Content Model](./Primary%20Content%20Model.png)
-![User Model](./User%20Model.png)
+![Primary Content Model](./Project%20Progress%20Assets/Primary%20Content%20Model.png)
+![User Model](./Project%20Progress%20Assets/User%20Model.png)
 
 ### Route Endpoint List
 ADMIN
 ```
 Apartment Website
     ├── Home (Unauthenticated and Authenticated)
-    ├── Dashboard (Authenticated)
+    └── Dashboard (Authenticated)
         ├── Create_announcement (Authenticated)
         ├── Edit_announcement (Authenticated)
         ├── Delete_announcement (Authenticated)
@@ -67,7 +67,7 @@ Resident
 ```
 Apartment Website
     ├── Home (Unauthenticated and Authenticated)
-    ├── Dashboard (Authenticated)
+    └── Dashboard (Authenticated)
         ├── Create_post (Authenticated)
         ├── Edit_post (Authenticated)
         └── Delete_post (Authenticated)
