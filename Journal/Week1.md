@@ -1,15 +1,15 @@
 # Week 1 | Definition and Design
 Required Deliverables:
-- [ ] project summary
+- [x] project summary
 - [x] client needs
 - [x] target user
-- [ ] project scope
-- [ ] Figma design
-- [ ] design rationale
-- [ ] model diagram
-- [ ] route or endpoint plan
+- [x] project scope
+- [x] Figma design
+- [x] design rationale
+- [x] model diagram
+- [x] route or endpoint plan
 - [x] repository
-- [ ] implementation schedule
+- [x] implementation schedule
 -----
 ## Monday Jul 27, 2026
 ### Tasks Done Today
@@ -54,12 +54,15 @@ Required Deliverables:
 ### To Do
 - [ ] 
 
-## Thursday Jul 30, 2026
+## Thursday Jul 30 to Saturday Aug 01 2026
 ### Tasks Done Today
-- 
+- Adding and improving model diagrams
+- Adding form wireframe
+- Checking and testing color contrast and accessibility for color blindness
 
 ### What is blocking me?
 - 
 
 ### To Do
-- [ ] ...
+- [ ] Focus on backend for next section
+- [ ] Write out user stories
