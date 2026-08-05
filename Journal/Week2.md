@@ -35,14 +35,22 @@ Required Deliverables:
 - [ ] start on database content models
 
 ## Tuesday, Aug 04 2026
+> [!NOTE]
+> [Flaks-SQLAlchemy Tutorial using SQLAlchemy ORM](https://youtu.be/L1hRlGR_V_0?si=BIgH8pUYkxf8ByVV)
+> [SQLAlchemy one to many relationship](https://youtu.be/3N9JqtpkFJI?si=U7oKJrJBm1P7SKX9)
 ### Tasks done today
-- ...
+- Set up app base
+- Created and tested database user models & load user logic
+- Set up page rendering for testing home, login and logout routes
+- Created routing and template for adding a new user to be able to test next functions
 
 ### What is blocking me?
 - 
 
 ### To Do
-- [ ] 
+- [ ] add validation to creating users
+- [ ] separate routing for creating Resident vs Admin
+- [ ] create and display announcements and posts
 
 ## Wednesday, Aug 05 2026
 ### Tasks done today

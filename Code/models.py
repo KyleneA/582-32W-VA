@@ -102,13 +102,6 @@ class Resident(User):
         db.String(8),
         nullable=False,
     )
-    
-    # admin_id: Mapped[int] = mapped_column(
-    #     db.Integer,
-    #     db.ForeignKey("admin.id"),
-    #     nullable=False
-    # )
-    # admin: Mapped["Admin"] = relationship(back_populates="residents", uselist=False)
 
     __mapper_args__ = {
         "polymorphic_identity": "resident"

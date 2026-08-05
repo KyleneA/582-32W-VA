@@ -1,0 +1,104 @@
+{% extends "base.html" %} {% block title %} Create User | XYZ Apartment {% endblock %} 
+    {% block content %}
+    <form method="POST">
+        <div class="general-inputs">
+            <div class="input-div">
+                <label for="user-role">User role</label>
+
+                <select name="user-role" id="user-role" required>
+                    <option value="">Select User Role</option>
+                    <option value="admin">Admin</option>
+                    <option value="resident">Resident</option>
+                </select>
+            </div>
+
+            <div class="input-div">
+                <label for="full-name"> Full Name </label>
+                <input 
+                    id="full-name"
+                    name="full-name"
+                    type="text"
+                    value="{{ full_name or '' }}"
+                    maxlength="100"
+                    required
+                >
+            </div>
+
+            <div class="input-div">
+                <label for="email">
+                    Email Address
+                </label>
+    
+                <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    value="{{ email or '' }}"
+                    maxlength="255"
+                    required
+                />
+            </div>
+    
+            <div class="input-div">
+                <label for="password"> Password </label>
+                <input 
+                    id="password" 
+                    name="password" 
+                    type="password" 
+                    required 
+                />
+            </div>
+        </div>
+
+        <div class="resident-inputs">
+            <div class="input-div">
+                <label for="apartment"> Apartment </label>
+                <input 
+                    id="apartment"
+                    name="apartment"
+                    type="text"
+                    value="{{ apartment or '' }}"
+                    maxlength="4"
+                    required
+                >
+            </div>
+
+            <div class="input-div">
+                <label for="locker"> Locker </label>
+                <input 
+                    id="locker"
+                    name="locker"
+                    type="text"
+                    value="{{ locker or '' }}"
+                    maxlength="100"
+                    required
+                >
+            </div>
+
+            <div class="input-div">
+                <label for="lease-date"> Lease Date </label>
+                <input 
+                    id="lease-date"
+                    name="lease-date"
+                    type="date"
+                    value="{{ lease_date or '' }}"
+                    required
+                >
+            </div>
+
+            <div class="input-div">
+                <label for="parking-status"> Parking Status </label>
+                <select name="parking-status" id="parking-status" required>
+                    <option value="">Select Parking Status</option>
+                    <option value="paid">Paid</option>
+                    <option value="late">Late</option>
+                    <option value="revoked">Revoked</option>
+                    <option value="inactive">Inactive</option>
+                </select>
+            </div>
+        </div>
+
+        <button type="submit">Create User</button>
+    </form>
+
+    {% endblock %}

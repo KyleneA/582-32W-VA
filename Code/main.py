@@ -78,3 +78,44 @@ def logout():
 
     flash("You have been logged out", "success")
     return redirect(url_for("home"))
+
+
+@app.route("/user/add", methods = ["GET", "POST"])
+# @login_required 
+def user_add():
+    if not current_user.role == "admin":
+        redirect(url_for("home"))
+
+    if request.method == "POST":
+        user_role = request.form["user-role"]
+        name = request.form["full-name"]
+        email = request.form["email"]
+        password = request.form["password"]
+        lease_date = datetime.strptime(request.form["lease-date"],  "%Y-%m-%d")
+        print(request.form["lease-date"], lease_date)
+
+        if user_role == "resident":
+            apartment = request.form["apartment"]
+            locker = request.form["locker"]
+            lease_date = datetime.strptime(request.form["lease-date"],  "%Y-%m-%d")
+            parking_status = request.form["parking-status"]
+
+            resident = Resident(name=name, email=email, apartment=apartment, locker_location=locker, lease_date=lease_date, parking_status=parking_status)
+            resident.set_password(password)
+
+            db.session.add(resident)
+            db.session.commit()
+            flash(f"Resident account for {resident.apartment} has been created", "success")
+
+            return redirect(url_for("home"))
+
+        admin = Admin(name=name, email=email)
+        admin.set_password(password)
+
+        db.session.add(admin)
+        db.session.commit()
+        flash(f"Admin account has been created", "success")
+
+        return redirect(url_for("home"))
+    
+    return render_template("add_user.html")
