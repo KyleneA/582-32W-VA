@@ -9,7 +9,10 @@
                     <option value="">Select User Role</option>
                     {% if user_role == "admin" %}
                     <option value="admin" selected>Admin</option>
+                    <option value="resident">Resident</option>
+
                     {% elif user_role == "resident" %}
+                    <option value="admin">Admin</option>
                     <option value="resident" selected>Resident</option>
 
                     {% else %}
@@ -100,14 +103,27 @@
                     <option value="">Select Parking Status</option>
                     {% if parking_status == "paid" %}
                     <option value="paid" selected>Paid</option>
-
+                    <option value="late">Late</option>
+                    <option value="revoked">Revoked</option>
+                    <option value="inactive">Inactive</option>
+                    
+                    
                     {% elif parking_status == "late" %}
+                    <option value="paid">Paid</option>
                     <option value="late" selected>Late</option>
+                    <option value="revoked">Revoked</option>
+                    <option value="inactive">Inactive</option>
                     
                     {% elif parking_status == "revoked" %}
+                    <option value="paid">Paid</option>
+                    <option value="late">Late</option>
                     <option value="revoked" selected>Revoked</option>
+                    <option value="inactive">Inactive</option>
                     
                     {% elif parking_status == "inactive" %}
+                    <option value="paid">Paid</option>
+                    <option value="late">Late</option>
+                    <option value="revoked">Revoked</option>
                     <option value="inactive" selected>Inactive</option>
                     
                     {% else %}
