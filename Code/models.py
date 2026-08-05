@@ -85,8 +85,8 @@ class Resident(User):
     )
 
     locker_location: Mapped[str] = mapped_column(
-        # example "2-100" -> second floor, locker number 100
-        db.String(5),
+        # example "2-01" -> second floor, locker number 01
+        db.String(4),
         unique=True,
         nullable=False
     )

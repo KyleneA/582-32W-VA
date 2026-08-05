@@ -7,8 +7,15 @@
 
                 <select name="user-role" id="user-role" required>
                     <option value="">Select User Role</option>
+                    {% if user_role == "admin" %}
+                    <option value="admin" selected>Admin</option>
+                    {% elif user_role == "resident" %}
+                    <option value="resident" selected>Resident</option>
+
+                    {% else %}
                     <option value="admin">Admin</option>
                     <option value="resident">Resident</option>
+                    {% endif %}
                 </select>
             </div>
 
@@ -44,7 +51,8 @@
                 <input 
                     id="password" 
                     name="password" 
-                    type="password" 
+                    type="password"
+                    maxlength="20"
                     required 
                 />
             </div>
@@ -90,10 +98,24 @@
                 <label for="parking-status"> Parking Status </label>
                 <select name="parking-status" id="parking-status" required>
                     <option value="">Select Parking Status</option>
+                    {% if parking_status == "paid" %}
+                    <option value="paid" selected>Paid</option>
+
+                    {% elif parking_status == "late" %}
+                    <option value="late" selected>Late</option>
+                    
+                    {% elif parking_status == "revoked" %}
+                    <option value="revoked" selected>Revoked</option>
+                    
+                    {% elif parking_status == "inactive" %}
+                    <option value="inactive" selected>Inactive</option>
+                    
+                    {% else %}
                     <option value="paid">Paid</option>
                     <option value="late">Late</option>
                     <option value="revoked">Revoked</option>
                     <option value="inactive">Inactive</option>
+                    {% endif %}
                 </select>
             </div>
         </div>
