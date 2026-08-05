@@ -60,7 +60,7 @@ class User(UserMixin, db.Model):
         return f"<{self.__class__.__name__}:{self.id}>"
     
     def get_id(self):
-        return f"{self.__class__.__name__}:{self.id}"
+        return f"{self.role}:{self.id}"
 
 class Admin(User):
     __tablename__ = "admins"
