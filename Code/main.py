@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 
+from flask import render_template, url_for, redirect, request, flash
 from flask_login import (LoginManager, current_user, login_required, login_user, logout_user)
 
 from config import app
@@ -46,4 +47,34 @@ def load_user(polymorphic_id):
 
 @app.route("/")
 def home():
-    return "Running"
+    return render_template("home.html")
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for("home"))
+
+    if request.method == "POST":
+        email = request.form["email"].strip()
+        password = request.form["password"]
+
+        user = User.query.filter_by(email=email).first()
+
+        if user is None or not user.check_password(password):
+            flash("Invalid username or password", "error")
+
+            return render_template("login.html", email=email)
+        
+        login_user(user)
+        flash(f"You are now logged in, {user.role}!", "success")
+        return redirect(url_for("home"))
+
+    return render_template("login.html")
+
+@app.route("/logout", methods = ["POST"])
+@login_required
+def logout():
+    logout_user()
+
+    flash("You have been logged out", "success")
+    return redirect(url_for("home"))

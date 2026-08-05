@@ -1,0 +1,30 @@
+{% extends "base.html" %} {% block title %} Login | XYZ Apartment {% endblock %} 
+    {%block content %}
+    <form method="post">
+        <div class="input-div">
+            <label for="email">
+                Email Address
+            </label>
+
+            <input
+                id="email"
+                name="email"
+                type="email"
+                value="{{ email or '' }}"
+                required
+            />
+        </div>
+
+        <div class="input-div">
+            <label for="password"> Password </label>
+            <input 
+                id="password" 
+                name="password" 
+                type="password" 
+                required 
+            />
+        </div>
+
+        <button type="submit">Log in</button>
+    </form>
+    {% endblock %}
