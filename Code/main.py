@@ -1,12 +1,12 @@
 import os
 from dotenv import load_dotenv
 
-from flask import render_template, url_for, redirect, request, flash
+from flask import render_template, url_for, redirect, request, flash, jsonify
 from flask_login import (LoginManager, current_user, login_required, login_user, logout_user)
 
 from config import app
 from models import db, User, Admin, Resident, Announcement
-from helperFunctions import find_user, convert_to_date, validate_apartment, validate_email, validate_date, validate_locker, validate_name, validate_parking_status, validate_password, flash_errors
+from helperFunctions import find_user, convert_to_date, validate_apartment, validate_email, validate_date, validate_locker, validate_name, validate_parking_status, validate_password, flash_errors, area_options, urgency_options, validate_affected_area, validate_body, validate_title, validate_urgency
 
 login_manager = LoginManager()
 login_manager.login_view = "login"
@@ -68,10 +68,10 @@ def logout():
 
 
 @app.route("/user/add", methods = ["GET", "POST"])
-@login_required 
+# @login_required 
 def user_add():
-    if not current_user.role == "admin":
-        return redirect(url_for("home")) # change redirect url to dashboard
+    # if not current_user.role == "admin":
+    #     return redirect(url_for("home")) # change redirect url to dashboard
 
     if request.method == "POST":
         user_role = request.form["user-role"]
@@ -131,15 +131,15 @@ def user_add():
         db.session.commit()
         flash(f"Admin account has been created", "success")
 
-        return redirect(url_for("home"))
+        return redirect(url_for("home")) # change url to dashboard
     
     return render_template("add_user.html")
 
 @app.route("/announcement/add", methods=["GET", "POST"])
 @login_required
 def announcement_add():
-    area_options = ["whole building", "1st floor", "2nd floor", "3rd floor", "4th floor", "5th floor", "parking lot"]
-    urgency_options = ["immediate", "high", "medium", "low"]
+    if not current_user.role == "admin":
+        return redirect(url_for("home")) # change redirect url to dashboard
 
     if request.method == "POST":
         title = request.form["title"].strip().title()
@@ -149,13 +149,68 @@ def announcement_add():
         start_date = request.form["start-date"]
         end_date = request.form["end-date"]
         image_url = request.form["image"]
+        errors = []
 
-        print(current_user)
+        title_errors = validate_title(title, "announcement")
+        body_errors = validate_body(body, "announcement")
+        affected_area_errors = validate_affected_area(affected_area)
+        urgency_errors = validate_urgency(urgency)
+        start_date_errors = validate_date(start_date, False, "start")
+        end_date_errors = validate_date(end_date, False, "end")
+        
+        validation_results = [title_errors, body_errors, affected_area_errors, urgency_errors, start_date_errors, end_date_errors]
+
+        for result in validation_results:
+            if result:
+                errors.append(result)
+        
+        if errors:
+            flash_errors(errors)
+            return render_template("add_announcement.html", area_options=area_options, urgency_options=urgency_options, title=title, body=body, affected_area=affected_area, urgency=urgency, start_date=start_date, end_date=end_date, image=image_url)
 
         announcement = Announcement(admin=current_user, title=title, body=body, affected_area=",".join(affected_area), urgency=urgency, start_date=convert_to_date(start_date), end_date=convert_to_date(end_date), image_url=image_url)
 
         db.session.add(announcement)
         db.session.commit()
 
+        flash(f"Announcement has been created", "success")
+
+        return redirect(url_for("home")) # change url to dashboard
+
     
     return render_template("add_announcement.html", area_options=area_options, urgency_options=urgency_options)
+
+@app.route("/dashboard", methods=["GET"])
+@login_required
+def dashboard():
+    admins = redirect(url_for("get_admins"))
+    print(admins)
+    return render_template("dashboard.html", page_name="dashboard", admins=admins)
+
+@app.route("/api/user/admin", methods=["GET"])
+@login_required
+def get_admins():
+    admins = Admin.query.order_by(Admin.id).all()
+
+    return jsonify([user.to_dict() for user in admins])
+
+@app.route("/api/user/resident", methods=["GET"])
+@login_required
+def get_residents():
+    residents = Resident.query.order_by(Resident.id).all()
+
+    return jsonify([user.to_dict() for user in residents])
+
+@app.route("/api/content/announcement", methods=["GET"])
+@login_required
+def get_announcements():
+    announcements = Announcement.query.order_by(Announcement.id).all()
+
+    return jsonify([content.to_dict() for content in announcements])
+
+@app.route("/api/content/post", methods=["GET"])
+@login_required
+def get_posts():
+    posts = Post.query.order_by(Post.id).all()
+
+    return jsonify([content.to_dict() for content in posts])

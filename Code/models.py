@@ -4,9 +4,13 @@ from werkzeug.security import (check_password_hash, generate_password_hash)
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Date, DateTime
 from datetime import date, datetime
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
+from typing import Optional
 
-db = SQLAlchemy()
+class Base(DeclarativeBase):
+    pass
+
+db = SQLAlchemy(model_class=Base)
 
 # Models to create:
 # Admin, Resident
@@ -64,7 +68,7 @@ class Admin(User):
 
     id: Mapped[int] = mapped_column(db.ForeignKey("users.id"), primary_key=True)
     
-    residents: Mapped[list["Resident"]] = relationship()
+    # residents: Mapped[list["Resident"]] = relationship()
 
     announcements: Mapped[list["Announcement"]] = relationship(back_populates="admin")
 
@@ -72,17 +76,31 @@ class Admin(User):
         "polymorphic_identity": "admin"
     }
 
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "email": self.email,
+            "role": self.role,
+        }
+
 class Resident(User):
     __tablename__ = "residents"
 
     id: Mapped[int] = mapped_column(db.ForeignKey("users.id"), primary_key=True)
-    
+
+    # admin_id: Mapped[int] = mapped_column(
+    #     db.ForeignKey("admins.id"),
+    # )
+
+    # admin: Mapped["Admin"] = relationship(back_populates="residents")
+
     apartment: Mapped[str] = mapped_column(
         #example 101A -> 100s = floor 1, 01 = room number, A = building side
         db.String(4),
         unique=True,
         nullable=False
-    )
+    ) 
 
     locker_location: Mapped[str] = mapped_column(
         # example "2-01" -> second floor, locker number 01
@@ -103,9 +121,23 @@ class Resident(User):
         nullable=False,
     )
 
+    posts: Mapped[list["Post"]] = relationship(back_populates="resident")
+
     __mapper_args__ = {
         "polymorphic_identity": "resident"
     }
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "email": self.email,
+            "role": self.role,
+            "apartment": self.apartment,
+            "lockerLocation": self.locker_location,
+            "leaseDate": self.lease_date,
+            "parkingStatus": self.parking_status
+        }
 
 class Content(db.Model):
     __abstract__ = True
@@ -128,7 +160,7 @@ class Content(db.Model):
     )
 
     def __repr__(self):
-        return f"<{self.__class__.__name__}: {self.id}>"
+        return f"<{self.__class__.__name__}: {self.id} - {self.title}>"
 
 class Announcement(Content, db.Model):
     __tablename__ = "announcements"
@@ -153,15 +185,88 @@ class Announcement(Content, db.Model):
         nullable=False
     )
 
-    start_date: Mapped[date] = mapped_column(
-        db.Date()
+    start_date: Mapped[Optional[date]] = mapped_column(
+        db.Date(),
+        nullable=True
     )
 
-    end_date: Mapped[date] = mapped_column(
-        db.Date()
+    end_date: Mapped[Optional[date]] = mapped_column(
+        db.Date(),
+        nullable=True
     )
 
     # only 1 image url for now
-    image_url: Mapped[str] = mapped_column(
+    image_url: Mapped[Optional[str]] = mapped_column(
         db.String(2048)
     )
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "body": self.body,
+            "createdAt": self.created_at,
+            "authorId": self.author_id,
+            "affectedArea": self.affected_area,
+            "urgency": self.urgency,
+            "startDate": self.start_date,
+            "endDate": self.end_date,
+            "imageURL": self.image_url
+        }
+
+class Post(Content, db.Model):
+    __tablename__ = "posts"
+
+    author_id: Mapped[int] = mapped_column(
+        db.ForeignKey("residents.id"),
+        nullable=False
+    )
+
+    resident: Mapped["Resident"] = relationship(back_populates="posts")
+
+    category: Mapped[str] = mapped_column(
+        # categories: "to give away", "in search of", "something to share"
+        db.String(18),
+        nullable=False
+    )
+
+    is_approved: Mapped[bool] = mapped_column(nullable=False)
+
+    contact_info: Mapped[Optional[str]] = mapped_column(
+        db.String(255),
+        nullable=True
+    )
+
+    start_date: Mapped[Optional[date]] = mapped_column(
+        db.Date(),
+        nullable=True
+    )
+
+    end_date: Mapped[Optional[date]] = mapped_column(
+        db.Date(),
+        nullable=True
+    )
+
+    # only 1 image url for now
+    image_url: Mapped[Optional[str]] = mapped_column(
+        db.String(2048)
+    )
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "body": self.body,
+            "createdAt": self.created_at,
+            "authorId": self.author_id,
+            "category": self.category,
+            "isApproved": self.is_approved,
+            "contactInfo": self.contact_info,
+            "startDate": self.start_date,
+            "endDate": self.end_date,
+            "imageURL": self.image_url
+        }
+
+    def set_is_approved(self, value):
+        self.is_approved = value
+

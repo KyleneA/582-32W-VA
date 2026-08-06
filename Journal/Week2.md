@@ -48,13 +48,15 @@ Required Deliverables:
 - 
 
 ### To Do
-- [ ] add validation to creating users
+- [x] add validation to creating users
 - [ ] separate routing for creating Resident vs Admin
 - [ ] create and display announcements and posts
 
 ## Wednesday, Aug 05 2026
 ### Tasks done today
-- ...
+- added validation to creating users
+- created and added validations for creating announcements
+-
 
 ### What is blocking me?
 - 

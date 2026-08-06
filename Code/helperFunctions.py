@@ -8,6 +8,9 @@ def find_user(email):
     return User.query.filter_by(email=email).first()
 
 def convert_to_date(date):
+    if not date:
+        return
+    
     date_obj = datetime.strptime(date,  "%Y-%m-%d")
 
     return date_obj
@@ -121,14 +124,14 @@ def validate_locker(locker):
     
     return locker_errors
 
-def validate_date(lease_date):
+def validate_date(input_date, is_required=True, input_type="lease"):
     date_errors = []
 
-    if not lease_date:
-        date_errors.append("Lease date is a required field")
+    if is_required and not input_date:
+        date_errors.append("input date is a required field")
 
     try:
-        datetime.strptime(lease_date, "%Y-%m-%d")
+        datetime.strptime(input_date, "%Y-%m-%d")
 
         if not date_errors:
             return None
@@ -136,7 +139,8 @@ def validate_date(lease_date):
         return date_errors
     
     except ValueError:
-        date_errors.append("Date should follow YYYY-mm-dd format")
+        if is_required:
+            date_errors.append(f"{input_type.lower().capitalize()} date should follow YYYY-mm-dd format")
 
         return date_errors
 
@@ -161,3 +165,59 @@ def flash_errors(errors):
             flash(error_msg, "error")
             print(error_msg)
 
+def validate_title(title, content_type):
+    title_errors = []
+
+    if not title:
+        title_errors.append(f"{content_type.lower().capitalize()} title is a required field")
+    
+    if len(title) > 100:
+        title_errors.append("Title can contain at most 100 characters")
+    
+    if not title_errors:
+        return None
+    
+    return title_errors
+
+def validate_body(body, content_type):
+    body_errors = []
+
+    if not body:
+        body_errors.append(f"{content_type.lower().capitalize()} body is a required field")
+    
+    if not body_errors:
+        return None
+    
+    return body_errors
+
+area_options = ["whole building", "1st floor", "2nd floor", "3rd floor", "4th floor", "5th floor", "parking lot"]
+
+def validate_affected_area(affected_area):
+    affected_area_errors = []
+
+    if not affected_area:
+        affected_area_errors.append("Affected area is a required field")
+
+    if not set(affected_area).issubset(set(area_options)):
+        affected_area_errors.append(f"Selected affected area must come from the following list: {', '.join(area_options)}")
+    
+    if not affected_area_errors:
+        return None
+    
+    return affected_area_errors
+
+urgency_options = ["immediate", "high", "medium", "low"]
+
+def validate_urgency(urgency):
+    urgency_errors = []
+
+    if not urgency:
+        urgency_errors.append("Urgency is a required field")
+    
+    if not urgency in urgency_options:
+        urgency_errors.append(f"Urgency must be one of the following: {', '.join(urgency_options)}")
+    
+    if not urgency_errors:
+        return None
+    
+    return urgency_errors

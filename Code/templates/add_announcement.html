@@ -1,4 +1,6 @@
-{% extends "base.html" %} {% block title %} Create Announcement | XYZ Apartment {% endblock %} 
+{% extends "base.html" %} 
+    {% block title %} Create Announcement | XYZ Apartment {% endblock %} 
+    
     {% block content %}
     <form method="POST">
         <div class="input-div">
@@ -49,7 +51,7 @@
             <select name="urgency" id="urgency">
                 <option value="">Select urgency level</option>
                 {% for option in urgency_options %}
-                {% if urgency == "option" %}
+                {% if urgency == option %}
                 <option value="{{ option }}" selected>{{ option | title }}</option>
                 {% else %}
                 <option value="{{ option }}">{{ option | title }}</option>
@@ -64,15 +66,17 @@
                 type="date" 
                 name="start-date" 
                 id="start-date"
-            >
-        </div>
-        
-        <div class="input-div">
-            <label for="end-date">End Date</label>
-            <input 
+                value="{{ start_date or '' }}"
+                >
+            </div>
+            
+            <div class="input-div">
+                <label for="end-date">End Date</label>
+                <input 
                 type="date" 
                 name="end-date" 
                 id="end-date"
+                value="{{ end_date or '' }}"
             >
         </div>
         
@@ -87,6 +91,7 @@
                 type="url" 
                 name="image" 
                 id="image"
+                value="{{ image or '' }}"
             >
         </div>
 
