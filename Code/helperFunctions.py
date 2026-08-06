@@ -85,6 +85,10 @@ def validate_apartment(apartment):
     if not apartment:
         apartment_errors.append("Apartment is a required field")
     
+    existing_apartment = Resident.query.filter_by(apartment=apartment).first()
+    if existing_apartment:
+        apartment_errors.append("Selected apartment is already assigned")
+    
     if len(apartment) < 4 or len(apartment) > 4:
         apartment_errors.append("Apartment number should be 4 characters")
     

@@ -53,8 +53,8 @@ Deliverables:
 - Week 5: Feature Completion and Testing
 
 ### Proposed Database Models & Relationships
-![Primary Content Model](./Project%20Progress%20Assets/Primary%20Content%20Model.png)
-![User Model](./Project%20Progress%20Assets/User%20Model.png)
+![Primary Content Model](./Project%20Progress%20Assets/Primary%20Content%20Model%20v2.png)
+![User Model](./Project%20Progress%20Assets/User%20Model%20v2.png)
 ![Relationship](./Project%20Progress%20Assets/Relationship.png)
 
 ### Route Endpoint List

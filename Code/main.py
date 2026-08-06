@@ -68,10 +68,10 @@ def logout():
 
 
 @app.route("/user/add", methods = ["GET", "POST"])
-# @login_required 
+@login_required 
 def user_add():
-    # if not current_user.role == "admin":
-    #     return redirect(url_for("home")) # change redirect url to dashboard
+    if not current_user.role == "admin":
+        return redirect(url_for("home")) # change redirect url to dashboard
 
     if request.method == "POST":
         user_role = request.form["user-role"]

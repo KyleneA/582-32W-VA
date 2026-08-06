@@ -2,17 +2,17 @@
 > "In general, I believe you're on the right track to finish the project. I think the scope should be fine, however you have to have the backend locked this week to make sure you'll have time for everything. *Don't worry about the frontend design for deliverable 2 and make sure that the backend is bug free as much as possible* and then you can test it properly when the frontend is implemented and integrated."
 
 Required Deliverables:
-- [ ] application starts correctly
-- [ ] environment configuration works
-- [ ] database can be created
-- [ ] core models exist
-- [ ] relationships function
-- [ ] authentication functions if required
-- [ ] at least one create workflow
-- [ ] at least one read workflow
-- [ ] validation is demonstrated
-- [ ] data persists in the database
-- [ ] Git history shows meaningful progression
+- [x] application starts correctly
+- [x] environment configuration works
+- [x] database can be created
+- [x] core models exist
+- [x] relationships function
+- [x] authentication functions if required
+- [x] at least one create workflow
+- [x] at least one read workflow
+- [x] validation is demonstrated
+- [x] data persists in the database
+- [x] Git history shows meaningful progression
 
 ## Monday, Aug 03 2026
 > [!Note]
@@ -31,8 +31,8 @@ Required Deliverables:
 - the solutions found online seemed a bit complex for my application so I have been thinking about how I can simplify them
 
 ### To Do
-- [ ] work on database user models
-- [ ] start on database content models
+- [x] work on database user models
+- [x] start on database content models
 
 ## Tuesday, Aug 04 2026
 > [!NOTE]
@@ -45,31 +45,34 @@ Required Deliverables:
 - Created routing and template for adding a new user to be able to test next functions
 
 ### What is blocking me?
-- 
+- I kind of got stuck thinking about how admin would send residents the accounts, how residents would set their password since its a required column
 
 ### To Do
 - [x] add validation to creating users
-- [ ] separate routing for creating Resident vs Admin
-- [ ] create and display announcements and posts
+- [x] separate routing for creating Resident vs Admin
+- [] create and display announcements and posts
 
 ## Wednesday, Aug 05 2026
 ### Tasks done today
 - added validation to creating users
 - created and added validations for creating announcements
--
+- created preliminary dashboard
+- created api routes for accessing all users and content
 
 ### What is blocking me?
-- 
+- I am still thinking about how residents will be able to set up their account after admin creates the account
 
 ### To Do
-- [ ] 
+- [ ] create posts route
+- [ ] figure out how I want to display posts and announcement (integrated sorted by date vs separate tabs type of view)
+- [ ]
 
 ## Thursday, Aug 06 2026
 ### Tasks done today
 - ...
 
 ### What is blocking me?
-- 
+- currently thinking that I can add has logged in column to the users page that would direct new users to reset password upon first login
 
 ### To Do
 - [ ] 
