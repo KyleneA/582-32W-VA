@@ -121,7 +121,7 @@ def validate_locker(locker):
     
     return locker_errors
 
-def validate_lease_date(lease_date):
+def validate_date(lease_date):
     date_errors = []
 
     if not lease_date:
@@ -160,3 +160,4 @@ def flash_errors(errors):
         for error_msg in error:
             flash(error_msg, "error")
             print(error_msg)
+

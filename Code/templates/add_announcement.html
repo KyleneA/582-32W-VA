@@ -1,0 +1,97 @@
+{% extends "base.html" %} {% block title %} Create Announcement | XYZ Apartment {% endblock %} 
+    {% block content %}
+    <form method="POST">
+        <div class="input-div">
+            <label for="title">Announcement Title</label>
+            <input 
+                type="text"
+                id="title"
+                name="title"
+                maxlength="100"
+                value="{{ title or '' }}"
+                required
+            >
+        </div>
+
+        <div class="input-div">
+            <legend>Affected Area</legend>
+
+            {% for option in area_options %}
+            {% if option in affected_area %}
+            <div class="checkbox-option">
+                <input 
+                    type="checkbox"
+                    name="affected-area"
+                    id="{{ option.replace(' ', '-') }}"
+                    value="{{ option }}"
+                    checked
+                >
+                <label for="{{ option.replace(' ', '-') }}">{{ option | title }}</label>
+            </div>
+
+            {% else %}
+            <div class="checkbox-option">
+                <input 
+                    type="checkbox"
+                    name="affected-area"
+                    id="{{ option.replace(' ', '-') }}"
+                    value="{{ option }}"
+                >
+                <label for="{{ option.replace(' ', '-') }}">{{ option | title }}</label>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        
+        <div class="input-div">
+            <label for="urgency">Urgency</label>
+
+            <select name="urgency" id="urgency">
+                <option value="">Select urgency level</option>
+                {% for option in urgency_options %}
+                {% if urgency == "option" %}
+                <option value="{{ option }}" selected>{{ option | title }}</option>
+                {% else %}
+                <option value="{{ option }}">{{ option | title }}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="input-div">
+            <label for="start-date">Start Date</label>
+            <input 
+                type="date" 
+                name="start-date" 
+                id="start-date"
+            >
+        </div>
+        
+        <div class="input-div">
+            <label for="end-date">End Date</label>
+            <input 
+                type="date" 
+                name="end-date" 
+                id="end-date"
+            >
+        </div>
+        
+        <div class="input-div">
+            <label for="body">Announcement Body</label>
+            <textarea name="body" id="body" rows="10" required>{{ body or '' }}</textarea>
+        </div>
+        
+        <div class="input-div">
+            <label for="image">Image URL</label>
+            <input 
+                type="url" 
+                name="image" 
+                id="image"
+            >
+        </div>
+
+        <div class="button-div">
+            <button type="submit">Create Announcement</button>
+        </div>
+    </form>
+    {% endblock %}

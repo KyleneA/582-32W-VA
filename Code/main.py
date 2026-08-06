@@ -5,8 +5,8 @@ from flask import render_template, url_for, redirect, request, flash
 from flask_login import (LoginManager, current_user, login_required, login_user, logout_user)
 
 from config import app
-from models import db, User, Admin, Resident
-from helperFunctions import find_user, convert_to_date, validate_apartment, validate_email, validate_lease_date, validate_locker, validate_name, validate_parking_status, validate_password, flash_errors
+from models import db, User, Admin, Resident, Announcement
+from helperFunctions import find_user, convert_to_date, validate_apartment, validate_email, validate_date, validate_locker, validate_name, validate_parking_status, validate_password, flash_errors
 
 login_manager = LoginManager()
 login_manager.login_view = "login"
@@ -16,19 +16,6 @@ login_manager.init_app(app)
 with app.app_context():
     db.create_all()
     
-    # For creating Resident
-    # string_date = "2026-08-04"
-    # dt = datetime.strptime(string_date,  "%Y-%m-%d")
-    # resident1 = Resident(name="Thomas Train", email="ttrain@email.com", apartment="101A", locker_location="2-100", lease_date=dt.date(), parking_status="paid")
-
-    # resident1.set_password("password")
-
-    # db.session.add(resident1)
-    # db.session.commit()
-
-    # resident = Resident.query.filter_by(email="ttrain@email.com").first()
-
-    # print(resident, resident.name, resident.locker_location)
 
 @login_manager.user_loader
 def load_user(polymorphic_id):
@@ -107,7 +94,7 @@ def user_add():
 
             apartment_errors = validate_apartment(apartment)
             locker_errors = validate_locker(locker)
-            lease_date_errors = validate_lease_date(lease_date)
+            lease_date_errors = validate_date(lease_date)
             parking_status_errors = validate_parking_status(parking_status)
 
             validation_results.extend([apartment_errors, locker_errors, lease_date_errors, parking_status_errors])
@@ -147,3 +134,28 @@ def user_add():
         return redirect(url_for("home"))
     
     return render_template("add_user.html")
+
+@app.route("/announcement/add", methods=["GET", "POST"])
+@login_required
+def announcement_add():
+    area_options = ["whole building", "1st floor", "2nd floor", "3rd floor", "4th floor", "5th floor", "parking lot"]
+    urgency_options = ["immediate", "high", "medium", "low"]
+
+    if request.method == "POST":
+        title = request.form["title"].strip().title()
+        body = request.form["body"].strip()
+        affected_area = request.form.getlist("affected-area")
+        urgency = request.form["urgency"]
+        start_date = request.form["start-date"]
+        end_date = request.form["end-date"]
+        image_url = request.form["image"]
+
+        print(current_user)
+
+        announcement = Announcement(admin=current_user, title=title, body=body, affected_area=",".join(affected_area), urgency=urgency, start_date=convert_to_date(start_date), end_date=convert_to_date(end_date), image_url=image_url)
+
+        db.session.add(announcement)
+        db.session.commit()
+
+    
+    return render_template("add_announcement.html", area_options=area_options, urgency_options=urgency_options)

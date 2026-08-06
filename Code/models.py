@@ -3,11 +3,8 @@ from werkzeug.security import (check_password_hash, generate_password_hash)
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Date, DateTime
-from datetime import date
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
-
-class Base(DeclarativeBase):
-    pass
+from datetime import date, datetime
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 db = SQLAlchemy()
 
@@ -66,7 +63,10 @@ class Admin(User):
     __tablename__ = "admins"
 
     id: Mapped[int] = mapped_column(db.ForeignKey("users.id"), primary_key=True)
+    
     residents: Mapped[list["Resident"]] = relationship()
+
+    announcements: Mapped[list["Announcement"]] = relationship(back_populates="admin")
 
     __mapper_args__ = {
         "polymorphic_identity": "admin"
@@ -106,3 +106,62 @@ class Resident(User):
     __mapper_args__ = {
         "polymorphic_identity": "resident"
     }
+
+class Content(db.Model):
+    __abstract__ = True
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+
+    title: Mapped[str] = mapped_column(
+        db.String(100),
+        nullable=False
+    )
+
+    body: Mapped[str] = mapped_column(
+        db.Text(),
+        nullable=False
+    )
+
+    created_at: Mapped[datetime] = mapped_column(
+        default=datetime.now,
+        nullable=False
+    )
+
+    def __repr__(self):
+        return f"<{self.__class__.__name__}: {self.id}>"
+
+class Announcement(Content, db.Model):
+    __tablename__ = "announcements"
+
+    # should all admin be able to edit all announcements?
+    author_id: Mapped[int] = mapped_column(
+        db.ForeignKey("admins.id"),
+        nullable=False
+    )
+
+    admin: Mapped["Admin"] = relationship(back_populates="announcements")
+
+    affected_area: Mapped[str] = mapped_column(
+        # input checkbox: whole building, 1st floor, 2nd floor, 3rd floor, 4th floor, 5th floor, parking lot
+        db.String(14),
+        nullable=False
+    )
+
+    urgency: Mapped[str] = mapped_column(
+        # options: immediate, high, medium, low
+        db.String(9),
+        nullable=False
+    )
+
+    start_date: Mapped[date] = mapped_column(
+        db.Date()
+    )
+
+    end_date: Mapped[date] = mapped_column(
+        db.Date()
+    )
+
+    # only 1 image url for now
+    image_url: Mapped[str] = mapped_column(
+        db.String(2048)
+    )
