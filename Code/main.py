@@ -5,8 +5,8 @@ from flask import render_template, url_for, redirect, request, flash, jsonify
 from flask_login import (LoginManager, current_user, login_required, login_user, logout_user)
 
 from config import app
-from models import db, User, Admin, Resident, Announcement
-from helperFunctions import find_user, convert_to_date, validate_apartment, validate_email, validate_date, validate_locker, validate_name, validate_parking_status, validate_password, flash_errors, area_options, urgency_options, validate_affected_area, validate_body, validate_title, validate_urgency
+from models import db, User, Admin, Resident, Announcement, Post
+from helperFunctions import find_user, convert_to_date, validate_apartment, validate_email, validate_date, validate_locker, validate_name, validate_parking_status, validate_password, flash_errors, area_options, urgency_options, validate_affected_area, validate_body, validate_title, validate_urgency, post_category
 
 login_manager = LoginManager()
 login_manager.login_view = "login"
@@ -70,7 +70,7 @@ def logout():
 @app.route("/user/add", methods = ["GET", "POST"])
 @login_required 
 def user_add():
-    if not current_user.role == "admin":
+    if not current_user.is_admin():
         return redirect(url_for("home")) # change redirect url to dashboard
 
     if request.method == "POST":
@@ -138,7 +138,7 @@ def user_add():
 @app.route("/announcement/add", methods=["GET", "POST"])
 @login_required
 def announcement_add():
-    if not current_user.role == "admin":
+    if not current_user.is_admin():
         return redirect(url_for("home")) # change redirect url to dashboard
 
     if request.method == "POST":
@@ -179,6 +179,34 @@ def announcement_add():
 
     
     return render_template("add_announcement.html", area_options=area_options, urgency_options=urgency_options)
+
+@app.route("/post/add", methods=["GET", "POST"])
+@login_required
+def post_add():
+    if current_user.is_admin():
+        return redirect(url_for("dashboard"))
+    
+    if request.method == "POST":
+        title = request.form["title"].strip().title()
+        body = request.form["body"].strip()
+        category = request.form["category"]
+        contact = request.form["contact"]
+        start_date = request.form["start-date"]
+        end_date = request.form["end-date"]
+        image_url = request.form["image"]
+        errors = []
+
+        post = Post(resident=current_user, title=title, body=body, category=category, is_approved=False, contact_info=contact, start_date=convert_to_date(start_date), end_date=convert_to_date(end_date), image_url=image_url)
+        # print(title, body, category, start_date, end_date, image_url)
+
+        db.session.add(post)
+        db.session.commit()
+
+        # return render_template("add_post.html", post_category=post_category, title=title, body=body, category=category, start_date=start_date, end_date=end_date, image=image_url, contact=contact)
+        return render_template("add_post.html", post_category=post_category)
+    
+    return render_template("add_post.html", post_category=post_category)
+
 
 @app.route("/dashboard", methods=["GET"])
 @login_required

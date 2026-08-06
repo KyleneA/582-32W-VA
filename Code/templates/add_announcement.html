@@ -60,16 +60,17 @@
             </select>
         </div>
         
-        <div class="input-div">
-            <label for="start-date">Start Date</label>
-            <input 
+        <div class="date-div">
+            <div class="input-div">
+                <label for="start-date">Start Date</label>
+                <input 
                 type="date" 
                 name="start-date" 
                 id="start-date"
                 value="{{ start_date or '' }}"
                 >
             </div>
-            
+                
             <div class="input-div">
                 <label for="end-date">End Date</label>
                 <input 
@@ -77,7 +78,8 @@
                 name="end-date" 
                 id="end-date"
                 value="{{ end_date or '' }}"
-            >
+                >
+            </div>
         </div>
         
         <div class="input-div">

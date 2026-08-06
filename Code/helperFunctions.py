@@ -225,3 +225,5 @@ def validate_urgency(urgency):
         return None
     
     return urgency_errors
+
+post_category = ["to give away", "in search of", "something to share"]
