@@ -6,7 +6,7 @@ from flask_login import (LoginManager, current_user, login_required, login_user,
 
 from config import app
 from models import db, User, Admin, Resident, Announcement, Post
-from helperFunctions import find_user, convert_to_date, validate_apartment, validate_email, validate_date, validate_locker, validate_name, validate_parking_status, validate_password, flash_errors, area_options, urgency_options, validate_affected_area, validate_body, validate_title, validate_urgency, post_category
+from helperFunctions import find_user, convert_to_date, validate_apartment, validate_email, validate_date, validate_locker, validate_name, validate_parking_status, validate_password, flash_errors, area_options, urgency_options, validate_affected_area, validate_body, validate_title, validate_select_options, post_categories, contact_types, validate_contact, check_for_errors
 
 login_manager = LoginManager()
 login_manager.login_view = "login"
@@ -154,9 +154,9 @@ def announcement_add():
         title_errors = validate_title(title, "announcement")
         body_errors = validate_body(body, "announcement")
         affected_area_errors = validate_affected_area(affected_area)
-        urgency_errors = validate_urgency(urgency)
-        start_date_errors = validate_date(start_date, False, "start")
-        end_date_errors = validate_date(end_date, False, "end")
+        urgency_errors = validate_select_options(urgency, "urgency", urgency_options)
+        start_date_errors = validate_date(start_date, False, input_type="start")
+        end_date_errors = validate_date(end_date, False, input_type="end")
         
         validation_results = [title_errors, body_errors, affected_area_errors, urgency_errors, start_date_errors, end_date_errors]
 
@@ -189,23 +189,38 @@ def post_add():
     if request.method == "POST":
         title = request.form["title"].strip().title()
         body = request.form["body"].strip()
-        category = request.form["category"]
-        contact = request.form["contact"]
+        category = request.form['category']
+        contact_method = request.form['contact-method']
+        contact = request.form["contact"].strip()
+        contact_info = f"{contact_method}: {contact}"
         start_date = request.form["start-date"]
         end_date = request.form["end-date"]
         image_url = request.form["image"]
-        errors = []
 
-        post = Post(resident=current_user, title=title, body=body, category=category, is_approved=False, contact_info=contact, start_date=convert_to_date(start_date), end_date=convert_to_date(end_date), image_url=image_url)
-        # print(title, body, category, start_date, end_date, image_url)
+        title_errors = validate_title(title, "community post")
+        body_errors = validate_body(body, "community post")
+        category_errors = validate_select_options(category, "post category", post_categories)
+        contact_errors = validate_contact(contact_types, contact_method, contact)
+        start_date_errors = validate_date(start_date, is_required=False, input_type="start date")
+        end_date_errors = validate_date(end_date, is_required=False, input_type="end date")
+
+        validation_results = [title_errors, body_errors, category_errors, contact_errors, start_date_errors, end_date_errors]
+
+        errors = check_for_errors(validation_results)
+
+        if errors:
+            flash_errors(errors)
+            
+            return render_template("add_post.html", post_categories=post_categories, contact_types=contact_types, title=title, body=body, category=category, start_date=start_date, end_date=end_date, image=image_url, contact=contact, contact_method=contact_method)
+
+        post = Post(resident=current_user, title=title, body=body, category=category, is_approved=False, contact_info=contact_info, start_date=convert_to_date(start_date), end_date=convert_to_date(end_date), image_url=image_url)
 
         db.session.add(post)
         db.session.commit()
 
-        # return render_template("add_post.html", post_category=post_category, title=title, body=body, category=category, start_date=start_date, end_date=end_date, image=image_url, contact=contact)
-        return render_template("add_post.html", post_category=post_category)
+        return render_template("add_post.html", post_categories=post_categories, contact_types=contact_types)
     
-    return render_template("add_post.html", post_category=post_category)
+    return render_template("add_post.html", post_categories=post_categories, contact_types=contact_types)
 
 
 @app.route("/dashboard", methods=["GET"])

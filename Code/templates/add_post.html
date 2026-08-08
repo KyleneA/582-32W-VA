@@ -1,5 +1,5 @@
 {% extends "base.html" %} 
-    {% block title %} Create Announcement | XYZ Apartment {% endblock %} 
+    {% block title %} Create Post | XYZ Apartment {% endblock %} 
     
     {% block content %}
     <div class="description-container">
@@ -30,7 +30,7 @@
 
             <select name="category" id="category">
                 <option value="">Select post category</option>
-                {% for option in post_category %}
+                {% for option in post_categories %}
                 {% if category == option %}
                 <option value="{{ option }}" selected>{{ option | title }}</option>
                 {% else %}
@@ -67,8 +67,46 @@
         <div class="contact-div">
             <p> If you would like to provide some contact information if anyone wants to contact you regarding your post, please add it below. </p>
 
+            {% for option in contact_types %}
+            {% if not contact_method and option == "no contact needed" %}
+            <div class="radio-option">
+                <input 
+                    type="radio"
+                    name="contact-method"
+                    id="{{ option.replace(' ', '-') }}"
+                    value="{{ option }}"
+                    checked
+                >
+                <label for="{{ option.replace(' ', '-') }}">{{ option | title }}</label>
+            </div>
+
+            {% elif option == contact_method %}
+            <div class="radio-option">
+                <input 
+                    type="radio"
+                    name="contact-method"
+                    id="{{ option.replace(' ', '-') }}"
+                    value="{{ option }}"
+                    checked
+                >
+                <label for="{{ option.replace(' ', '-') }}">{{ option | title }}</label>
+            </div>
+
+            {% else %}
+            <div class="radio-option">
+                <input 
+                    type="radio"
+                    name="contact-method"
+                    id="{{ option.replace(' ', '-') }}"
+                    value="{{ option }}"
+                >
+                <label for="{{ option.replace(' ', '-') }}">{{ option | title }}</label>
+            </div>
+            {% endif %}
+            {% endfor %}
+            
             <div class="input-div">
-                <label for="contact">How to contact you</label>
+                <label for="contact">Contact Information</label>
                 <input 
                     type="text" 
                     name="contact" 
@@ -94,7 +132,7 @@
         </div>
 
         <div class="button-div">
-            <button type="submit">Create Announcement</button>
+            <button type="submit">Create Post</button>
         </div>
     </form>
     {% endblock %}

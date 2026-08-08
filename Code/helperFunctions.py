@@ -176,7 +176,7 @@ def validate_title(title, content_type):
         title_errors.append(f"{content_type.lower().capitalize()} title is a required field")
     
     if len(title) > 100:
-        title_errors.append("Title can contain at most 100 characters")
+        title_errors.append(f"{content_type.lower().capitalize()} title can contain at most 100 characters")
     
     if not title_errors:
         return None
@@ -211,19 +211,46 @@ def validate_affected_area(affected_area):
     return affected_area_errors
 
 urgency_options = ["immediate", "high", "medium", "low"]
+post_categories = ["to give away", "in search of", "something to share"]
 
-def validate_urgency(urgency):
-    urgency_errors = []
+def validate_select_options(option, field, select_options):
+    select_errors = []
 
-    if not urgency:
-        urgency_errors.append("Urgency is a required field")
+    if not option:
+        select_errors.append(f"{field.lower().capitalize()} is a required field")
     
-    if not urgency in urgency_options:
-        urgency_errors.append(f"Urgency must be one of the following: {', '.join(urgency_options)}")
+    if not option in select_options:
+        select_errors.append(f"{field.lower().capitalize()} must be one of the following: {', '.join(select_options)}")
     
-    if not urgency_errors:
+    if not select_errors:
         return None
     
-    return urgency_errors
+    return select_errors
 
-post_category = ["to give away", "in search of", "something to share"]
+contact_types = ["no contact needed", "phone", "text message", "email", "social media"]
+
+def validate_contact(contact_types, contact_method, contact):
+    contact_errors = []
+
+    if contact_method == "no contact needed" and not contact:
+        return None
+    
+    if contact_method == "no contact needed" and contact:
+        contact_errors.append("You have added a method to contact you in the contact information field, please select the appropriate contact method")
+
+    if not contact_method or not contact_method in contact_types:
+        contact_errors.append("Please select one of the contact options")
+
+    if contact_method and not contact:
+        contact_errors.append(f"Please add your {contact_method} information in the Contact Information field or set the contact type to No Contact Needed.")
+    
+    return contact_errors
+
+def check_for_errors(validation_results):
+    errors = []
+
+    for result in validation_results:
+        if result:
+            errors.append(result)
+    
+    return errors
