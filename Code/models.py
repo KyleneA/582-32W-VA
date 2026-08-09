@@ -29,13 +29,15 @@ class User(UserMixin, db.Model):
     email: Mapped[str] = mapped_column(
         db.String(255),
         unique=True,
-        nullable = False
+        nullable=False
     )
 
     password_hash: Mapped[str] = mapped_column(
         db.String(255),
-        nullable = False
+        nullable=False
     )
+
+    is_new_acc: Mapped[bool] = mapped_column(nullable=False)
 
     role: Mapped[str]
 
@@ -55,6 +57,9 @@ class User(UserMixin, db.Model):
             return True
         
         return False
+    
+    def login_one(self):
+        self.is_new_acc = False
 
     def __repr__(self):
         # returns the class name and the user's id
@@ -267,6 +272,6 @@ class Post(Content, db.Model):
             "imageURL": self.image_url
         }
 
-    def set_is_approved(self, value):
-        self.is_approved = value
+    def approve_post(self):
+        self.is_approved = True
 

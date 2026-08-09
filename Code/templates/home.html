@@ -4,6 +4,7 @@
     {% block content %}
     {% if current_user.is_authenticated %}
     <h1>Hi, {{ current_user.name }} - {{ current_user.role }}</h1>
+    
     {% else %}
     <h1>Hello</h1>
     {% endif %}

@@ -51,11 +51,51 @@ def login():
             return render_template("login.html", email=email)
         
         login_user(user)
+
+        if user.is_new_acc:
+            flash(f"Loging in for the first time? Reset your password to secure your account.")
+
+            return redirect(url_for("first_login"))
+
         flash(f"You are now logged in, {user.role}!", "success")
 
-        return redirect(url_for("home"))
+        return redirect(url_for("home")) # change to dashboard
 
     return render_template("login.html")
+
+@app.route("/first-login", methods=["GET", "POST"])
+@login_required
+def first_login():
+    if not current_user.is_new_acc:
+        return redirect(url_for("home"))
+    
+    if request.method == "POST":
+        new_password = request.form["password"]
+        confirm_password = request.form["confirm-password"]
+
+        errors = []
+
+        if not new_password == confirm_password:
+            errors.append(["Password fields do not match"])
+
+        password_errors = validate_password(new_password)
+
+        if password_errors:
+            errors.append(password_errors)
+
+        if errors:
+            flash_errors(errors)
+            return render_template("first_login.html")
+
+        current_user.login_one()
+        db.session.commit()
+        
+        flash("You have successfully reset your password", "success")
+
+        return redirect(url_for("home"))
+    
+    return render_template("first_login.html")
+
 
 @app.route("/logout", methods = ["POST"])
 @login_required
@@ -107,7 +147,7 @@ def user_add():
                 flash_errors(errors)
                 return render_template("add_user.html", user_role=user_role, full_name=name, email=email, apartment=apartment, locker=locker, lease_date=lease_date, parking_status=parking_status)
 
-            resident = Resident(name=name, email=email, apartment=apartment, locker_location=locker, lease_date=convert_to_date(lease_date), parking_status=parking_status)
+            resident = Resident(name=name, email=email, is_new_acc=True, apartment=apartment, locker_location=locker, lease_date=convert_to_date(lease_date), parking_status=parking_status)
             resident.set_password(password)
 
             db.session.add(resident)
@@ -124,7 +164,7 @@ def user_add():
             flash_errors(errors)
             return render_template("add_user.html", user_role=user_role, full_name=name, email=email)
         
-        admin = Admin(name=name, email=email)
+        admin = Admin(name=name, email=email, is_new_acc=True)
         admin.set_password(password)
 
         db.session.add(admin)
