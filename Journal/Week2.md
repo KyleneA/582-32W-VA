@@ -63,13 +63,13 @@ Required Deliverables:
 - I am still thinking about how residents will be able to set up their account after admin creates the account
 
 ### To Do
-- [ ] create posts route
+- [x] create posts route
 - [ ] figure out how I want to display posts and announcement (integrated sorted by date vs separate tabs type of view)
 - [ ]
 
-## Thursday, Aug 06 2026
+## Thursday-Sunday, Aug 06-09 2026
 ### Tasks done today
-- ...
+- Created and tested post creation route
 
 ### What is blocking me?
 - currently thinking that I can add has logged in column to the users page that would direct new users to reset password upon first login
