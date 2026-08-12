@@ -1,0 +1,123 @@
+{% extends "base.html" %} 
+    {% block title %} Add Building Information | XYZ Apartment {% endblock %} 
+    
+    {% block content %}
+    <form  method="POST">
+        <div class="office-hrs">
+            <h2>Building Office Hours</h2>
+    
+            <div class="week-hours">
+                {% for day, hours in building_hrs.items() %}
+                <div class="day-inputs">
+                    <h3>{{ day }}</h3>
+                    
+                    <div class="input-div">
+                        <label for="{{ day }}-opening">Opening time</label>
+                        <input 
+                        type="time" 
+                        name="{{ day }}-opening"
+                        id="{{ day }}-opening"
+                        value="{{ hours.opening  or '' }}"
+                        >
+                    </div>
+                    
+                    <div class="input-div">
+                        <label for="{{ day }}-closing">Closing time</label>
+                        <input 
+                        type="time" 
+                        name="{{ day }}-closing"
+                        id="{{ day }}-closing"
+                        value="{{ hours.closing  or '' }}"
+                        >
+                    </div>
+    
+                    <div class="input-div">
+                        {% if hours.is_closed %}
+                        <input type="checkbox" name="{{ day }}-closed" id="{{ day }}-closed" checked>
+                        {% else %}
+                        <input type="checkbox" name="{{ day }}-closed" id="{{ day }}-closed">
+                        {% endif %}
+                        <label for="{{ day }}-closed">Office closed</label>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    
+        <div class="office-location">
+            <div class="input-div">
+                <label for="room">Office Room</label>
+                <input 
+                type="text" 
+                name="room" 
+                id="room"
+                value="{{ room or 'Room 0' }}"
+                >
+            </div>
+    
+            <div class="input-div">
+                <label for="address">Office Address</label>
+                <input 
+                type="text" 
+                name="address" 
+                id="address"
+                value="{{ address or '821 Sainte Croix Ave' }}"
+                >
+            </div>
+    
+            <div class="input-div">
+                <label for="city">Office city</label>
+                <input 
+                type="text" 
+                name="city" 
+                id="city"
+                value="{{ city or 'Saint-Laurent' }}"
+                >
+            </div>
+    
+            <div class="input-div">
+                <label for="province">Office province</label>
+                <input 
+                type="text" 
+                name="province" 
+                id="province"
+                value="{{ province or 'Quebec' }}"
+                >
+            </div>
+    
+            <div class="input-div">
+                <label for="postal-code">Office postal code</label>
+                <input 
+                type="text" 
+                name="postal-code" 
+                id="postal-code"
+                value="{{ postal_code or 'H4L 3X9' }}"
+                >
+            </div>
+    
+            <div class="input-div">
+                <label for="phone">Office phone number</label>
+                <input 
+                type="tel" 
+                name="phone" 
+                id="phone"
+                value="{{ phone or '(514) 123-4567' }}"
+                >
+            </div>
+    
+            <div class="input-div">
+                <label for="email">Office email address</label>
+                <input 
+                type="email" 
+                name="email" 
+                id="email"
+                value="{{ email or 'xyzApartment@email.com' }}"
+                >
+            </div>
+    
+            <div class="button-div">
+                <button type="submit">Confirm</button>
+            </div>
+        </div>
+    </form>
+    {% endblock %}

@@ -12,10 +12,6 @@ class Base(DeclarativeBase):
 
 db = SQLAlchemy(model_class=Base)
 
-# Models to create:
-# Admin, Resident
-# Building_info, Announcement, Post
-
 # Building off SQLAlchemy ORM Inheritance documentation
 class User(UserMixin, db.Model):
     __tablename__ = "users"
@@ -275,3 +271,83 @@ class Post(Content, db.Model):
     def approve_post(self):
         self.is_approved = True
 
+class BuildingInfo(db.Model):
+    __tablename__ = "building_info"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+
+    monday_hours: Mapped[str] = mapped_column(
+        db.String(20),
+        nullable=False
+    )
+    tuesday_hours: Mapped[str] = mapped_column(
+        db.String(20),
+        nullable=False
+    )
+    wednesday_hours: Mapped[str] = mapped_column(
+        db.String(20),
+        nullable=False
+    )
+    thursday_hours: Mapped[str] = mapped_column(
+        db.String(20),
+        nullable=False
+    )
+    friday_hours: Mapped[str] = mapped_column(
+        db.String(20),
+        nullable=False
+    )
+    saturday_hours: Mapped[str] = mapped_column(
+        db.String(20),
+        nullable=False
+    )
+    sunday_hours: Mapped[str] = mapped_column(
+        db.String(20),
+        nullable=False
+    )
+    office_room: Mapped[str] = mapped_column(
+        db.String(50),
+        nullable=False
+    )
+    street_address: Mapped[str] = mapped_column(
+        db.String(100),
+        nullable=False
+    )
+    city: Mapped[str] = mapped_column(
+        db.String(50),
+        nullable=False
+    )
+    province: Mapped[str] = mapped_column(
+        db.String(2),
+        nullable=False
+    )
+    postal_code: Mapped[str] = mapped_column(
+        db.String(7),
+        nullable=False
+    )
+    phone: Mapped[str] = mapped_column(
+        db.String(14),
+        nullable=False
+    )
+    email: Mapped[str] = mapped_column(
+        db.String(255),
+        nullable=False,
+    )
+
+    guidelines: Mapped[list["Guideline"]] = relationship(back_populates="building_info")
+
+class Guideline(db.Model):
+    __tablename__ = "guidelines"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    
+    rule: Mapped[str] = mapped_column(
+        db.String(150),
+        nullable=False
+    )
+
+    info_id: Mapped[int] = mapped_column(
+        db.ForeignKey("building_info.id"),
+        nullable=False
+    )
+
+    building_info: Mapped["BuildingInfo"] = relationship(back_populates="guidelines")

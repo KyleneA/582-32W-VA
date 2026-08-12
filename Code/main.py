@@ -5,7 +5,7 @@ from flask import render_template, url_for, redirect, request, flash, jsonify
 from flask_login import (LoginManager, current_user, login_required, login_user, logout_user)
 
 from config import app
-from models import db, User, Admin, Resident, Announcement, Post
+from models import db, User, Admin, Resident, Announcement, Post, BuildingInfo, Guideline
 from helperFunctions import find_user, convert_to_date, validate_apartment, validate_email, validate_date, validate_locker, validate_name, validate_parking_status, validate_password, flash_errors, area_options, urgency_options, validate_affected_area, validate_body, validate_title, validate_select_options, post_categories, contact_types, validate_contact, check_for_errors
 
 login_manager = LoginManager()
@@ -92,6 +92,9 @@ def first_login():
         
         flash("You have successfully reset your password", "success")
 
+        if current_user.is_admin() and not BuildingInfo.query.first():
+            return redirect(url_for("add_building_info"))
+        
         return redirect(url_for("home"))
     
     return render_template("first_login.html")
@@ -154,7 +157,7 @@ def user_add():
             db.session.commit()
             flash(f"Resident account for {resident.apartment} has been created", "success")
 
-            return redirect(url_for("home")) # Change redirect url to 
+            return redirect(url_for("home")) # Change redirect url to dashboard
 
         for result in validation_results:
             if result:
@@ -171,7 +174,7 @@ def user_add():
         db.session.commit()
         flash(f"Admin account has been created", "success")
 
-        return redirect(url_for("home")) # change url to dashboard
+        return redirect(url_for("dashboard"))
     
     return render_template("add_user.html")
 
@@ -216,7 +219,6 @@ def announcement_add():
         flash(f"Announcement has been created", "success")
 
         return redirect(url_for("home")) # change url to dashboard
-
     
     return render_template("add_announcement.html", area_options=area_options, urgency_options=urgency_options)
 
@@ -258,10 +260,148 @@ def post_add():
         db.session.add(post)
         db.session.commit()
 
-        return render_template("add_post.html", post_categories=post_categories, contact_types=contact_types)
+        return redirect(url_for("dashboard"))
     
     return render_template("add_post.html", post_categories=post_categories, contact_types=contact_types)
 
+@app.route("/building-info/guidelines/edit", methods=["GET", "POST"])
+@login_required
+def edit_guidelines():
+    if not current_user.is_admin():
+        return redirect(url_for("home"))
+    
+
+    
+    return render_template("building_info.html")
+
+@app.route("/building-info/add", methods=["GET", "POST"])
+@login_required
+def add_building_info():
+    if not current_user.is_admin():
+        return redirect(url_for("home")) # Change to dashboard
+    
+    building_hrs = {
+        "monday": {
+            "is_closed": None,
+            "opening": '09:00',
+            "closing":'17:00'
+        },
+        "tuesday": {
+            "is_closed": None,
+            "opening": '09:00',
+            "closing": '17:00'
+        },
+        "wednesday": {
+            "is_closed": None,
+            "opening": '09:00',
+            "closing": '17:00'
+        },
+        "thursday": {
+            "is_closed": None,
+            "opening": '08:00',
+            "closing": '17:00'
+        },
+        "friday": {
+            "is_closed": None,
+            "opening": '08:00',
+            "closing": '17:00'
+        },
+        "saturday": {
+            "is_closed": 'on',
+            "opening": '',
+            "closing": ''
+        },
+        "sunday": {
+            "is_closed": 'on',
+            "opening": '',
+            "closing": ''
+        }
+    }
+    
+    if request.method == "POST":
+        monday = {
+            "is_closed": request.form.get('monday-closed'),
+            "opening": request.form['monday-opening'],
+            "closing": request.form['monday-closing']
+        }
+
+        tuesday = {
+            "is_closed": request.form.get('tuesday-closed'),
+            "opening": request.form['tuesday-opening'],
+            "closing": request.form['tuesday-closing']
+        }
+
+        wednesday = {
+            "is_closed": request.form.get('wednesday-closed'),
+            "opening": request.form['wednesday-opening'],
+            "closing": request.form['wednesday-closing']
+        }
+
+        thursday = {
+            "is_closed": request.form.get('thursday-closed'),
+            "opening": request.form['thursday-opening'],
+            "closing": request.form['thursday-closing']
+        }
+
+        friday = {
+            "is_closed": request.form.get('friday-closed'),
+            "opening": request.form['friday-opening'],
+            "closing": request.form['friday-closing']
+        }
+
+        saturday = {
+            "is_closed": request.form.get('saturday-closed'),
+            "opening": request.form['saturday-opening'],
+            "closing": request.form['saturday-closing']
+        }
+
+        sunday = {
+            "is_closed": request.form.get('sunday-closed'),
+            "opening": request.form['sunday-opening'],
+            "closing": request.form['sunday-closing']
+        }
+
+        room = request.form['room'].strip()
+        address = request.form['address'].strip()
+        city = request.form['city'].strip()
+        province = request.form['province'].strip()
+        postal_code = request.form['postal-code'].strip()
+        phone = request.form['phone'].strip()
+        email = request.form['email'].strip()
+
+        office_hours = {}
+
+        office_hours["monday_hrs"] = f"{monday['opening']} - {monday['closing']}" if not monday["is_closed"] else ''
+        office_hours["tuesday_hrs"] = f"{tuesday['opening']} - {tuesday['closing']}" if not tuesday["is_closed"] else ''
+        office_hours["wednesday_hrs"] = f"{wednesday['opening']} - {wednesday['closing']}" if not wednesday["is_closed"] else ''
+        office_hours["thursday_hrs"] = f"{thursday['opening']} - {thursday['closing']}" if not thursday["is_closed"] else ''
+        office_hours["friday_hrs"] = f"{friday['opening']} - {friday['closing']}" if not friday["is_closed"] else ''
+        office_hours["saturday_hrs"] = f"{saturday['opening']} - {saturday['closing']}" if not saturday["is_closed"] else ''
+        office_hours["sunday_hrs"] = f"{sunday['opening']} - {sunday['closing']}" if not sunday["is_closed"] else ''
+
+        info = BuildingInfo(
+            monday_hours=office_hours.get('monday_hrs'),
+            tuesday_hours=office_hours.get('tuesday_hrs'),
+            wednesday_hours=office_hours.get('wednesday_hrs'),
+            thursday_hours=office_hours.get('thursday_hrs'),
+            friday_hours=office_hours.get('friday_hrs'),
+            saturday_hours=office_hours.get('saturday_hrs'),
+            sunday_hours=office_hours.get('sunday_hrs'),
+            office_room=room,
+            street_address=address,
+            city=city,
+            province=province,
+            postal_code=postal_code,
+            phone=phone,
+            email=email
+            )
+        
+        db.session.add(info)
+        db.session.commit()
+
+        return redirect(url_for("home"))
+    
+    return render_template("add_info.html", building_hrs=building_hrs)
 
 @app.route("/dashboard", methods=["GET"])
 @login_required
