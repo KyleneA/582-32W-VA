@@ -1,14 +1,14 @@
 # Week 3 | Integrated Prototype
-- [ ] frontend connected to the backend
-- [ ] real database content displayed
+- [x] frontend connected to the backend
+- [x] real database content displayed
 - [ ] primary workflow works from beginning to end
-- [ ] user input is validated
-- [ ] successful actions provide feedback
-- [ ] errors are visible to the user
-- [ ] navigation is functional
+- [x] user input is validated
+- [x] successful actions provide feedback
+- [x] errors are visible to the user
+- [x] navigation is functional
 - [ ] responsive design is substantially implemented
-- [ ] interface matches the design direction
-- [ ] no major feature relies on hard-coded placeholder data
+- [x] interface matches the design direction
+- [x] no major feature relies on hard-coded placeholder data
 
 *The application may still require cleanup, but its main purpose should already work.*
 

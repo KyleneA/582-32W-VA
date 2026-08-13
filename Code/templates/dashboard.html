@@ -6,13 +6,64 @@
     {% endblock %}
 
     {% block content %}
-    
+    <section class="quick-access">
+        <div class="container">
+            {% if current_user.is_admin %}
+            <div class="button-div">
+                <a 
+                href="{{ url_for(
+                    'user_add', 
+                    user_type='admin'
+                    ) }}" 
+                class="btn"
+                >
+                    Create New Admin
+                </a>
+
+                <a 
+                href="{{ url_for(
+                    'user_add', 
+                    user_type='resident'
+                    ) }}" 
+                class="btn"
+                >
+                    Create new resident
+                </a>
+                
+                <a 
+                href="{{ url_for('dashboard') }}" 
+                class="btn"
+                >
+                    manage residents
+                </a>
+                
+                <a 
+                href="{{ url_for('announcement_add') }}" 
+                class="btn"
+                >
+                    Create new announcement
+                </a>
+            </div>
+            {% else %}
+
+            {% endif %}
+        </div>
+    </section>
 
     <section class="dashboard">
         <div class="container">
-            <div class="announcements">
+            <div class="display-btns">
+                <button class="btn active" id="btn-announcements">
+                    See announcements
+                </button>
 
+                <button class="btn" id="btn-posts">
+                    See community Posts
+                </button>
             </div>
+
+            <div class="announcements-div active"></div>
+            <div class="posts-div"></div>
         </div>
     </section>
 

@@ -12,7 +12,6 @@ export class AnnouncementCard extends HTMLElement {
 
         const template = document.getElementById("template-announcement");
         const clone = template.content.cloneNode(true);
-        console.log(template);
 
         shadow.appendChild(clone);
     }
@@ -65,7 +64,6 @@ export class AnnouncementCard extends HTMLElement {
         body.textContent = announcement.body;
 
         const image = card.querySelector("div.image");
-        console.log(image);
         if (!announcement.imageURL) {
             image.style.display = "none";
         }

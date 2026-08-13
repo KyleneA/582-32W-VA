@@ -112,14 +112,16 @@ def logout():
     return redirect(url_for("home"))
 
 
-@app.route("/user/add", methods = ["GET", "POST"])
+@app.route("/user/<string:user_type>/add", methods = ["GET", "POST"])
 @login_required 
-def user_add():
+def user_add(user_type):
     if not current_user.is_admin():
         return redirect(url_for("home")) # change redirect url to dashboard
+    
+    user_role = user_type
 
     if request.method == "POST":
-        user_role = request.form["user-role"]
+        # user_role = request.form["user-role"]
         name = request.form["full-name"].strip()
         email = request.form["email"].strip()
         password = request.form["password"].strip()
@@ -159,7 +161,7 @@ def user_add():
             db.session.commit()
             flash(f"Resident account for {resident.apartment} has been created", "success")
 
-            return redirect(url_for("home")) # Change redirect url to dashboard
+            return redirect(url_for("dashboard")) # Change redirect url to dashboard
 
         for result in validation_results:
             if result:
@@ -178,7 +180,7 @@ def user_add():
 
         return redirect(url_for("dashboard"))
     
-    return render_template("add_user.html")
+    return render_template("add_user.html", user_role=user_role)
 
 @app.route("/announcement/add", methods=["GET", "POST"])
 @login_required

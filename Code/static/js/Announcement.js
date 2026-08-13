@@ -59,9 +59,6 @@ export default class Announcement {
         const endDate = obj.endDate || "";
         const imageURL = obj.imageURL || "";
         
-        console.log(id, title, body, createdAt, authorId, affectedArea, urgency, startDate, endDate, imageURL);
-        console.log(obj);
-
         if (!id || !title || !body || !createdAt || !authorId || !affectedArea || !urgency) {
             throw new Error("Announcement instance was not created. Invalid data.")
         }
