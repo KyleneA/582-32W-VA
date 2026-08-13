@@ -47,7 +47,7 @@
 - 
 
 ### To Do
-- [ ] ...
+- [ ] catch errors
 
 
 ## Thursday Aug 13 2026

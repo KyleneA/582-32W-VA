@@ -414,6 +414,35 @@ def dashboard():
     print(admins)
     return render_template("dashboard.html", page_name="dashboard", admins=admins)
 
+@app.route("/user", methods=["GET", "POST"])
+@login_required
+def manage_users():
+    if not current_user.is_admin:
+        return redirect(url_for("dashboard"))
+    
+    return render_template("users.html")
+
+@app.route("/user/<string:user_type>/<int:id>/edit", methods=["GET", "POST"])
+@login_required
+def edit_user(user_type, id):
+    if not current_user.is_admin:
+        return redirect(url_for("dashboard"))
+    
+    user_role = user_type
+    
+    return render_template("edit_user.html", user_role=user_role, id=id)
+
+@app.route("/user/<string:user_type>/<int:id>/delete", methods=["GET", "POST"])
+@login_required
+def delete_user(user_type, id):
+    if not current_user.is_admin:
+        return redirect(url_for("dashboard"))
+    
+    user_role = user_type
+    
+    return render_template("delete_user.html", user_role=user_role, id=id)
+
+
 @app.route("/api/user/admin", methods=["GET"])
 @login_required
 def get_admins():

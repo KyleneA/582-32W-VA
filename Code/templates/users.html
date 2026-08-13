@@ -1,0 +1,99 @@
+{% extends "base.html" %} 
+    {% block title %} Users | XYZ Apartment {% endblock %} 
+    
+    {% block banner %}
+    <h1>Manage users</h1>
+    {% endblock %}
+    
+    {% block content %}
+    <section class="quick-access">
+        <div class="container">
+            <div class="button-div">
+                <a 
+                href="{{ url_for(
+                    'user_add', 
+                    user_type='admin'
+                    ) }}" 
+                class="btn"
+                >
+                    Create New Admin
+                </a>
+
+                <a 
+                href="{{ url_for(
+                    'user_add', 
+                    user_type='resident'
+                    ) }}" 
+                class="btn"
+                >
+                    Create new resident
+                </a>
+        </div>
+    </section>
+
+    <section class="resident-users">
+        <div class="container">
+            <h2>Residents</h2>
+            <ul class="resident-list">
+                <template class="template-resident-display">
+                    <li class="resident-display">
+                        <h3 class="name">name</h3>
+                        <div class="detail">
+                            <p class="label">Email:</p>
+                            <p class="email">email</p>
+                        </div>
+                        <div class="detail">
+                            <p class="label">apartment:</p>
+                            <p class="apartment">apartment</p>
+                        </div>
+                        <div class="detail">
+                            <p class="label">locker location:</p>
+                            <p class="locker">locker</p>
+                        </div>
+                        <div class="detail">
+                            <p class="label">lease date:</p>
+                            <p class="lease">lease</p>
+                        </div>
+                        <div class="detail">
+                            <p class="label">parking status:</p>
+                            <p class="parking">parking</p>
+                        </div>
+                        <div class="button-div">
+                            <a href="" class="btn edit">edit user</a>
+                            <form method="post">
+                                <button class="btn delete" type="submit">delete user</button>
+                            </form>
+                        </div>
+                    </li>
+                </template>
+            </ul>
+        </div>
+    </section>
+    
+    <section class="admin-users">
+        <div class="container">
+            <h2>Admins</h2>
+            <ul class="admin-list">
+                <template class="template-admin-display">
+                    <li class="admin-display">
+                        <h3 class="name">name</h3>
+                        <div class="detail">
+                            <p class="label">Email:</p>
+                            <p class="email">email</p>
+                        </div>
+                        <div class="button-div">
+                            <a href="" class="btn edit">edit user</a>
+                            <form method="post" class="delete-user">
+                                <button class="btn delete" type="submit">delete user</button>
+                            </form>
+                        </div>
+                    </li>
+                </template>
+            </ul>
+        </div>
+    </section>
+    {% endblock %}
+
+    {% block script %}
+    <script type="module" src="{{ url_for('static', filename='js/users.js') }}"></script>
+    {% endblock %}

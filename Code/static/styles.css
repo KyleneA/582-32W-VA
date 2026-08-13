@@ -291,3 +291,113 @@ section.dashboard {
         gap: 20px;
     }
 }
+
+section.resident-users {
+    ul.resident-list {
+        list-style: none;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+
+        .resident-display {
+            padding: 10px;
+            border-radius: 4px;
+            background-color: var(--primary-light);
+
+            h3 {
+                text-transform: capitalize;
+                margin-bottom: 10px;
+            }
+
+            div.detail {
+                display: flex;
+                gap: 10px;
+                
+                p.label {
+                    text-transform: capitalize;
+                }
+            }
+
+            div.button-div {
+                display: flex;
+                gap: 15px;
+                justify-content: end;
+                margin-top: 15px;
+
+                .btn.edit:hover,
+                .btn.delete:hover {
+                    border: var(--primary-color) 1px solid;
+                    background-color: var(--primary-light);
+                    color: var(--on-primary-light-accent);
+                }
+
+                .btn.edit {
+                    background-color: var(--primary-color);
+                    border: var(--primary-color) 1px solid;
+                    color: var(--on-primary);
+                }
+
+                .btn.delete {
+                    background-color: transparent;
+                    border: var(--primary-color) 1px solid;
+                    color: var(--text-mid);
+                }
+            }
+        }
+    }
+}
+
+section.admin-users {
+    ul.admin-list {
+        list-style: none;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+
+        .admin-display {
+            padding: 10px;
+            border-radius: 4px;
+            background-color: var(--primary-light);
+
+            h3 {
+                text-transform: capitalize;
+                margin-bottom: 10px;
+            }
+
+            div.detail {
+                display: flex;
+                gap: 10px;
+                
+                p.label {
+                    text-transform: capitalize;
+                }
+            }
+
+            div.button-div {
+                display: flex;
+                gap: 15px;
+                justify-content: end;
+                margin-top: 15px;
+
+                .btn.edit:hover,
+                .btn.delete:hover {
+                    border: var(--primary-color) 1px solid;
+                    background-color: var(--primary-light);
+                    color: var(--on-primary-light-accent);
+                }
+
+                .btn.edit {
+                    background-color: var(--primary-color);
+                    border: var(--primary-color) 1px solid;
+                    color: var(--on-primary);
+                }
+
+                .btn.delete {
+                    background-color: transparent;
+                    border: var(--primary-color) 1px solid;
+                    color: var(--text-mid);
+                }
+            }
+        }
+    }
+}

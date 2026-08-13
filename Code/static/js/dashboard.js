@@ -1,9 +1,7 @@
-import { fetchAdmins, fetchResidents, fetchAnnouncements, fetchPosts } from "./api.js";
-import { renderAdmins, renderAnnouncements } from "./ui.js"
+import { fetchAnnouncements, fetchPosts } from "./api.js";
+
 import Announcement from "./Announcement.js";
 import { AnnouncementCard } from "./AnnouncementCard.js";
-
-fetchAdmins()
 
 const dashboardAnnouncements = document.querySelector("section.dashboard div.container div.announcements-div");
 const dashboardPosts = document.querySelector("section.dashboard div.container div.posts-div");
