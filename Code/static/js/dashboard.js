@@ -11,10 +11,26 @@ fetchAnnouncements()
     for (const announcement of response) {
         const announcementCard = document.createElement('announcement-card');
         announcementCard.announcementDetails = Announcement.fromObject(announcement);
-
+        
         dashboardAnnouncements.appendChild(announcementCard);
     }
+})
 
+const immediateAnnouncements = document.querySelector("section.immediate-announcements div.container");
+fetchAnnouncements()
+.then((response) => {
+    console.log("immediate")
+    for (const announcement of response) {
+        if (announcement.urgency === "immediate") {
+        const announcementCard = document.createElement('announcement-card');
+        announcementCard.announcementDetails = Announcement.fromObject(announcement);
+
+            console.log(announcement.urgency === "immediate");
+            announcementCard.highlight = true;
+            
+            immediateAnnouncements.appendChild(announcementCard);
+        }
+    }
 })
 
 const announcementBtn = document.getElementById("btn-announcements");
