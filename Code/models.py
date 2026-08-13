@@ -335,6 +335,30 @@ class BuildingInfo(db.Model):
 
     guidelines: Mapped[list["Guideline"]] = relationship(back_populates="building_info")
 
+    def to_dict(self):
+        return {
+            "officeHours": {
+                "monday": self.monday_hours,
+                "tuesday": self.tuesday_hours,
+                "wednesday": self.wednesday_hours,
+                "thursday": self.thursday_hours,
+                "friday": self.friday_hours,
+                "saturday": self.saturday_hours,
+                "sunday": self.sunday_hours
+            },
+            "officeLocation": {
+                "room": self.office_room,
+                "address": self.street_address,
+                "city": self.city,
+                "province": self.province,
+                "postalCode": self.postal_code,
+            },
+            "contactInformation": {
+                "phone": self.phone,
+                "email": self.email
+            }
+        }
+
 class Guideline(db.Model):
     __tablename__ = "guidelines"
 

@@ -32,7 +32,9 @@ def load_user(polymorphic_id):
 
 @app.route("/")
 def home():
-    return render_template("home.html")
+    building_info = BuildingInfo.query.first()
+
+    return render_template("home.html", building_info=building_info)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -218,7 +220,7 @@ def announcement_add():
 
         flash(f"Announcement has been created", "success")
 
-        return redirect(url_for("home")) # change url to dashboard
+        return redirect(url_for("dashboard"))
     
     return render_template("add_announcement.html", area_options=area_options, urgency_options=urgency_options)
 
@@ -437,3 +439,9 @@ def get_posts():
     posts = Post.query.order_by(Post.id).all()
 
     return jsonify([content.to_dict() for content in posts])
+
+# @app.route("/api/building-info", methods=["GET"])
+# def get_building_info():
+#     building_info = BuildingInfo.query.first()
+
+#     return jsonify([building_info.to_dict()])

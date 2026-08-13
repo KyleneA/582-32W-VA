@@ -19,25 +19,62 @@
 </head>
 <body>
     <header>
-        <nav>
+        <nav class="navbar">
             <ul>
-                {% if current_user.is_authenticated %}
+                <li> 
+                    <a 
+                    href="{{ url_for('home') }}" 
+                    class="btn logo"
+                    >
+                        XYZ Apartment
+                    </a>
+                </li>
+
+                {% if not current_user.is_authenticated %}
                 <li>
-                    <form
+                    <a 
+                    href="{{ url_for('login') }}" 
+                    class="btn"
+                    >
+                        Login
+                    </a>
+                </li>
+                
+                {% elif current_user.is_authenticated %}
+                <div class="menu">
+                    <li>
+                        <a 
+                        href="{{ url_for('dashboard') }}" 
+                        class="btn{% if request.endpoint == 'dashboard' %} active {% endif %}"
+                        >
+                            Dashboard
+                        </a>
+                    </li>
+    
+                    <li>
+                        <form
                         action="{{ url_for('logout') }}"
                         method="POST"
-                    >
-                        <button type="submit">
-                            Log out
-                        </button>
-                    </form>
-                </li>
+                        >
+                            <button type="submit" class="btn">
+                                Logout
+                            </button>
+                        </form>
+                    </li>
+                </div>
                 {% endif %}
             </ul>
         </nav>
     </header>
 
     <main>
+        <section class="banner{% if request.endpoint == 'home' %} home{% endif %}">
+            <div class="container">
+                {% block banner %}
+                {% endblock %}
+            </div>
+        </section>
+
         {% with messages = get_flashed_messages(
             with_categories=true
             )
@@ -59,12 +96,8 @@
             {% endif %}
         {% endwith %}
 
-        <section class="{{ page_name }}">
-            <div class="container">
-                {% block content %}
-                {% endblock %}
-            </div>
-        </section>
+        {% block content %}
+        {% endblock %}
     </main>
 
     

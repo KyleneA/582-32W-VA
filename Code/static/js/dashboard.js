@@ -1,11 +1,20 @@
-import { getAdmins, getResidents, getAnnouncements, getPosts } from "./api.js";
+import { fetchAdmins, fetchResidents, fetchAnnouncements, fetchPosts } from "./api.js";
+import { renderAdmins, renderAnnouncements } from "./ui.js"
+import Announcement from "./Announcement.js";
+import { AnnouncementCard } from "./AnnouncementCard.js";
 
-const section = document.querySelector("section.dashboard");
+fetchAdmins()
 
-const admins = await getAdmins();
 
-renderAdmins(admins);
+fetchAnnouncements()
+.then((response) => {
+    const dashboardAnnouncements = document.querySelector("section.dashboard div.container div.announcements");
 
-const announcements = await getAnnouncements();
+    for (const announcement of response) {
+        const announcementCard = document.createElement('announcement-card');
+        announcementCard.announcementDetails = Announcement.fromObject(announcement);
 
-renderAnnouncements(announcements);
+        dashboardAnnouncements.appendChild(announcementCard);
+    }
+
+})

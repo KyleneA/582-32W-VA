@@ -1,4 +1,4 @@
-function renderAdmins(admins) {
+export function renderAdmins(admins, section) {
     const adminsList = document.createElement("ul");
     
     if (admins.length === 0) {
@@ -20,7 +20,7 @@ function renderAdmins(admins) {
 }
 
 
-function renderAnnouncements(announcements) {
+export function renderAnnouncements(announcements, section) {
     const announcementsList = document.createElement("ul");
     
     if (announcements.length === 0) {

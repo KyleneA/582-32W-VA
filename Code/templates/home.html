@@ -1,11 +1,90 @@
 {% extends "base.html" %} 
     {% block title %} Home | XYZ Apartment {% endblock %} 
     
-    {% block content %}
+    {% block banner %}
     {% if current_user.is_authenticated %}
-    <h1>Hi, {{ current_user.name }} - {{ current_user.role }}</h1>
+    <h1>Hi, {{ current_user.name }}</h1>
     
     {% else %}
     <h1>Hello</h1>
     {% endif %}
+
+    <p>
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatibus voluptas culpa, sed, odio porro laudantium amet expedita eos, molestiae saepe a. Iure est rerum voluptas consequuntur velit. Nihil, aspernatur explicabo?
+    </p>
+    {% endblock %}
+
+    {% block content %}
+    {% if building_info %}
+    <section class="building-information">
+        <div class="container">
+            {% if current_user.is_admin() %}
+            <div class="edit-btn">
+                <a href="" class="btn" disabled>
+                    Edit building information
+                </a>
+            </div>
+            {% endif %}
+            <div class="info">
+                <article class="hours">
+                    <h2>Office Hours</h2>
+                    <ul>
+                        <li>
+                            <p>Monday:</p>
+                            <p>{{ building_info.monday_hours or 'closed' }}</p>
+                        </li>
+                        <li>
+                            <p>Tuesday:</p>
+                            <p>{{ building_info.tuesday_hours or 'closed' }}</p>
+                        </li>
+                        <li>
+                            <p>Wednesday:</p>
+                            <p>{{ building_info.wednesday_hours or 'closed' }}</p>
+                        </li>
+                        <li>
+                            <p>Thursday:</p>
+                            <p>{{ building_info.thursday_hours or 'closed' }}</p>
+                        </li>
+                        <li>
+                            <p>Friday:</p>
+                            <p>{{ building_info.friday_hours or 'closed' }}</p>
+                        </li>
+                        <li>
+                            <p>Saturday:</p>
+                            <p>{{ building_info.saturday_hours or 'closed' }}</p>
+                        </li>
+                        <li>
+                            <p>Sunday:</p>
+                            <p>{{ building_info.sunday_hours or 'closed' }}</p>
+                        </li>
+                    </ul>
+                </article>
+        
+                <article class="location">
+                    <h2>Office location</h2>
+                    <ul>
+                        <li> {{ building_info.office_room }} </li>
+                        <li> {{ building_info.street_address }} </li>
+                        <li> {{ building_info.city }} {{ building_info.province }} {{ building_info.postal_code }} </li>
+                    </ul>
+                </article>
+        
+                <article class="contact-info">
+                    <h2>How to reach us</h2>
+                    <ul>
+                        <li> 
+                            <p>Phone: </p>
+                            <p>{{ building_info.phone }}</p>
+                        </li>
+                        <li> 
+                            <p>Email Address: </p>
+                            <p>{{ building_info.email }}</p>
+                        </li>
+                    </ul>
+                </article>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+    
     {% endblock %}
