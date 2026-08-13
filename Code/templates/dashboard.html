@@ -6,53 +6,56 @@
     {% endblock %}
 
     {% block content %}
-    <section class="quick-access">
-        <div class="container">
-            {% if current_user.is_admin %}
-                
-                <a 
-                href="{{ url_for('manage_users') }}" 
-                class="btn"
-                >
-                    manage users
-                </a>
-                
-                <a 
-                href="{{ url_for('dashboard') }}" 
-                class="btn"
-                >
-                    manage posts
-                </a>
-                
-                <a 
-                href="{{ url_for('announcement_add') }}" 
-                class="btn"
-                >
-                    Create new announcement
-                </a>
-
-                {% else %}
-                <a 
-                href="{{ url_for('dashboard') }}" 
-                class="btn"
-                >
-                    manage posts
-                </a>
-                
-                <a 
-                href="{{ url_for('post_add') }}" 
-                class="btn"
-                >
-                    Create new post
-                </a>
-            </div>
-            {% endif %}
-        </div>
-    </section>
-
     <section class="immediate-announcements">
         <div class="container">
+            
+        </div>
+    </section>
+    
+    <section class="quick-access">
+        <div class="container">
+            <div class="button-div">
 
+                {% if current_user.is_admin %}
+                    
+                    <a 
+                    href="{{ url_for('manage_users') }}" 
+                    class="btn"
+                    >
+                        manage users
+                    </a>
+                    
+                    <a 
+                    href="{{ url_for('dashboard') }}" 
+                    class="btn"
+                    >
+                        manage posts
+                    </a>
+                    
+                    <a 
+                    href="{{ url_for('announcement_add') }}" 
+                    class="btn"
+                    >
+                        Create new announcement
+                    </a>
+    
+                    {% else %}
+                    <a 
+                    href="{{ url_for('post_add') }}" 
+                    class="btn"
+                    >
+                        Create new post
+                    </a>
+                
+                    <a 
+                    href="{{ url_for('dashboard') }}" 
+                    class="btn"
+                    >
+                        manage posts
+                    </a>
+                </div>
+                {% endif %}
+            </div>
         </div>
     </section>
 
@@ -90,7 +93,7 @@
                     top: 0;
                     right: 0;
 
-                    transform: translate(20px, -10px);
+                    transform: translate(20px, -30px);
 
                     button.btn.close {
                         text-align: center;
