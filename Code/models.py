@@ -155,6 +155,12 @@ class Content(db.Model):
         nullable=False
     )
 
+    status: Mapped[str] = mapped_column(
+        # options: "posted", "pending", "rejected", "archived"
+        db.String(8),
+        nullable=False
+    )
+
     created_at: Mapped[datetime] = mapped_column(
         default=datetime.now,
         nullable=False
@@ -207,6 +213,7 @@ class Announcement(Content, db.Model):
             "title": self.title,
             "body": self.body,
             "createdAt": self.created_at,
+            "status": self.status,
             "authorId": self.author_id,
             "affectedArea": self.affected_area,
             "urgency": self.urgency,
@@ -259,6 +266,7 @@ class Post(Content, db.Model):
             "title": self.title,
             "body": self.body,
             "createdAt": self.created_at,
+            "status": self.status,
             "authorId": self.author_id,
             "category": self.category,
             "isApproved": self.is_approved,
@@ -366,6 +374,11 @@ class Guideline(db.Model):
     
     rule: Mapped[str] = mapped_column(
         db.String(150),
+        nullable=False
+    )
+
+    rule_type: Mapped[str] = mapped_column(
+        db.String(20),
         nullable=False
     )
 

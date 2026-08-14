@@ -7,6 +7,47 @@ from helperFunctions import find_user, convert_to_date, validate_apartment, vali
 
 user = Blueprint("user", __name__)
 
+
+@user.route("/initialize", methods=["GET", "POST"])
+def initialize():
+    if not db.session.query(User).first() is None:
+        return redirect(url_for('home'))
+    
+    if db.session.query(User).first():
+        return redirect(url_for('login'))
+    
+    if request.method == "POST":
+        name = request.form["full-name"].strip()
+        email = request.form["email"].strip()
+        password = request.form["password"].strip()
+        errors = []
+
+        name_errors = validate_name(name)
+        email_errors = validate_email(email)
+        password_errors = validate_password(password)
+
+        validation_results = [name_errors, email_errors, password_errors]
+
+        for result in validation_results:
+            if result:
+                errors.append(result)
+        
+        if errors:
+            flash_errors(errors)
+            return render_template("add_user.html", full_name=name, email=email)
+        
+        admin = Admin(name=name, email=email, is_new_acc=True)
+        admin.set_password(password)
+
+        db.session.add(admin)
+        db.session.commit()
+
+        flash(f"Admin account has been created. Please login to continue website initialization process.", "success")
+
+        return redirect(url_for("login"))
+
+    return render_template("initialize.html")
+
 @user.route("/user/<string:user_type>/add", methods = ["GET", "POST"])
 @login_required 
 def user_add(user_type):
@@ -56,7 +97,7 @@ def user_add(user_type):
             db.session.commit()
             flash(f"Resident account for {resident.apartment} has been created", "success")
 
-            return redirect(url_for("manage_users")) 
+            return redirect(url_for("user.manage_users")) 
 
         for result in validation_results:
             if result:
@@ -73,7 +114,7 @@ def user_add(user_type):
         db.session.commit()
         flash(f"Admin account has been created", "success")
 
-        return redirect(url_for("dashboard"))
+        return redirect(url_for("user.manage_users"))
     
     return render_template("add_user.html", user_role=user_role)
 
@@ -83,7 +124,7 @@ def manage_users():
     if not current_user.is_admin:
         return redirect(url_for("dashboard"))
     
-    return render_template("users.html")
+    return render_template("manage_users.html")
 
 @user.route("/user/<string:user_type>/<int:id>/edit", methods=["GET", "POST"])
 @login_required

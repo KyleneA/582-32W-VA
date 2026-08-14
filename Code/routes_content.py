@@ -7,6 +7,14 @@ from helperFunctions import find_user, convert_to_date, validate_apartment, vali
 
 content = Blueprint("content", __name__)
 
+# ANNOUNCEMENTS
+@content.route("/announcement", methods=["GET"])
+@login_required
+def announcement_manage():
+    ...
+
+    return render_template("manage_announcements.html")
+
 @content.route("/announcement/add", methods=["GET", "POST"])
 @login_required
 def announcement_add():
@@ -40,16 +48,24 @@ def announcement_add():
             flash_errors(errors)
             return render_template("add_announcement.html", area_options=area_options, urgency_options=urgency_options, title=title, body=body, affected_area=affected_area, urgency=urgency, start_date=start_date, end_date=end_date, image=image_url)
 
-        announcement = Announcement(admin=current_user, title=title, body=body, affected_area=",".join(affected_area), urgency=urgency, start_date=convert_to_date(start_date), end_date=convert_to_date(end_date), image_url=image_url)
+        announcement = Announcement(admin=current_user, title=title, body=body, status="posted",affected_area=",".join(affected_area), urgency=urgency, start_date=convert_to_date(start_date), end_date=convert_to_date(end_date), image_url=image_url)
 
         db.session.add(announcement)
         db.session.commit()
 
         flash(f"Announcement has been created", "success")
 
-        return redirect(url_for("app.dashboard"))
+        return redirect(url_for("dashboard"))
     
     return render_template("add_announcement.html", area_options=area_options, urgency_options=urgency_options)
+
+# POSTS
+@content.route("/post", methods=["GET", "POST"])
+@login_required
+def post_manage():
+    ...
+
+    return render_template("manage_posts.html")
 
 @content.route("/post/add", methods=["GET", "POST"])
 @login_required
@@ -84,7 +100,7 @@ def post_add():
             
             return render_template("add_post.html", post_categories=post_categories, contact_types=contact_types, title=title, body=body, category=category, start_date=start_date, end_date=end_date, image=image_url, contact=contact, contact_method=contact_method)
 
-        post = Post(resident=current_user, title=title, body=body, category=category, is_approved=False, contact_info=contact_info, start_date=convert_to_date(start_date), end_date=convert_to_date(end_date), image_url=image_url)
+        post = Post(resident=current_user, title=title, body=body, status="pending", category=category, is_approved=False, contact_info=contact_info, start_date=convert_to_date(start_date), end_date=convert_to_date(end_date), image_url=image_url)
 
         db.session.add(post)
         db.session.commit()
@@ -95,6 +111,7 @@ def post_add():
     
     return render_template("add_post.html", post_categories=post_categories, contact_types=contact_types)
 
+# BUILDING INFORMATION
 @content.route("/building-info/guidelines/edit", methods=["GET", "POST"])
 @login_required
 def edit_guidelines():
@@ -107,7 +124,7 @@ def edit_guidelines():
 
 @content.route("/building-info/add", methods=["GET", "POST"])
 @login_required
-def add_building_info():
+def building_info_add():
     if not current_user.is_admin():
         return redirect(url_for("home")) # Change to dashboard
     

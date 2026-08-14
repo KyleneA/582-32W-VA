@@ -32,14 +32,24 @@ def load_user(polymorphic_id):
 
 @app.route("/")
 def home():
+    if db.session.query(User).first() is None:
+        return redirect(url_for('user.initialize'))
+    
+    if db.session.query(BuildingInfo).first() is None:
+        return redirect(url_for('content.building_info_add'))
+    
     building_info = BuildingInfo.query.first()
 
     return render_template("home.html", building_info=building_info)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    if db.session.query(User).first() is None:
+        flash("Please create an account", "error")
+        return redirect(url_for('user.initialize'))
+
     if current_user.is_authenticated:
-        return redirect(url_for("home")) # Change redirect url to dashboard
+        return redirect(url_for("dashboard")) 
 
     if request.method == "POST":
         email = request.form["email"].strip()
@@ -95,7 +105,7 @@ def first_login():
         flash("You have successfully reset your password", "success")
 
         if current_user.is_admin() and not BuildingInfo.query.first():
-            return redirect(url_for("add_building_info"))
+            return redirect(url_for("content.building_info_add"))
         
         return redirect(url_for("home"))
     
