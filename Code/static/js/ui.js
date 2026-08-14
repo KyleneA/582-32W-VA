@@ -1,6 +1,8 @@
 import Admin from "./Admin.js";
+import Announcement from "./Announcement.js";
+import { AnnouncementCard } from "./AnnouncementCard.js";
 
-export function renderAdmins(response, adminList, sortType) {
+export function renderAdmins(response, adminList) {
     adminList.innerHTML = "";
 
     const template = document.querySelector('.template-admin-display');
@@ -27,23 +29,17 @@ export function renderAdmins(response, adminList, sortType) {
 }
 
 
-export function renderAnnouncements(announcements, section) {
-    const announcementsList = document.createElement("ul");
-    
-    if (announcements.length === 0) {
-        announcementsList.innerHTML = `<li>No announcements has been added.</li>`;
-        
-        return;
-    }
-    
-    // render each item and add to HTML
-    announcements.forEach((announcement) => {
-        const listItem = document.createElement("li");
-    
-        listItem.textContent = `${announcement.title} - ${new Date(announcement.createdAt).toDateString()}`;
-    
-        announcementsList.appendChild(listItem);
-    });
+export function renderAnnouncements(response, cardsDiv) {
+    cardsDiv.innerHTML = "";
 
-    section.append(announcementsList);
+    if (response.length === 0) {
+        cardsDiv.textContent = "There are currently no announcements."
+    }
+
+    for (const announcement of response) {
+        const announcementCard = document.createElement('announcement-card');
+        announcementCard.announcementDetails = Announcement.fromObject(announcement);
+        
+        cardsDiv.appendChild(announcementCard);
+    }
 }

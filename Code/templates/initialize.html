@@ -1,0 +1,59 @@
+{% extends "base.html" %} 
+    {% block title %} Initialize Website | XYZ Apartment {% endblock %} 
+
+    {% block banner %}
+    <h1>Create first user</h1>
+    {% endblock %}
+    
+    {% block content %}
+    <section class="create-user">
+        <div class="container">
+            <form method="POST">
+                <div class="general-inputs">
+                    <div class="input-div">
+                        <label for="full-name"> Full Name </label>
+                        <input 
+                            id="full-name"
+                            name="full-name"
+                            type="text"
+                            value="{{ full_name or '' }}"
+                            maxlength="100"
+                            required
+                        >
+                    </div>
+        
+                    <div class="input-div">
+                        <label for="email">
+                            Email Address
+                        </label>
+            
+                        <input
+                            id="email"
+                            name="email"
+                            type="email"
+                            value="{{ email or '' }}"
+                            maxlength="255"
+                            required
+                        />
+                    </div>
+            
+                    <div class="input-div">
+                        <label for="password"> Password </label>
+                        <input 
+                            id="password" 
+                            name="password" 
+                            type="password"
+                            maxlength="20"
+                            required 
+                        />
+                    </div>
+                </div>
+
+                <div class="button-div">
+                    <button type="submit" class="btn submit">Create {{ user_role }} user</button>
+                    <a href="{{ url_for('dashboard') }}" class="btn cancel">cancel</a>
+                </div>
+            </form>
+        </div>
+    </section>
+    {% endblock %}

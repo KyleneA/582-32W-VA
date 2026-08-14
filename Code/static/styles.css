@@ -279,9 +279,32 @@ section.dashboard {
     }
 
     div.announcements-div.active{
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
+        display: block;
+
+        div.sorting-btns {
+            margin-bottom: 15px;
+            button.btn {
+                background-color: transparent;
+                color: var(--text-subtle);
+            }
+            
+            button.btn:hover {
+                background-color: var(--primary-light);
+                color: var(--on-primary-light-mid);
+            }
+            
+            button.btn.active {
+                background-color: var(--primary-color);
+                color: var(--on-primary);
+                cursor: default;
+            }
+        }
+        
+        div.announcement-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
     }
 
     div.posts-div{
@@ -292,6 +315,30 @@ section.dashboard {
         display: flex;
         flex-direction: column;
         gap: 20px;
+        
+        div.sorting-btns {
+            button.btn {
+                background-color: transparent;
+                color: var(--text-subtle);
+            }
+            
+            button.btn:hover {
+                background-color: var(--primary-light);
+                color: var(--on-primary-light-mid);
+            }
+            
+            button.btn.active {
+                background-color: var(--primary-color);
+                color: var(--on-primary);
+                cursor: default;
+            }
+        }
+        
+        /* div.post-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        } */
     }
 }
 

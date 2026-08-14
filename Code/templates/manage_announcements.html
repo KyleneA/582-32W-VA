@@ -1,0 +1,24 @@
+{% extends "base.html" %} 
+    {% block title %} Manage Announcements | XYZ Apartment {% endblock %} 
+
+    {% block banner %}
+    <h1>Manage Announcements</h1>
+    {% endblock %}
+
+    {% block content %}
+    <section class="announcements">
+        <div class="container">
+            <div class="button-div">
+                <a 
+                href="{{ url_for('content.announcement_add') }}" 
+                class="btn"
+                >
+                    create announcement
+                </a>
+            </div>
+        </div>
+    </section>
+    {% endblock %}
+    
+    {% block script %}
+    {% endblock %}

@@ -1,138 +1,154 @@
 {% extends "base.html" %} 
     {% block title %} Create Post | XYZ Apartment {% endblock %} 
-    
+
+    {% block banner %}
+    <h1>Create new post</h1>
+    {% endblock %}
+
+
     {% block content %}
-    <div class="description-container">
-        <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In metus ipsum, gravida vel dapibus in, suscipit sed tortor. Proin venenatis aliquet lorem eu volutpat. Duis quis eros consequat, luctus lectus vel, pharetra metus. Donec quis odio quis mi aliquet auctor ac sit amet magna. Nunc in porta lorem. Suspendisse mattis commodo magna, vel ultrices erat hendrerit eu. Ut non mauris nec purus blandit sodales iaculis quis risus. Quisque interdum erat non accumsan porttitor. Morbi at pulvinar dolor.
-        </p>
-
-        <p>
-            Sed pharetra massa magna, et fermentum lorem posuere quis. Suspendisse enim diam, lacinia et volutpat id, consequat a purus. Vestibulum odio ipsum, rhoncus quis elit non, feugiat posuere lectus. Duis quis auctor odio, sit amet maximus augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent pretium justo in posuere convallis. Donec viverra justo vel imperdiet commodo. Mauris viverra ligula est, vitae sodales dolor fermentum id. Aenean non dui eu eros tincidunt tempus. Ut ullamcorper accumsan sapien, a iaculis magna rhoncus nec. Cras imperdiet neque ut ante rutrum posuere.
-        </p>
-    </div>
-
-    <form method="POST">
-        <div class="input-div">
-            <label for="title">Post Title</label>
-            <input 
-                type="text"
-                id="title"
-                name="title"
-                maxlength="100"
-                value="{{ title or '' }}"
-                required
-            >
-        </div>
+    <section class="add-post description">
+        <div class="container">
+            <div class="description-container">
+                <h2>About community posts</h2>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. In metus ipsum, gravida vel dapibus in, suscipit sed tortor. Proin venenatis aliquet lorem eu volutpat. Duis quis eros consequat, luctus lectus vel, pharetra metus. Donec quis odio quis mi aliquet auctor ac sit amet magna. Nunc in porta lorem. Suspendisse mattis commodo magna, vel ultrices erat hendrerit eu. Ut non mauris nec purus blandit sodales iaculis quis risus. Quisque interdum erat non accumsan porttitor. Morbi at pulvinar dolor.
+                </p>
         
-        <div class="input-div">
-            <label for="category">Post Category</label>
-
-            <select name="category" id="category">
-                <option value="">Select post category</option>
-                {% for option in post_categories %}
-                {% if category == option %}
-                <option value="{{ option }}" selected>{{ option | title }}</option>
-                {% else %}
-                <option value="{{ option }}">{{ option | title }}</option>
-                {% endif %}
-                {% endfor %}
-            </select>
+                <p>
+                    Sed pharetra massa magna, et fermentum lorem posuere quis. Suspendisse enim diam, lacinia et volutpat id, consequat a purus. Vestibulum odio ipsum, rhoncus quis elit non, feugiat posuere lectus. Duis quis auctor odio, sit amet maximus augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent pretium justo in posuere convallis. Donec viverra justo vel imperdiet commodo. Mauris viverra ligula est, vitae sodales dolor fermentum id. Aenean non dui eu eros tincidunt tempus. Ut ullamcorper accumsan sapien, a iaculis magna rhoncus nec. Cras imperdiet neque ut ante rutrum posuere.
+                </p>
+            </div>
         </div>
+    </section>
+    
+    <section class="add-post form">
+        <div class="container">
+            <h2>Create your post</h2>
+            <form method="POST">
+                <div class="input-div">
+                    <label for="title">Post Title</label>
+                    <input 
+                        type="text"
+                        id="title"
+                        name="title"
+                        maxlength="100"
+                        value="{{ title or '' }}"
+                        required
+                    >
+                </div>
+                
+                <div class="input-div">
+                    <label for="category">Post Category</label>
         
-        <div class="date-div">
-            <p> Is your post time sensitive? Add a start date and end date if it is relevant to your post? </p>
-
-            <div class="input-div">
-                <label for="start-date">Start Date</label>
-                <input 
-                    type="date" 
-                    name="start-date" 
-                    id="start-date"
-                    value="{{ start_date or '' }}"
-                >
-            </div>
-            
-            <div class="input-div">
-                <label for="end-date">End Date</label>
-                <input 
-                type="date" 
-                name="end-date" 
-                id="end-date"
-                value="{{ end_date or '' }}"
-                >
-            </div>
-        </div>
-
-        <div class="contact-div">
-            <p> If you would like to provide some contact information if anyone wants to contact you regarding your post, please add it below. </p>
-
-            {% for option in contact_types %}
-            {% if not contact_method and option == "no contact needed" %}
-            <div class="radio-option">
-                <input 
-                    type="radio"
-                    name="contact-method"
-                    id="{{ option.replace(' ', '-') }}"
-                    value="{{ option }}"
-                    checked
-                >
-                <label for="{{ option.replace(' ', '-') }}">{{ option | title }}</label>
-            </div>
-
-            {% elif option == contact_method %}
-            <div class="radio-option">
-                <input 
-                    type="radio"
-                    name="contact-method"
-                    id="{{ option.replace(' ', '-') }}"
-                    value="{{ option }}"
-                    checked
-                >
-                <label for="{{ option.replace(' ', '-') }}">{{ option | title }}</label>
-            </div>
-
-            {% else %}
-            <div class="radio-option">
-                <input 
-                    type="radio"
-                    name="contact-method"
-                    id="{{ option.replace(' ', '-') }}"
-                    value="{{ option }}"
-                >
-                <label for="{{ option.replace(' ', '-') }}">{{ option | title }}</label>
-            </div>
-            {% endif %}
-            {% endfor %}
-            
-            <div class="input-div">
-                <label for="contact">Contact Information</label>
-                <input 
-                    type="text" 
-                    name="contact" 
-                    id="contact"
-                    value="{{ contact or '' }}"
-                >
-            </div>
-        </div>
+                    <select name="category" id="category">
+                        <option value="">Select post category</option>
+                        {% for option in post_categories %}
+                        {% if category == option %}
+                        <option value="{{ option }}" selected>{{ option | title }}</option>
+                        {% else %}
+                        <option value="{{ option }}">{{ option | title }}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="date-div">
+                    <p> Is your post time sensitive? Add a start date and end date if it is relevant to your post? </p>
         
-        <div class="input-div">
-            <label for="body">Post Body</label>
-            <textarea name="body" id="body" rows="10" required>{{ body or '' }}</textarea>
-        </div>
+                    <div class="input-div">
+                        <label for="start-date">Start Date</label>
+                        <input 
+                            type="date" 
+                            name="start-date" 
+                            id="start-date"
+                            value="{{ start_date or '' }}"
+                        >
+                    </div>
+                    
+                    <div class="input-div">
+                        <label for="end-date">End Date</label>
+                        <input 
+                        type="date" 
+                        name="end-date" 
+                        id="end-date"
+                        value="{{ end_date or '' }}"
+                        >
+                    </div>
+                </div>
         
-        <div class="input-div">
-            <label for="image">Image URL</label>
-            <input 
-                type="url" 
-                name="image" 
-                id="image"
-                value="{{ image or '' }}"
-            >
+                <div class="contact-div">
+                    <p> If you would like to provide some contact information if anyone wants to contact you regarding your post, please add it below. </p>
+        
+                    {% for option in contact_types %}
+                    {% if not contact_method and option == "no contact needed" %}
+                    <div class="radio-option">
+                        <input 
+                            type="radio"
+                            name="contact-method"
+                            id="{{ option.replace(' ', '-') }}"
+                            value="{{ option }}"
+                            checked
+                        >
+                        <label for="{{ option.replace(' ', '-') }}">{{ option | title }}</label>
+                    </div>
+        
+                    {% elif option == contact_method %}
+                    <div class="radio-option">
+                        <input 
+                            type="radio"
+                            name="contact-method"
+                            id="{{ option.replace(' ', '-') }}"
+                            value="{{ option }}"
+                            checked
+                        >
+                        <label for="{{ option.replace(' ', '-') }}">{{ option | title }}</label>
+                    </div>
+        
+                    {% else %}
+                    <div class="radio-option">
+                        <input 
+                            type="radio"
+                            name="contact-method"
+                            id="{{ option.replace(' ', '-') }}"
+                            value="{{ option }}"
+                        >
+                        <label for="{{ option.replace(' ', '-') }}">{{ option | title }}</label>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    
+                    <div class="input-div">
+                        <label for="contact">Contact Information</label>
+                        <input 
+                            type="text" 
+                            name="contact" 
+                            id="contact"
+                            value="{{ contact or '' }}"
+                        >
+                    </div>
+                </div>
+                
+                <div class="input-div">
+                    <label for="body">Post Body</label>
+                    <textarea name="body" id="body" rows="10" required>{{ body or '' }}</textarea>
+                </div>
+                
+                <div class="input-div">
+                    <label for="image">Image URL</label>
+                    <input 
+                        type="url" 
+                        name="image" 
+                        id="image"
+                        value="{{ image or '' }}"
+                    >
+                </div>
+        
+                <div class="button-div">
+                    <button type="submit" class="btn submit">Create Post</button>
+                    <a href="{{ url_for('content.post_manage') }}" class="btn cancel">cancel</a>
+                </div>
+            </form>
         </div>
-
-        <div class="button-div">
-            <button type="submit">Create Post</button>
-        </div>
-    </form>
+    </section>
     {% endblock %}

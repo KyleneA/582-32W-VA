@@ -8,8 +8,8 @@ export async function fetchAdmins(sortType) {
     return await response.json();
 }
 
-export async function fetchResidents() {
-    const response = await fetch("/api/user/resident");
+export async function fetchResidents(sortType) {
+    const response = await fetch(`/api/user/resident/${sortType}`);
 
     if (!response.ok) {
         throw new Error(`HTTP Error: ${response.status}`);
@@ -18,8 +18,8 @@ export async function fetchResidents() {
     return await response.json();
 }
 
-export async function fetchAnnouncements() {
-    const response = await fetch("/api/content/announcement");
+export async function fetchAnnouncements(sortType) {
+    const response = await fetch(`/api/content/announcement/${sortType}`);
 
     if (!response.ok) {
         throw new Error(`HTTP Error: ${response.status}`);
@@ -28,8 +28,8 @@ export async function fetchAnnouncements() {
     return await response.json();
 }
 
-export async function fetchPosts() {
-    const response = await fetch("/api/content/post");
+export async function fetchPosts(sortType) {
+    const response = await fetch(`/api/content/post/${sortType}`);
 
     if (!response.ok) {
         throw new Error(`HTTP Error: ${response.status}`);

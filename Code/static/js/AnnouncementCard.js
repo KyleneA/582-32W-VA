@@ -61,6 +61,8 @@ export class AnnouncementCard extends HTMLElement {
         const card = this.shadowRoot;
         const announcement = this.announcementDetails;
 
+        card.querySelector("div.announcement-details p.content-date").textContent = announcement.createdAt;
+
         card.querySelector(".title").textContent = announcement.title;
 
         card.querySelector("div.details-div div.detail p.area").textContent = announcement.affectedArea;
@@ -73,8 +75,10 @@ export class AnnouncementCard extends HTMLElement {
         body.textContent = announcement.body;
 
         const image = card.querySelector("div.image");
+        const textContentDiv = card.querySelector("div.text-content");
         if (!announcement.imageURL) {
             image.style.display = "none";
+            textContentDiv.style.width = "100%";
         }
 
         else {
@@ -110,8 +114,9 @@ export class AnnouncementCard extends HTMLElement {
         
         closeBtn.addEventListener("click", () => {
             immediateAnnouncementsSection.removeChild(this);
-            
-            if (!immediateAnnouncementsSection.childNode) {
+            const isEmptySection = immediateAnnouncementsSection.querySelectorAll('announcement-card').length < 1;
+
+            if (isEmptySection) {
                 main.removeChild(immediateAnnouncementsSection.parentElement);
             }
         })
