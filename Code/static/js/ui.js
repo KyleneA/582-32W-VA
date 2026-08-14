@@ -1,22 +1,29 @@
-export function renderAdmins(admins, section) {
-    const adminsList = document.createElement("ul");
-    
-    if (admins.length === 0) {
-        adminsList.innerHTML = `<li>No admins has been added.</li>`;
-        
-        return;
-    }
-    
-    // render each item and add to HTML
-    admins.forEach((admin) => {
-        const listItem = document.createElement("li");
-    
-        listItem.textContent = `${admin.name} - ${admin.role}`;
-    
-        adminsList.appendChild(listItem);
-    });
+import Admin from "./Admin.js";
 
-    section.append(adminsList);
+export function renderAdmins(response, adminList, sortType) {
+    adminList.innerHTML = "";
+
+    const template = document.querySelector('.template-admin-display');
+
+    for (const user of response) {
+        const userObj = Admin.fromObject(user);
+
+        const clone = template.content.cloneNode(true);
+
+        const nameH3 = clone.querySelector('.name');
+        nameH3.textContent = userObj.displayName;
+
+        const emailP = clone.querySelector('.email');
+        emailP.textContent = userObj.email;
+
+        const editA = clone.querySelector('.btn.edit');
+        editA.href = `/user/${userObj.role}/${userObj.id}/edit`
+
+        const deleteForm = clone.querySelector('.delete-user');
+        deleteForm.action = `/user/${userObj.role}/${userObj.id}/delete`
+
+        adminList.appendChild(clone);
+    }
 }
 
 

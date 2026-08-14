@@ -1,5 +1,5 @@
-export async function fetchAdmins() {
-    const response = await fetch("/api/user/admin");
+export async function fetchAdmins(sortType) {
+    const response = await fetch(`/api/user/admin/${sortType}`);
 
     if (!response.ok) {
         throw new Error(`HTTP Error: ${response.status}`);

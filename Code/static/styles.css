@@ -240,9 +240,11 @@ section.quick-access {
         display: flex;
         gap: 20px;
         justify-content: space-between;
-
+        border-radius: 4px;
+        
         a.btn {
-            width: 25%;
+            border: 1px solid var(--primary-color);
+            width: 100%;
             text-align: center;
         }
     }
@@ -268,6 +270,7 @@ section.dashboard {
         .btn.active {
             background-color: var(--primary-color);
             color: var(--on-primary);
+            cursor: default;
         }
     }
 
@@ -348,6 +351,27 @@ section.resident-users {
 }
 
 section.admin-users {
+    div.button-div {
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: end;
+
+        .btn {
+            background-color: var(--primary-light);
+            color: var(--on-primary-light-mid);
+            border: var(--primary-color) 1px solid;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-light);
+        }
+
+        .btn.active {
+            background-color: var(--primary-color);
+            color: var(--on-primary);
+        }
+    }
+
     ul.admin-list {
         list-style: none;
         display: grid;

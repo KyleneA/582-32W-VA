@@ -5,6 +5,7 @@ export class AnnouncementCard extends HTMLElement {
         this._announcementDetails = null;
         this.__isExpanded = false;
         this._highlight = false;
+        this._section = null
 
         const shadow = this.attachShadow({
             mode: "open"
@@ -42,6 +43,14 @@ export class AnnouncementCard extends HTMLElement {
 
     get highlight() {
         return this._highlight;
+    }
+
+    set section(value) {
+        this._section = value;
+    }
+
+    get section() {
+        return this._section;
     }
 
     connectedCallback() {
@@ -96,9 +105,15 @@ export class AnnouncementCard extends HTMLElement {
         });
 
         const closeBtn = card.querySelector("button.btn.close");
+        const immediateAnnouncementsSection = this.section;
+        const main = document.querySelector("main");
         
         closeBtn.addEventListener("click", () => {
-            this.style.display = "none";
+            immediateAnnouncementsSection.removeChild(this);
+            
+            if (!immediateAnnouncementsSection.childNode) {
+                main.removeChild(immediateAnnouncementsSection.parentElement);
+            }
         })
 
         if (!this.highlight) {

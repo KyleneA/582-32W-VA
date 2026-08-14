@@ -14,7 +14,7 @@ export default class Admin {
         const names = this.name.split(" ");
         const firstName = names[0];
         const lastInitial = names.at(-1)[0];
-        console.log(names, firstName, lastInitial);
+
         return firstName + lastInitial;
     }
 

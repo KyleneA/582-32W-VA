@@ -11,7 +11,7 @@
             <div class="button-div">
                 <a 
                 href="{{ url_for(
-                    'user_add', 
+                    'user.user_add', 
                     user_type='admin'
                     ) }}" 
                 class="btn"
@@ -21,7 +21,7 @@
 
                 <a 
                 href="{{ url_for(
-                    'user_add', 
+                    'user.user_add', 
                     user_type='resident'
                     ) }}" 
                 class="btn"
@@ -73,23 +73,30 @@
     <section class="admin-users">
         <div class="container">
             <h2>Admins</h2>
+
+            <div class="button-div">
+                <button class="btn active" id="default">default sort</button>
+                <button class="btn" id="name">Sort by name</button>
+                <button class="btn" id="email">Sort by email</button>
+            </div>
+
             <ul class="admin-list">
-                <template class="template-admin-display">
-                    <li class="admin-display">
-                        <h3 class="name">name</h3>
-                        <div class="detail">
-                            <p class="label">Email:</p>
-                            <p class="email">email</p>
-                        </div>
-                        <div class="button-div">
-                            <a href="" class="btn edit">edit user</a>
-                            <form method="post" class="delete-user">
-                                <button class="btn delete" type="submit">delete user</button>
-                            </form>
-                        </div>
-                    </li>
-                </template>
             </ul>
+            <template class="template-admin-display">
+                <li class="admin-display">
+                    <h3 class="name">name</h3>
+                    <div class="detail">
+                        <p class="label">Email:</p>
+                        <p class="email">email</p>
+                    </div>
+                    <div class="button-div">
+                        <a href="" class="btn edit">edit user</a>
+                        <form method="post" class="delete-user">
+                            <button class="btn delete" type="submit">delete user</button>
+                        </form>
+                    </div>
+                </li>
+            </template>
         </div>
     </section>
     {% endblock %}

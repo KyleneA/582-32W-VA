@@ -15,11 +15,9 @@
     <section class="quick-access">
         <div class="container">
             <div class="button-div">
-
-                {% if current_user.is_admin %}
-                    
+                {% if current_user.is_admin() %}
                     <a 
-                    href="{{ url_for('manage_users') }}" 
+                    href="{{ url_for('user.manage_users') }}" 
                     class="btn"
                     >
                         manage users
@@ -33,7 +31,7 @@
                     </a>
                     
                     <a 
-                    href="{{ url_for('announcement_add') }}" 
+                    href="{{ url_for('content.announcement_add') }}" 
                     class="btn"
                     >
                         Create new announcement
@@ -41,7 +39,7 @@
     
                     {% else %}
                     <a 
-                    href="{{ url_for('post_add') }}" 
+                    href="{{ url_for('content.post_add') }}" 
                     class="btn"
                     >
                         Create new post
