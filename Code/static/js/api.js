@@ -1,5 +1,6 @@
 export async function fetchAdmins(sortType) {
-    const response = await fetch(`/api/user/admin/${sortType}`);
+    const cleanSortType = sortType.replaceAll(" ", "-");
+    const response = await fetch(`/api/user/admin/${cleanSortType}`);
 
     if (!response.ok) {
         throw new Error(`HTTP Error: ${response.status}`);
@@ -9,7 +10,9 @@ export async function fetchAdmins(sortType) {
 }
 
 export async function fetchResidents(sortType) {
-    const response = await fetch(`/api/user/resident/${sortType}`);
+    const cleanSortType = sortType.replaceAll(" ", "-");
+
+    const response = await fetch(`/api/user/resident/${cleanSortType}`);
 
     if (!response.ok) {
         throw new Error(`HTTP Error: ${response.status}`);
@@ -19,7 +22,9 @@ export async function fetchResidents(sortType) {
 }
 
 export async function fetchAnnouncements(sortType) {
-    const response = await fetch(`/api/content/announcement/${sortType}`);
+    const cleanSortType = sortType.replaceAll(" ", "-");
+
+    const response = await fetch(`/api/content/announcement/${cleanSortType}`);
 
     if (!response.ok) {
         throw new Error(`HTTP Error: ${response.status}`);
@@ -29,7 +34,9 @@ export async function fetchAnnouncements(sortType) {
 }
 
 export async function fetchPosts(sortType) {
-    const response = await fetch(`/api/content/post/${sortType}`);
+    const cleanSortType = sortType.replaceAll(" ", "-");
+
+    const response = await fetch(`/api/content/post/${cleanSortType}`);
 
     if (!response.ok) {
         throw new Error(`HTTP Error: ${response.status}`);

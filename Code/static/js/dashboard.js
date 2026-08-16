@@ -2,7 +2,9 @@ import { fetchAnnouncements, fetchPosts } from "./api.js";
 
 import Announcement from "./Announcement.js";
 import { AnnouncementCard } from "./AnnouncementCard.js";
-import { renderAnnouncements } from "./ui.js";
+import Post from "./Post.js";
+import { PostCard } from "./PostCard.js";
+import { renderAnnouncements, renderPost } from "./ui.js";
 
 // IMMEDIATE ANNOUNCEMENT SECTION
 const immediateAnnouncements = document.querySelector("section.immediate-announcements div.container");
@@ -86,7 +88,7 @@ announcementSortOldest.addEventListener("click", () => {
         announcementSortStartDate.className = "btn";
         announcementSortEndDate.className = "btn";
         
-        fetchAnnouncements("id")
+        fetchAnnouncements("recent")
         .then((response) =>{
             renderAnnouncements(response, announcementCardsDiv);
         })
@@ -148,20 +150,247 @@ announcementSortEndDate.addEventListener("click", () => {
 
 // GETTING AND DISPLAYING POSTS
 const dashboardPosts = document.querySelector("section.dashboard div.container div.posts-div");
+const postCardsDiv = dashboardPosts.querySelector("div.post-cards");
+
 fetchPosts("recent")
 .then((response) =>{
-    for (const post of response) {
-        if (post.isApproved) {
-            const postCard = document.createElement('p');
-            
-            postCard.textContent = post;
-            
-            dashboardPosts.appendChild(postCard);
-        }
-        const postCard = document.createElement('p');
-        
-        postCard.textContent = post.title;
-        
-        dashboardPosts.appendChild(postCard);
+    postCardsDiv.innerHTML = "";
+    
+    const approvedPosts = response.filter((post) => post.isApproved);
+    
+    if (approvedPosts.length === 0) {
+        postCardsDiv.textContent = "There are currently no posts."
+    }
+    
+    // for (const post of approvedPosts) {
+        for (const post of response) {
+        renderPost(post, postCardsDiv);
     }
 })
+
+// SORT BUTTONS LOGIC
+const postSortRecent = dashboardPosts.querySelector("#recent");
+const postSortOldest = dashboardPosts.querySelector("#id");
+const postSortTitle = dashboardPosts.querySelector("#title");
+const postSortStartDate = dashboardPosts.querySelector("#start-date");
+const postSortEndDate = dashboardPosts.querySelector("#end-date");
+const postSortCatSearch = dashboardPosts.querySelector("#category-search");
+const postSortCatGive = dashboardPosts.querySelector("#category-give");
+const postSortCatShare = dashboardPosts.querySelector("#category-share");
+console.log(postSortRecent, postSortOldest, postSortTitle, postSortStartDate, postSortEndDate, postSortCatSearch, postSortCatGive, postSortCatShare);
+
+postSortRecent.addEventListener("click", () => {
+    if (!postSortRecent.className.includes('active')) {
+        postSortRecent.className = "btn active";
+        postSortOldest.className = "btn";
+        postSortTitle.className = "btn";
+        postSortStartDate.className = "btn";
+        postSortEndDate.className = "btn";
+        postSortCatSearch.className = "btn";
+        postSortCatGive.className = "btn";
+        postSortCatShare.className = "btn";
+        
+        postCardsDiv.innerHTML = "";
+
+        fetchPosts("recent")
+        .then((response) =>{
+            // for (const post of approvedPosts) {
+                for (const post of response) {
+                    console.log(post.id);
+                    renderPost(post, postCardsDiv);
+                }
+            })
+        }
+        console.log("-----");
+        
+        return;
+});
+
+postSortOldest.addEventListener("click", () => {
+    if (!postSortOldest.className.includes('active')) {
+        postSortRecent.className = "btn";
+        postSortOldest.className = "btn active";
+        postSortTitle.className = "btn";
+        postSortStartDate.className = "btn";
+        postSortEndDate.className = "btn";
+        postSortCatSearch.className = "btn";
+        postSortCatGive.className = "btn";
+        postSortCatShare.className = "btn";
+
+        postCardsDiv.innerHTML = "";
+
+        fetchPosts("oldest")
+        .then((response) =>{
+            // for (const post of approvedPosts) {
+                for (const post of response) {
+                    console.log(post.id);
+                    renderPost(post, postCardsDiv);
+                }
+            })
+        }
+        console.log("-----");
+        
+        return;
+});
+
+postSortTitle.addEventListener("click", () => {
+    if (!postSortTitle.className.includes('active')) {
+        postSortRecent.className = "btn";
+        postSortOldest.className = "btn";
+        postSortTitle.className = "btn active";
+        postSortStartDate.className = "btn";
+        postSortEndDate.className = "btn";
+        postSortCatSearch.className = "btn";
+        postSortCatGive.className = "btn";
+        postSortCatShare.className = "btn";
+        
+        postCardsDiv.innerHTML = "";
+
+        fetchPosts("title")
+        .then((response) =>{
+            // for (const post of approvedPosts) {
+            for (const post of response) {
+                console.log(post.id);
+                renderPost(post, postCardsDiv);
+            }
+        })
+    }
+    console.log("-----");
+    
+    return;
+});
+
+postSortStartDate.addEventListener("click", () => {
+    if (!postSortStartDate.className.includes('active')) {
+        postSortRecent.className = "btn";
+        postSortOldest.className = "btn";
+        postSortTitle.className = "btn";
+        postSortStartDate.className = "btn active";
+        postSortEndDate.className = "btn";
+        postSortCatSearch.className = "btn";
+        postSortCatGive.className = "btn";
+        postSortCatShare.className = "btn";
+
+        postCardsDiv.innerHTML = "";
+
+        fetchPosts("start date")
+        .then((response) =>{
+            // for (const post of approvedPosts) {
+                for (const post of response) {
+                    console.log(post.id);
+                    renderPost(post, postCardsDiv);
+                }
+            })
+        }
+        console.log("-----");
+        
+        return;
+});
+
+postSortEndDate.addEventListener("click", () => {
+    if (!postSortEndDate.className.includes('active')) {
+        postSortRecent.className = "btn";
+        postSortOldest.className = "btn";
+        postSortTitle.className = "btn";
+        postSortStartDate.className = "btn";
+        postSortEndDate.className = "btn active";
+        postSortCatSearch.className = "btn";
+        postSortCatGive.className = "btn";
+        postSortCatShare.className = "btn";
+
+        postCardsDiv.innerHTML = "";
+
+        fetchPosts("end date")
+        .then((response) =>{
+            // for (const post of approvedPosts) {
+                for (const post of response) {
+                    console.log(post.id);
+                    renderPost(post, postCardsDiv);
+                }
+            })
+        }
+        console.log("-----");
+        
+        return;
+});
+
+postSortCatSearch.addEventListener("click", () => {
+    if (!postSortCatSearch.className.includes('active')) {
+        postSortRecent.className = "btn";
+        postSortOldest.className = "btn";
+        postSortTitle.className = "btn";
+        postSortStartDate.className = "btn";
+        postSortEndDate.className = "btn";
+        postSortCatSearch.className = "btn active";
+        postSortCatGive.className = "btn";
+        postSortCatShare.className = "btn";
+
+        postCardsDiv.innerHTML = "";
+
+        fetchPosts("in search of")
+        .then((response) =>{
+            // for (const post of approvedPosts) {
+                for (const post of response) {
+                    console.log(post.id);
+                    renderPost(post, postCardsDiv);
+                }
+            })
+        }
+        console.log("-----");
+        
+        return;
+});
+
+postSortCatGive.addEventListener("click", () => {
+    if (!postSortCatGive.className.includes('active')) {
+        postSortRecent.className = "btn";
+        postSortOldest.className = "btn";
+        postSortTitle.className = "btn";
+        postSortStartDate.className = "btn";
+        postSortEndDate.className = "btn";
+        postSortCatSearch.className = "btn";
+        postSortCatGive.className = "btn active";
+        postSortCatShare.className = "btn";
+
+        postCardsDiv.innerHTML = "";
+
+        fetchPosts("to give away")
+        .then((response) =>{
+            // for (const post of approvedPosts) {
+                for (const post of response) {
+                    console.log(post.id);
+                    renderPost(post, postCardsDiv);
+                }
+            })
+        }
+        console.log("-----");
+        
+        return;
+});
+
+postSortCatShare.addEventListener("click", () => {
+    if (!postSortCatShare.className.includes('active')) {
+        postSortRecent.className = "btn";
+        postSortOldest.className = "btn";
+        postSortTitle.className = "btn";
+        postSortStartDate.className = "btn";
+        postSortEndDate.className = "btn";
+        postSortCatSearch.className = "btn";
+        postSortCatGive.className = "btn";
+        postSortCatShare.className = "btn active";
+
+        postCardsDiv.innerHTML = "";
+
+        fetchPosts("to give away")
+        .then((response) =>{
+            // for (const post of approvedPosts) {
+                for (const post of response) {
+                    console.log(post.id);
+                    renderPost(post, postCardsDiv);
+                }
+            })
+        }
+        console.log("-----");
+        
+        return;
+});

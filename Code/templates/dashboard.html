@@ -81,7 +81,10 @@
                     <button class="btn" id="id">Oldest</button>
                     <button class="btn" id="title">title (asc)</button>
                     <button class="btn" id="start-date">start date (asc)</button>
-                    <button class="btn" id="end-date">end date (desc)</button>
+                    <button class="btn" id="end-date">end date (asc)</button>
+                    <button class="btn" id="category-search">in search of category (desc)</button>
+                    <button class="btn" id="category-give">to give away category (desc)</button>
+                    <button class="btn" id="category-share">something to share category (desc)</button>
                 </div>
 
                 <div class="post-cards"></div>
@@ -325,35 +328,10 @@
                 }
 
                 p.label {
-                    color: #322d29
+                    color: #322d29;
+                    text-transform: capitalize;
                 }
-
-                div.button-div.close {
-                    position: absolute;
-                    top: 0;
-                    right: 0;
-
-                    transform: translate(30px, -40px);
-
-                    button.btn.close {
-                        text-align: center;
-                        font-weight: 700;
-                        height: 50px;
-                        width: 50px;
-                        border-radius: 50%;
-                        border: none;
-                        margin: 0;
-
-                        background-color: #425747;
-                        color: #f6f5f4;
-                    }
-
-                    .btn.close:hover {
-                        background-color: #c3ccc5;
-                        color: #322d29;
-                    }
-                }
-
+                
                 div.card-contents{
                     display: flex;
                     gap: 20px;
@@ -364,10 +342,10 @@
                         background-size: contain;
                         background-repeat: no-repeat;
                     }
-
+                    
                     div.text-content {
                         width: 75%;
-
+                        
                         div.post-details {
                             display: flex;
                             gap: 10px;
@@ -375,6 +353,7 @@
                             align-items: center;
                             
                             p.content-type {
+                                text-transform: capitalize;
                                 font-weight: 700;
                                 padding: 4px 10px;
                                 border-radius: 10px;
@@ -463,13 +442,6 @@
         </style>
 
         <article class="post-card">
-            <div class="button-div close">
-                <button class="btn close" id="close">
-                    X
-                </button>
-            </div>
-
-            
             <div class="card-contents">
                 <div class="image"></div>
                 
@@ -487,6 +459,15 @@
                                 Duration:
                             </p>
                             <p class="duration">
+                                time line
+                            </p>
+                        </div>
+                        
+                        <div class="detail">
+                            <p class="label">
+                                Contact Information:
+                            </p>
+                            <p class="contact">
                                 time line
                             </p>
                         </div>

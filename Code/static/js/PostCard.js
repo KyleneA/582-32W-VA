@@ -20,7 +20,7 @@ export class PostCard extends HTMLElement {
     }
 
     get postDetails() {
-        return this._postDetails
+        return this._postDetails;
     }
 
     set isExpanded(value) {
@@ -41,7 +41,66 @@ export class PostCard extends HTMLElement {
         const card = this.shadowRoot;
         const post = this.postDetails;
 
+        const tag = card.querySelector("div.post-details p.content-type");
+        tag.textContent = post.category;
         
+        // options: "to give away", "in search of", "something to share"
+        if (post.category === "to give away") {
+            tag.style.backgroundColor = "#003CA3";
+        }
+
+        if (post.category === "in search of") {
+            tag.style.backgroundColor = "#008048";
+        }
+
+        if (post.category === "something to share") {
+            tag.style.backgroundColor = "#A36300";
+        }
+
+        card.querySelector("div.post-details p.content-date").textContent = post.createdAt;
+
+        card.querySelector(".title").textContent = post.title;
+
+        card.querySelector("div.details-div div.detail p.duration").textContent = post.duration;
+
+        card.querySelector("div.details-div div.detail p.contact").textContent = post.contactInfo;
+
+        const body = card.querySelector("div.body-div p.body");
+        body.textContent = post.body;
+
+        const image = card.querySelector("div.image");
+        const textContentDiv = card.querySelector("div.text-content");
+        if (!post.imageURL) {
+            image.style.display = "none";
+            textContentDiv.style.width = "100%";
+        }
+
+        else {
+            image.style.backgroundImage = post.urlImageString;
+        }
+
+        const expandBtn = card.querySelector("button.btn.expand")
+        const cardContents = card.querySelector(".card-contents");
+
+        expandBtn.addEventListener("click", () => {
+            if (!this.isExpanded) {
+                body.className = "body expanded";
+                cardContents.className = "card-contents expanded";
+                expandBtn.textContent = "Minimize";
+                
+                this.isExpanded = true;
+                return;
+            }
+            
+            if (this.isExpanded) {
+                body.className = "body";
+                cardContents.className = "card-contents";
+                expandBtn.textContent = "See details";
+                
+                this.isExpanded = false;
+                return;
+            }
+        });
     }
 }
 

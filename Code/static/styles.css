@@ -179,6 +179,8 @@ h2 {
 
         display: flex;
         justify-content: space-between;
+        gap: 20px;
+        flex-wrap: wrap;
     
         /* article {
             margin-bottom: 30px;
@@ -317,6 +319,11 @@ section.dashboard {
         gap: 20px;
         
         div.sorting-btns {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            
+
             button.btn {
                 background-color: transparent;
                 color: var(--text-subtle);
@@ -334,11 +341,11 @@ section.dashboard {
             }
         }
         
-        /* div.post-cards {
+        div.post-cards {
             display: flex;
             flex-direction: column;
             gap: 20px;
-        } */
+        }
     }
 }
 

@@ -1,6 +1,8 @@
 import Admin from "./Admin.js";
 import Announcement from "./Announcement.js";
 import { AnnouncementCard } from "./AnnouncementCard.js";
+import Post from "./Post.js";
+import { PostCard } from "./PostCard.js";
 
 export function renderAdmins(response, adminList) {
     adminList.innerHTML = "";
@@ -42,4 +44,11 @@ export function renderAnnouncements(response, cardsDiv) {
         
         cardsDiv.appendChild(announcementCard);
     }
+}
+
+export function renderPost(post, cardsDiv) {
+    const postCard = document.createElement('post-card');
+    postCard.postDetails = Post.fromObject(post);
+    
+    cardsDiv.appendChild(postCard);
 }

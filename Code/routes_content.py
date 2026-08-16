@@ -79,7 +79,7 @@ def post_add():
         category = request.form['category']
         contact_method = request.form['contact-method']
         contact = request.form["contact"].strip()
-        contact_info = f"{contact_method}: {contact}"
+        contact_info = f"{contact_method}: {contact}" if contact else contact_method
         start_date = request.form["start-date"]
         end_date = request.form["end-date"]
         image_url = request.form["image"]

@@ -74,14 +74,14 @@ export default class Post {
         const status = obj.status || undefined;
         const authorId = obj.authorId || undefined;
         const category = obj.category || undefined;
-        const isApproved = obj.isApproved || undefined;
+        const isApproved = obj.isApproved ? obj.isApproved === true : false;
         const contactInfo = obj.contactInfo || "";
         const startDate = obj.startDate || "";
         const endDate = obj.endDate || "";
         const imageURL = obj.imageURL || "";        
         
-        if (!id || !title || !body || !createdAt || !status || !authorId || !category || !isApproved ) {
-            throw new Error("Announcement instance was not created. Invalid data.")
+        if (!id || !title || !body || !createdAt || !status || !authorId || !category || typeof(isApproved) !== "boolean" ) {
+            throw new Error("Post instance was not created. Invalid data.")
         }
 
         return new this(id, title, body, createdAt, status, authorId, category, isApproved, contactInfo, startDate, endDate, imageURL);
