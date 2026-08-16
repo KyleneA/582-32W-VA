@@ -70,6 +70,7 @@ Required Deliverables:
 ## Thursday-Sunday, Aug 06-09 2026
 ### Tasks done today
 - Created and tested post creation route
+- Worked on first login flow logic
 
 ### What is blocking me?
 - currently thinking that I can add has logged in column to the users page that would direct new users to reset password upon first login
