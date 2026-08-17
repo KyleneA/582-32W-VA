@@ -52,3 +52,12 @@ export function renderPost(post, cardsDiv) {
     
     cardsDiv.appendChild(postCard);
 }
+
+export function changeSortBtn(btnsDiv, clickedBtn) {
+    for (const btn of btnsDiv.childNodes) {
+        btn.className = "btn";
+    }
+
+    clickedBtn.className = "btn active";
+    return;
+}

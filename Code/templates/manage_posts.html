@@ -7,12 +7,75 @@
     {% endblock %}
 
     {% block content %}
-    <section class="post">
+    <section class="quick-access">
         <div class="container">
-            
+            <div class="button-div">
+                {% if not current_user.is_admin() %}
+                <a 
+                href="{{ url_for('content.post_add') }}" 
+                class="btn"
+                >
+                    Create new post
+                </a>
+                {% endif %}
+            </div>
         </div>
     </section>
+
+    <section class="posts">
+        <div class="container">
+            <div class="display-btns">
+                <button class="btn active" id="btn-pending">
+                    Pending posts
+                </button>
+
+                <button class="btn" id="btn-approved">
+                    Approved Posts
+                </button>
+
+                <button class="btn" id="btn-rejected">
+                    rejected Posts
+                </button>
+
+                
+                {% if not current_user.is_admin() %}
+                <button class="btn" id="btn-archived">
+                    Archived Posts
+                </button>
+                {% endif %}
+            </div>
+
+            {% if current_user.is_admin() %}
+            <div class="pending-posts">
+
+            </div>
+
+            {% else %}
+            <div class="user-posts-div">
+                <div class="sorting-btns">
+                    <button class="btn active" id="recent">Recent</button>
+                    <button class="btn" id="id">Oldest</button>
+                    <button class="btn" id="title">title (asc)</button>
+                    <button class="btn" id="start-date">start date (asc)</button>
+                    <button class="btn" id="end-date">end date (asc)</button>
+                    <button class="btn" id="category-search">in search of category (desc)</button>
+                    <button class="btn" id="category-give">to give away category (desc)</button>
+                    <button class="btn" id="category-share">something to share category (desc)</button>
+                </div>
+
+                <div class="user-posts"></div>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <template id="template-post">
+        {% import 'components.html' as components %}
+        {{ components.style('post') }}
+        {{ components.card('post', label_1='author', label_2='duration', label_3='contact') }}
+    </template>
     {% endblock %}
     
     {% block script %}
+    <script type="module" src="{{ url_for('static', filename='js/managePosts.js') }}"></script>
     {% endblock %}

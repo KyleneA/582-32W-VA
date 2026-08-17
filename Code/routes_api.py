@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify
-from flask_login import login_required
+from flask_login import login_required, current_user
 
 from models import db, User, Admin, Resident, Announcement, Post, BuildingInfo, Guideline
 from sqlalchemy import desc, nullslast, nullsfirst
@@ -87,6 +87,43 @@ def get_posts(sort_type):
 
     if sort_type == "something-to-share":
         posts = Post.query.filter_by(category="something to share").order_by(Post.id.desc()).all()
+
+
+    return jsonify([content.to_dict() for content in posts])
+
+@api.route("/api/content/post/<string:sort_type>/user", methods=["GET"])
+@login_required
+def get_user_posts(sort_type):
+    sort_options = ["oldest", "title", "start-date", "end-date", "recent", "to-give-away", "in-search-of", "something-to-share"]
+
+    if not sort_type in sort_options:
+        raise ValueError("Invalid sort type")
+    
+    user_id = current_user.id
+    
+    if sort_type == "oldest":
+        posts = Post.query.filter_by(author_id=user_id).order_by(Post.id).all()
+
+    if sort_type == "title":
+        posts = Post.query.filter_by(author_id=user_id).order_by(Post.title).all()
+
+    if sort_type == "start-date":
+        posts = Post.query.filter_by(author_id=user_id).order_by(nullsfirst(Post.start_date)).all()
+
+    if sort_type == "end-date":
+        posts = Post.query.filter_by(author_id=user_id).order_by(nullslast(Post.end_date.desc())).all()
+
+    if sort_type == "recent":
+        posts = Post.query.filter_by(author_id=user_id).order_by(Post.id.desc()).all()
+
+    if sort_type == "to-give-away":
+        posts = Post.query.filter_by(author_id=user_id, category="to give away").order_by(Post.id.desc()).all()
+
+    if sort_type == "in-search-of":
+        posts = Post.query.filter_by(author_id=user_id, category="in search of").order_by(Post.id.desc()).all()
+
+    if sort_type == "something-to-share":
+        posts = Post.query.filter_by(author_id=user_id, category="something to share").order_by(Post.id.desc()).all()
 
 
     return jsonify([content.to_dict() for content in posts])

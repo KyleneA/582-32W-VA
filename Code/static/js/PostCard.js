@@ -61,6 +61,8 @@ export class PostCard extends HTMLElement {
 
         card.querySelector(".title").textContent = post.title;
 
+        card.querySelector("div.details-div div.detail p.author").textContent = post.authorDisplayName;
+
         card.querySelector("div.details-div div.detail p.duration").textContent = post.duration;
 
         card.querySelector("div.details-div div.detail p.contact").textContent = post.contactInfo;

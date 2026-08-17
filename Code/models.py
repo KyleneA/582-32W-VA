@@ -268,6 +268,7 @@ class Post(Content, db.Model):
             "createdAt": self.created_at,
             "status": self.status,
             "authorId": self.author_id,
+            "author": self.resident.name,
             "category": self.category,
             "isApproved": self.is_approved,
             "contactInfo": self.contact_info,

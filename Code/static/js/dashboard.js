@@ -4,7 +4,7 @@ import Announcement from "./Announcement.js";
 import { AnnouncementCard } from "./AnnouncementCard.js";
 import Post from "./Post.js";
 import { PostCard } from "./PostCard.js";
-import { renderAnnouncements, renderPost } from "./ui.js";
+import { renderAnnouncements, renderPost, changeSortBtn } from "./ui.js";
 
 // IMMEDIATE ANNOUNCEMENT SECTION
 const immediateAnnouncements = document.querySelector("section.immediate-announcements div.container");
@@ -160,15 +160,19 @@ fetchPosts("recent")
     
     if (approvedPosts.length === 0) {
         postCardsDiv.textContent = "There are currently no posts."
+
+        return;
     }
     
     // for (const post of approvedPosts) {
         for (const post of response) {
-        renderPost(post, postCardsDiv);
+            renderPost(post, postCardsDiv);
     }
 })
 
 // SORT BUTTONS LOGIC
+const sortBtnsDiv = dashboardPosts.querySelector(".sorting-btns");
+
 const postSortRecent = dashboardPosts.querySelector("#recent");
 const postSortOldest = dashboardPosts.querySelector("#id");
 const postSortTitle = dashboardPosts.querySelector("#title");
@@ -177,18 +181,10 @@ const postSortEndDate = dashboardPosts.querySelector("#end-date");
 const postSortCatSearch = dashboardPosts.querySelector("#category-search");
 const postSortCatGive = dashboardPosts.querySelector("#category-give");
 const postSortCatShare = dashboardPosts.querySelector("#category-share");
-console.log(postSortRecent, postSortOldest, postSortTitle, postSortStartDate, postSortEndDate, postSortCatSearch, postSortCatGive, postSortCatShare);
 
 postSortRecent.addEventListener("click", () => {
     if (!postSortRecent.className.includes('active')) {
-        postSortRecent.className = "btn active";
-        postSortOldest.className = "btn";
-        postSortTitle.className = "btn";
-        postSortStartDate.className = "btn";
-        postSortEndDate.className = "btn";
-        postSortCatSearch.className = "btn";
-        postSortCatGive.className = "btn";
-        postSortCatShare.className = "btn";
+        changeSortBtn(sortBtnsDiv, postSortRecent);
         
         postCardsDiv.innerHTML = "";
 
@@ -196,26 +192,16 @@ postSortRecent.addEventListener("click", () => {
         .then((response) =>{
             // for (const post of approvedPosts) {
                 for (const post of response) {
-                    console.log(post.id);
                     renderPost(post, postCardsDiv);
                 }
             })
-        }
-        console.log("-----");
-        
+        }        
         return;
 });
 
 postSortOldest.addEventListener("click", () => {
     if (!postSortOldest.className.includes('active')) {
-        postSortRecent.className = "btn";
-        postSortOldest.className = "btn active";
-        postSortTitle.className = "btn";
-        postSortStartDate.className = "btn";
-        postSortEndDate.className = "btn";
-        postSortCatSearch.className = "btn";
-        postSortCatGive.className = "btn";
-        postSortCatShare.className = "btn";
+        changeSortBtn(sortBtnsDiv, postSortOldest);
 
         postCardsDiv.innerHTML = "";
 
@@ -223,27 +209,17 @@ postSortOldest.addEventListener("click", () => {
         .then((response) =>{
             // for (const post of approvedPosts) {
                 for (const post of response) {
-                    console.log(post.id);
                     renderPost(post, postCardsDiv);
                 }
             })
-        }
-        console.log("-----");
-        
+        }        
         return;
 });
 
 postSortTitle.addEventListener("click", () => {
     if (!postSortTitle.className.includes('active')) {
-        postSortRecent.className = "btn";
-        postSortOldest.className = "btn";
-        postSortTitle.className = "btn active";
-        postSortStartDate.className = "btn";
-        postSortEndDate.className = "btn";
-        postSortCatSearch.className = "btn";
-        postSortCatGive.className = "btn";
-        postSortCatShare.className = "btn";
-        
+        changeSortBtn(sortBtnsDiv, postSortTitle);
+
         postCardsDiv.innerHTML = "";
 
         fetchPosts("title")
@@ -255,21 +231,13 @@ postSortTitle.addEventListener("click", () => {
             }
         })
     }
-    console.log("-----");
     
     return;
 });
 
 postSortStartDate.addEventListener("click", () => {
     if (!postSortStartDate.className.includes('active')) {
-        postSortRecent.className = "btn";
-        postSortOldest.className = "btn";
-        postSortTitle.className = "btn";
-        postSortStartDate.className = "btn active";
-        postSortEndDate.className = "btn";
-        postSortCatSearch.className = "btn";
-        postSortCatGive.className = "btn";
-        postSortCatShare.className = "btn";
+        changeSortBtn(sortBtnsDiv, postSortStartDate);
 
         postCardsDiv.innerHTML = "";
 
@@ -277,26 +245,16 @@ postSortStartDate.addEventListener("click", () => {
         .then((response) =>{
             // for (const post of approvedPosts) {
                 for (const post of response) {
-                    console.log(post.id);
                     renderPost(post, postCardsDiv);
                 }
             })
-        }
-        console.log("-----");
-        
+        }        
         return;
 });
 
 postSortEndDate.addEventListener("click", () => {
     if (!postSortEndDate.className.includes('active')) {
-        postSortRecent.className = "btn";
-        postSortOldest.className = "btn";
-        postSortTitle.className = "btn";
-        postSortStartDate.className = "btn";
-        postSortEndDate.className = "btn active";
-        postSortCatSearch.className = "btn";
-        postSortCatGive.className = "btn";
-        postSortCatShare.className = "btn";
+        changeSortBtn(sortBtnsDiv, postSortEndDate);
 
         postCardsDiv.innerHTML = "";
 
@@ -304,26 +262,16 @@ postSortEndDate.addEventListener("click", () => {
         .then((response) =>{
             // for (const post of approvedPosts) {
                 for (const post of response) {
-                    console.log(post.id);
                     renderPost(post, postCardsDiv);
                 }
             })
-        }
-        console.log("-----");
-        
+        }        
         return;
 });
 
 postSortCatSearch.addEventListener("click", () => {
     if (!postSortCatSearch.className.includes('active')) {
-        postSortRecent.className = "btn";
-        postSortOldest.className = "btn";
-        postSortTitle.className = "btn";
-        postSortStartDate.className = "btn";
-        postSortEndDate.className = "btn";
-        postSortCatSearch.className = "btn active";
-        postSortCatGive.className = "btn";
-        postSortCatShare.className = "btn";
+        changeSortBtn(sortBtnsDiv, postSortCatSearch);
 
         postCardsDiv.innerHTML = "";
 
@@ -331,26 +279,16 @@ postSortCatSearch.addEventListener("click", () => {
         .then((response) =>{
             // for (const post of approvedPosts) {
                 for (const post of response) {
-                    console.log(post.id);
                     renderPost(post, postCardsDiv);
                 }
             })
-        }
-        console.log("-----");
-        
+        }        
         return;
 });
 
 postSortCatGive.addEventListener("click", () => {
     if (!postSortCatGive.className.includes('active')) {
-        postSortRecent.className = "btn";
-        postSortOldest.className = "btn";
-        postSortTitle.className = "btn";
-        postSortStartDate.className = "btn";
-        postSortEndDate.className = "btn";
-        postSortCatSearch.className = "btn";
-        postSortCatGive.className = "btn active";
-        postSortCatShare.className = "btn";
+        changeSortBtn(sortBtnsDiv, postSortCatGive);
 
         postCardsDiv.innerHTML = "";
 
@@ -358,39 +296,26 @@ postSortCatGive.addEventListener("click", () => {
         .then((response) =>{
             // for (const post of approvedPosts) {
                 for (const post of response) {
-                    console.log(post.id);
                     renderPost(post, postCardsDiv);
                 }
             })
-        }
-        console.log("-----");
-        
+        }        
         return;
 });
 
 postSortCatShare.addEventListener("click", () => {
     if (!postSortCatShare.className.includes('active')) {
-        postSortRecent.className = "btn";
-        postSortOldest.className = "btn";
-        postSortTitle.className = "btn";
-        postSortStartDate.className = "btn";
-        postSortEndDate.className = "btn";
-        postSortCatSearch.className = "btn";
-        postSortCatGive.className = "btn";
-        postSortCatShare.className = "btn active";
+        changeSortBtn(sortBtnsDiv, postSortCatShare);
 
         postCardsDiv.innerHTML = "";
 
-        fetchPosts("to give away")
+        fetchPosts("something to share")
         .then((response) =>{
             // for (const post of approvedPosts) {
                 for (const post of response) {
-                    console.log(post.id);
                     renderPost(post, postCardsDiv);
                 }
             })
-        }
-        console.log("-----");
-        
+        }        
         return;
 });

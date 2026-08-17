@@ -107,9 +107,84 @@ def post_add():
 
         flash("Post has been created", "success")
 
-        return redirect(url_for("dashboard"))
+        return redirect(url_for("content.post_manage"))
     
     return render_template("add_post.html", post_categories=post_categories, contact_types=contact_types)
+
+@content.route("/post/edit/<int:post_id>", methods=["GET", "POST"])
+@login_required
+def post_edit(post_id):
+    if current_user.is_admin():
+        return redirect(url_for('content.post_manage'))
+    
+    post = Post.query.filter_by(id=post_id).first()
+
+    if not post.author_id == current_user.id:
+        return redirect(url_for('content.post_manage'))
+
+    if request.method == "POST":
+        title = request.form["title"].strip().title()
+        body = request.form["body"].strip()
+        category = request.form['category']
+        contact_method = request.form['contact-method']
+        contact = request.form["contact"].strip()
+        contact_info = f"{contact_method}: {contact}" if contact else contact_method
+        start_date = request.form["start-date"]
+        end_date = request.form["end-date"]
+        image_url = request.form["image"]
+
+        title_errors = validate_title(title, "community post")
+        body_errors = validate_body(body, "community post")
+        category_errors = validate_select_options(category, "post category", post_categories)
+        contact_errors = validate_contact(contact_types, contact_method, contact)
+        start_date_errors = validate_date(start_date, is_required=False, input_type="start date")
+        end_date_errors = validate_date(end_date, is_required=False, input_type="end date")
+
+        validation_results = [title_errors, body_errors, category_errors, contact_errors, start_date_errors, end_date_errors]
+
+        errors = check_for_errors(validation_results)
+
+        if errors:
+            flash_errors(errors)
+            
+            return render_template("add_post.html", post_categories=post_categories, contact_types=contact_types, title=title, body=body, category=category, start_date=start_date, end_date=end_date, image=image_url, contact=contact, contact_method=contact_method)
+
+        post.title = title
+        post.body = body
+        # Should edited posts be set to pending again?
+        post.status = "pending"
+        post.category = category
+        post.is_approved = False
+        post.contact_info = contact_info
+        post.start_date = convert_to_date(start_date)
+        post.end_date = convert_to_date(end_date)
+        post.image_url = image_url
+
+        db.session.commit()
+
+        flash("Post has been updated", "success")
+
+        return redirect(url_for("content.post_manage"))
+
+    return render_template("edit_post.html", post=post, post_categories=post_categories, contact_types=contact_types)
+
+@content.route("/post/delete/<int:post_id>", methods=["POST"])
+@login_required
+def post_delete(post_id):
+    if current_user.is_admin():
+        return redirect(url_for('content.post_manage'))
+    
+    post = Post.query.get_or_404(post_id)
+
+    if not post.author_id == current_user.id:
+        return redirect(url_for('content.post_manage'))
+    
+    if request.method == "POST":
+        db.session.delete(post)
+        db.session.commit()
+
+        flash("Post was successfully was deleted", "success")
+        return redirect(url_for("content.post_manage"))
 
 # BUILDING INFORMATION
 @content.route("/building-info/guidelines/edit", methods=["GET", "POST"])

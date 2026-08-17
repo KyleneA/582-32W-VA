@@ -44,3 +44,15 @@ export async function fetchPosts(sortType) {
     
     return await response.json();
 }
+
+export async function fetchUserPosts(sortType) {
+    const cleanSortType = sortType.replaceAll(" ", "-");
+
+    const response = await fetch(`/api/content/post/${cleanSortType}/user`);
+
+    if (!response.ok) {
+        throw new Error(`HTTP Error: ${response.status}`);
+    }
+    
+    return await response.json();
+}

@@ -5,7 +5,8 @@ export default class Post {
         body, 
         createdAt,
         status, 
-        authorId, 
+        authorId,
+        author, 
         category,
         isApproved,
         contactInfo,
@@ -19,6 +20,7 @@ export default class Post {
         this.createdAt = createdAt;
         this.status = status;
         this.authorId = authorId;
+        this.author = author;
         this.category = category;
         this.isApproved = isApproved;
         this.contactInfo = contactInfo;
@@ -62,6 +64,13 @@ export default class Post {
         return `url(${this.imageURL})`;
     }
 
+    get authorDisplayName() {
+        const names = this.author.split(" ");
+        const firstName = names[0];
+        const lastInitial = names.at(-1)[0].toUpperCase();
+        return firstName + lastInitial;
+    }
+
     get classLabel() {
         return `<Announcement | ${this.id}>`
     }
@@ -73,6 +82,7 @@ export default class Post {
         const createdAt = obj.createdAt || undefined;
         const status = obj.status || undefined;
         const authorId = obj.authorId || undefined;
+        const author = obj.author || undefined;
         const category = obj.category || undefined;
         const isApproved = obj.isApproved ? obj.isApproved === true : false;
         const contactInfo = obj.contactInfo || "";
@@ -80,10 +90,10 @@ export default class Post {
         const endDate = obj.endDate || "";
         const imageURL = obj.imageURL || "";        
         
-        if (!id || !title || !body || !createdAt || !status || !authorId || !category || typeof(isApproved) !== "boolean" ) {
+        if (!id || !title || !body || !createdAt || !status || !authorId || !author ||!category || typeof(isApproved) !== "boolean" ) {
             throw new Error("Post instance was not created. Invalid data.")
         }
 
-        return new this(id, title, body, createdAt, status, authorId, category, isApproved, contactInfo, startDate, endDate, imageURL);
+        return new this(id, title, body, createdAt, status, authorId, author,category, isApproved, contactInfo, startDate, endDate, imageURL);
     }
 }
