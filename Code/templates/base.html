@@ -21,7 +21,7 @@
     <header>
         <nav class="navbar">
             <ul>
-                <li> 
+                <li class="logo-li"> 
                     <a 
                     href="{{ url_for('home') }}" 
                     class="btn logo"
@@ -30,25 +30,28 @@
                     </a>
                 </li>
 
-                {% if not current_user.is_authenticated %}
-                <li>
-                    <a 
-                    href="{{ url_for('login') }}" 
-                    class="btn"
-                    >
-                        Login
-                    </a>
-                </li>
-                
-                {% elif current_user.is_authenticated %}
                 <div class="menu">
+                    {% if not current_user.is_authenticated %}
                     <li>
-                        <a 
-                        href="{{ url_for('dashboard') }}" 
-                        class="btn{% if request.endpoint == 'dashboard' %} active {% endif %}"
-                        >
-                            Dashboard
-                        </a>
+                        <button class="btn">
+                            <a 
+                            href="{{ url_for('login') }}" 
+                            class="btn"
+                            >
+                                Login
+                            </a>
+                        </button>
+                    </li>
+                    
+                    {% elif current_user.is_authenticated %}
+                    <li>
+                        <button class="btn{% if request.endpoint == 'dashboard' %} active {% endif %}">
+                            <a 
+                            href="{{ url_for('dashboard') }}" 
+                            >
+                                Dashboard
+                            </a>
+                        </button>
                     </li>
     
                     <li>

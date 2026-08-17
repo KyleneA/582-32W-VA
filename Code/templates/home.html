@@ -21,7 +21,7 @@
         <div class="container">
             {% if current_user.is_authenticated and current_user.is_admin() %}
             <div class="edit-btn">
-                <a href="" class="btn" disabled>
+                <a href="{{ url_for('content.building_info_edit') }}" class="btn" disabled>
                     Edit building information
                 </a>
             </div>

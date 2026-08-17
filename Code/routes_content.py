@@ -201,8 +201,11 @@ def edit_guidelines():
 @login_required
 def building_info_add():
     if not current_user.is_admin():
-        return redirect(url_for("home")) # Change to dashboard
-    
+        return redirect(url_for("home"))
+
+    if BuildingInfo.query.get(1):
+        return redirect(url_for("content.building_info_edit"))
+
     building_hrs = {
         "monday": {
             "is_closed": None,
@@ -325,3 +328,133 @@ def building_info_add():
         return redirect(url_for("home"))
     
     return render_template("add_info.html", building_hrs=building_hrs)
+    
+@content.route("/building-info/edit", methods=["GET", "POST"])
+@login_required
+def building_info_edit():
+    if not current_user.is_admin():
+        return redirect(url_for("home"))
+    
+    info = BuildingInfo.query.get_or_404(1)
+    
+    current_hrs = {
+        "monday": {
+            "is_closed": 'on' if info.monday_hours == "" else None,
+            "opening": info.monday_hours.split(" - ")[0] if not info.monday_hours == "" else '',
+            "closing": info.monday_hours.split(" - ")[1] if not info.monday_hours == "" else ''
+        },
+        "tuesday": {
+            "is_closed": 'on' if info.tuesday_hours == "" else None,
+            "opening": info.tuesday_hours.split(" - ")[0] if not info.tuesday_hours == "" else '',
+            "closing": info.tuesday_hours.split(" - ")[1] if not info.tuesday_hours == "" else ''
+        },
+        "wednesday": {
+            "is_closed": 'on' if info.wednesday_hours == "" else None,
+            "opening": info.wednesday_hours.split(" - ")[0] if not info.wednesday_hours == "" else '',
+            "closing": info.wednesday_hours.split(" - ")[1] if not info.wednesday_hours == "" else ''
+        },
+        "thursday": {
+            "is_closed": 'on' if info.thursday_hours == "" else None,
+            "opening": info.thursday_hours.split(" - ")[0] if not info.thursday_hours == "" else '',
+            "closing": info.thursday_hours.split(" - ")[1] if not info.thursday_hours == "" else ''
+        },
+        "friday": {
+            "is_closed": 'on' if info.friday_hours == "" else None,
+            "opening": info.friday_hours.split(" - ")[0] if not info.friday_hours == "" else '',
+            "closing": info.friday_hours.split(" - ")[1] if not info.friday_hours == "" else ''
+        },
+        "saturday": {
+            "is_closed": 'on' if info.saturday_hours == "" else None,
+            "opening": info.saturday_hours.split(" - ")[0] if not info.saturday_hours == "" else '',
+            "closing": info.saturday_hours.split(" - ")[1] if not info.saturday_hours == "" else ''
+        },
+        "sunday": {
+            "is_closed": 'on' if info.sunday_hours == "" else None,
+            "opening": info.sunday_hours.split(" - ")[0] if not info.sunday_hours == "" else '',
+            "closing": info.sunday_hours.split(" - ")[1] if not info.sunday_hours == "" else ''
+        }
+    }
+    
+    if request.method == "POST":
+        monday = {
+            "is_closed": request.form.get('monday-closed'),
+            "opening": request.form['monday-opening'],
+            "closing": request.form['monday-closing']
+        }
+
+        tuesday = {
+            "is_closed": request.form.get('tuesday-closed'),
+            "opening": request.form['tuesday-opening'],
+            "closing": request.form['tuesday-closing']
+        }
+
+        wednesday = {
+            "is_closed": request.form.get('wednesday-closed'),
+            "opening": request.form['wednesday-opening'],
+            "closing": request.form['wednesday-closing']
+        }
+
+        thursday = {
+            "is_closed": request.form.get('thursday-closed'),
+            "opening": request.form['thursday-opening'],
+            "closing": request.form['thursday-closing']
+        }
+
+        friday = {
+            "is_closed": request.form.get('friday-closed'),
+            "opening": request.form['friday-opening'],
+            "closing": request.form['friday-closing']
+        }
+
+        saturday = {
+            "is_closed": request.form.get('saturday-closed'),
+            "opening": request.form['saturday-opening'],
+            "closing": request.form['saturday-closing']
+        }
+
+        sunday = {
+            "is_closed": request.form.get('sunday-closed'),
+            "opening": request.form['sunday-opening'],
+            "closing": request.form['sunday-closing']
+        }
+
+        room = request.form['room'].strip()
+        address = request.form['address'].strip()
+        city = request.form['city'].strip()
+        province = request.form['province'].strip()
+        postal_code = request.form['postal-code'].strip()
+        phone = request.form['phone'].strip()
+        email = request.form['email'].strip()
+
+        office_hours = {}
+
+        office_hours["monday_hrs"] = f"{monday['opening']} - {monday['closing']}" if not monday["is_closed"] else ''
+        office_hours["tuesday_hrs"] = f"{tuesday['opening']} - {tuesday['closing']}" if not tuesday["is_closed"] else ''
+        office_hours["wednesday_hrs"] = f"{wednesday['opening']} - {wednesday['closing']}" if not wednesday["is_closed"] else ''
+        office_hours["thursday_hrs"] = f"{thursday['opening']} - {thursday['closing']}" if not thursday["is_closed"] else ''
+        office_hours["friday_hrs"] = f"{friday['opening']} - {friday['closing']}" if not friday["is_closed"] else ''
+        office_hours["saturday_hrs"] = f"{saturday['opening']} - {saturday['closing']}" if not saturday["is_closed"] else ''
+        office_hours["sunday_hrs"] = f"{sunday['opening']} - {sunday['closing']}" if not sunday["is_closed"] else ''
+
+        info.monday_hours = office_hours.get('monday_hrs')
+        info.tuesday_hours = office_hours.get('tuesday_hrs')
+        info.wednesday_hours = office_hours.get('wednesday_hrs')
+        info.thursday_hours = office_hours.get('thursday_hrs')
+        info.friday_hours = office_hours.get('friday_hrs')
+        info.saturday_hours = office_hours.get('saturday_hrs')
+        info.sunday_hours = office_hours.get('sunday_hrs')
+        info.office_room = room
+        info.street_address = address
+        info.city = city
+        info.province = province
+        info.postal_code = postal_code
+        info.phone = phone
+        info.email = email
+            
+        
+        db.session.commit()
+        flash("Building information was successfully edited", "success")
+
+        return redirect(url_for("home"))
+    
+    return render_template("edit_info.html", building_hrs=current_hrs, room=info.office_room, address=info.street_address, city=info.city, province=info.province, postal_code=info.postal_code, phone=info.phone, email=info.email)

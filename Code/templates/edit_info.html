@@ -1,9 +1,16 @@
 {% extends "base.html" %} 
-    {% block title %} Add Building Information | XYZ Apartment {% endblock %} 
+    {% block title %} Edit Building Information | XYZ Apartment {% endblock %} 
+    
+    {% block banner %}
+    <h1>
+        Edit Building Information
+    </h1>
+    {% endblock %}
     
     {% block content %}
-    <section class="add-info">
+    <section class="edit-info">
         <div class="container">
+
             <form  method="POST">
                 <div class="office-hrs">
                     <h2>Building Office Hours</h2>
