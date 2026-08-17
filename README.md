@@ -61,22 +61,36 @@ Deliverables:
 ADMIN
 ```
 Apartment Website
+    ├── Login (Unauthenticated)
     ├── Home (Unauthenticated and Authenticated)
-    └── Dashboard (Authenticated)
-        ├── Create_announcement (Authenticated)
-        ├── Edit_announcement (Authenticated)
-        ├── Delete_announcement (Authenticated)
-        ├── Create_building_info (Authenticated)
-        ├── Edit_building_info (Authenticated)
-        └── Manage_posts (Authenticated)
+    |    ├── Create_building_info (Authenticated)
+    |    └── Edit_building_info (Authenticated)
+    ├── Dashboard (Authenticated)
+    |    ├── Manage_posts (Authenticated)
+    |    └── Manage_announcements (Authenticated)
+    |        ├── Create_announcement (Authenticated)
+    |        ├── Edit_announcement (Authenticated)
+    |        └── Delete_announcement (Authenticated)
+    └── API
+        ├── get_admins (Authenticated)
+        ├── get_residents (Authenticated)
+        ├── get_announcements (Authenticated)
+        ├── get_posts (Authenticated)
+        └── get_user_posts (Authenticated)
 ```
 
 Resident
 ```
 Apartment Website
+    ├── Login (Unauthenticated)
     ├── Home (Unauthenticated and Authenticated)
-    └── Dashboard (Authenticated)
-        ├── Create_post (Authenticated)
-        ├── Edit_post (Authenticated)
-        └── Delete_post (Authenticated)
+    ├── Dashboard (Authenticated)
+    |    └── Manage_posts (Authenticated)
+    |        ├── Create_post (Authenticated)
+    |        ├── Edit_post (Authenticated)
+    |        └── Delete_post (Authenticated)
+    └── API
+        ├── get_announcements (Authenticated)
+        ├── get_posts (Authenticated)
+        └── get_user_posts (Authenticated)
 ```
