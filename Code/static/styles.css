@@ -373,7 +373,7 @@ form {
             }
         }
         
-        div.info.three {
+        div.info.col-3 {
             div.input-div {
                 width: calc(33% - 10px);
             }
