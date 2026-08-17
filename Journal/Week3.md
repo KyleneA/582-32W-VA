@@ -71,7 +71,9 @@
 - created flow for initial set up (ex: after forking repo) => create admin user -> login -> reset password -> set building information
 - improving announcement display flow
 - created and implemented display of post custom element using Post class
-- 
+- created base med-fidelity design for manage announcement page to guide process
+- created macros for announcement and post templates to be able to used them on manage pages
+- finished resident view of manage pages
 
 ### What is blocking me?
 - I was having trouble trying to figure out which element I should be looking at to determine if the section is empty because I slipped my mind that the setting display none doesn't removed the element from the node.
@@ -83,3 +85,4 @@
 - [ ] manage announcements
 - [ ] add buttons to edit/delete admins in manage users
 - [ ] add residents display with edit/delete in manage users
+- [ ] decide if edited posts should be set to pending again
