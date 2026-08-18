@@ -60,11 +60,9 @@ def announcement_add():
     return render_template("add_announcement.html", area_options=area_options, urgency_options=urgency_options)
 
 # POSTS
-@content.route("/post", methods=["GET", "POST"])
+@content.route("/post", methods=["GET"])
 @login_required
 def post_manage():
-    ...
-
     return render_template("manage_posts.html")
 
 @content.route("/post/add", methods=["GET", "POST"])
@@ -185,6 +183,56 @@ def post_delete(post_id):
 
         flash("Post was successfully was deleted", "success")
         return redirect(url_for("content.post_manage"))
+
+@content.route("/post/<string:update_status>/<int:post_id>", methods=["POST"])
+@login_required
+def post_status(post_id, update_status):
+    post = Post.query.get_or_404(post_id)
+    status = update_status
+    
+    if current_user.is_admin():
+        if request.method == "POST" and status == 'approve':
+            post.status = 'approved'
+            post.approve_post()
+
+            db.session.commit()
+
+            flash("Post was successfully was approved", "success")
+            return redirect(url_for("content.post_manage"))
+        
+        if request.method == "POST" and status == 'reject':
+            post.status = 'rejected'
+            post.unapprove_post()
+
+            db.session.commit()
+
+            flash("Post was successfully was rejected", "success")
+            return redirect(url_for("content.post_manage"))
+        
+        if request.method == "POST" and status == 'archive':
+            post.status = 'archived'
+            post.unapprove_post()
+
+            db.session.commit()
+
+            flash("Post was successfully was moved to user's archives", "success")
+            return redirect(url_for("content.post_manage"))
+        
+        return redirect(url_for("content.post_manage"))
+
+
+    if not current_user.is_admin():
+        if not post.author_id == current_user.id:
+            return redirect(url_for('content.post_manage'))
+        
+        if request.method == "POST" and status == 'archive':
+            post.status = 'archived'
+            post.unapprove_post()
+
+            db.session.commit()
+
+            flash("Post was successfully was archived", "success")
+            return redirect(url_for("content.post_manage"))
 
 # BUILDING INFORMATION
 @content.route("/building-info/guidelines/edit", methods=["GET", "POST"])

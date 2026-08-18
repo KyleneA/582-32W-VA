@@ -280,6 +280,9 @@ class Post(Content, db.Model):
     def approve_post(self):
         self.is_approved = True
 
+    def unapprove_post(self):
+        self.is_approved = False
+
 class BuildingInfo(db.Model):
     __tablename__ = "building_info"
 

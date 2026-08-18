@@ -1,5 +1,5 @@
-import { fetchUserPosts } from "./api.js";
-import { changeSortBtn, renderPost } from "./ui.js";
+import { fetchUserPosts, fetchPosts } from "./api.js";
+import { changeSortBtn, renderPost, renderManagePostCard } from "./ui.js";
 
 // 3 fetches: pending, approved, rejected, & archived
 // in each fetch sort buttons (need to provide inputs for post status displaying)
@@ -10,42 +10,11 @@ const userPosts = userPostsDiv.querySelector(".user-posts");
 
 let postStatusDisplayed = "pending";
 
-fetchUserPosts("recent")
+let posts = userPosts.className.includes('resident') ? fetchUserPosts('recent') : fetchPosts('recent');
+
+posts
 .then((response) => {
-    const postsWithStatus = response.filter((post) => post.status === postStatusDisplayed);
-    
-    if (postsWithStatus.length === 0) {
-        userPosts.textContent = `There are currently no ${postStatusDisplayed} posts.`;
-        
-        return;
-    }
-    
-    for (const post of postsWithStatus) {
-        const cardBtnsDiv = document.createElement('div');
-        cardBtnsDiv.className = 'card-btns';
-
-        const manageBtnsDiv = document.createElement('div');
-        manageBtnsDiv.className = "button-div"
-        cardBtnsDiv.appendChild(manageBtnsDiv);
-        
-        const editBtn = document.createElement('a');
-        editBtn.className = "btn edit";
-        editBtn.textContent = "edit post"
-        editBtn.href = `/post/edit/${post.id}`;
-        manageBtnsDiv.appendChild(editBtn);
-        
-        const deleteForm = document.createElement('form');
-        deleteForm.innerHTML = `<form>
-        <button class="btn delete" type="submit">delete post</button>
-        </form>`;
-        deleteForm.action = `/post/delete/${post.id}`;
-        deleteForm.method = "POST";
-        manageBtnsDiv.appendChild(deleteForm);
-        
-        renderPost(post, cardBtnsDiv);
-
-        userPosts.appendChild(cardBtnsDiv);
-    }
+    renderManagePostCard(response, postStatusDisplayed, userPosts);
 })
 
 // DISPLAY BUTTONS
@@ -63,20 +32,9 @@ pendingDisplayBtn.addEventListener("click", () => {
 
         postStatusDisplayed = "pending";
 
-        fetchUserPosts("recent")
+        posts
         .then((response) => {
-            const postsWithStatus = response.filter((post) => post.status === postStatusDisplayed);
-            
-    
-            if (postsWithStatus.length === 0) {
-                userPosts.textContent = `There are currently no ${postStatusDisplayed} posts.`;
-                
-                return;
-            }
-        
-            for (const post of postsWithStatus) {
-                renderPost(post, userPosts);
-            }
+            renderManagePostCard(response, postStatusDisplayed, userPosts);
         })
     }
 });
@@ -89,20 +47,9 @@ approvedDisplayBtn.addEventListener("click", () => {
 
         postStatusDisplayed = "approved";
         
-        fetchUserPosts("recent")
+        posts
         .then((response) => {
-            const postsWithStatus = response.filter((post) => post.status === postStatusDisplayed);
-            
-    
-            if (postsWithStatus.length === 0) {
-                userPosts.textContent = `There are currently no ${postStatusDisplayed} posts.`;
-                
-                return;
-            }
-        
-            for (const post of postsWithStatus) {
-                renderPost(post, userPosts)
-            }
+            renderManagePostCard(response, postStatusDisplayed, userPosts);
         })
     }
 });
@@ -115,49 +62,29 @@ rejectedDisplayBtn.addEventListener("click", () => {
 
         postStatusDisplayed = "rejected";
         
-        fetchUserPosts("recent")
+        posts
         .then((response) => {
-            const postsWithStatus = response.filter((post) => post.status === postStatusDisplayed);
-            
-    
-            if (postsWithStatus.length === 0) {
-                userPosts.textContent = `There are currently no ${postStatusDisplayed} posts.`;
-                
-                return;
-            }
-        
-            for (const post of postsWithStatus) {
-                renderPost(post, userPosts)
-            }
+            renderManagePostCard(response, postStatusDisplayed, userPosts);
         })
     }
 });
 
 // Archived
-archivedDisplayBtn.addEventListener("click", () => {
-    if (!archivedDisplayBtn.className.includes('active')) {
-        changeSortBtn(displayBtnsDiv, archivedDisplayBtn);
-        userPosts.innerHTML = "";
-
-        postStatusDisplayed = "archived";
-        
-        fetchUserPosts("recent")
-        .then((response) => {
-            const postsWithStatus = response.filter((post) => post.status === postStatusDisplayed);
-            
+if (userPosts.className.includes('resident')) {
+    archivedDisplayBtn.addEventListener("click", () => {
+        if (!archivedDisplayBtn.className.includes('active')) {
+            changeSortBtn(displayBtnsDiv, archivedDisplayBtn);
+            userPosts.innerHTML = "";
     
-            if (postsWithStatus.length === 0) {
-                userPosts.textContent = `There are currently no ${postStatusDisplayed} posts.`;
-                
-                return;
-            }
-        
-            for (const post of postsWithStatus) {
-                renderPost(post, userPosts)
-            }
-        })
-    }
-});
+            postStatusDisplayed = "archived";
+            
+            posts
+            .then((response) => {
+                renderManagePostCard(response, postStatusDisplayed, userPosts);
+            })
+        }
+    });
+}
 
 
 // Sorting btns
@@ -176,19 +103,11 @@ postSortRecent.addEventListener("click", () => {
         
         userPosts.innerHTML = "";
 
-        fetchUserPosts("recent")
+        posts = userPosts.className.includes('resident') ? fetchUserPosts('recent') : fetchPosts('recent');
+
+        posts
         .then((response) =>{
-            const postsWithStatus = response.filter((post) => post.status === postStatusDisplayed);
-
-            if (postsWithStatus.length === 0) {
-                userPosts.textContent = `There are currently no ${postStatusDisplayed} posts.`;
-        
-                return;
-            }
-
-            for (const post of postsWithStatus) {
-                renderPost(post, userPosts);
-            }
+            renderManagePostCard(response, postStatusDisplayed, userPosts);
         })
     }
     
@@ -201,19 +120,11 @@ postSortOldest.addEventListener("click", () => {
 
         userPosts.innerHTML = "";
 
-        fetchUserPosts("oldest")
+        posts = userPosts.className.includes('resident') ? fetchUserPosts('oldest') : fetchPosts('oldest');
+
+        posts
         .then((response) =>{
-            const postsWithStatus = response.filter((post) => post.status === postStatusDisplayed);
-
-            if (postsWithStatus.length === 0) {
-                userPosts.textContent = `There are currently no ${postStatusDisplayed} posts.`;
-        
-                return;
-            }
-
-            for (const post of postsWithStatus) {
-                renderPost(post, userPosts);
-            }
+            renderManagePostCard(response, postStatusDisplayed, userPosts);
         })
     }
 
@@ -226,19 +137,11 @@ postSortTitle.addEventListener("click", () => {
 
         userPosts.innerHTML = "";
 
-        fetchUserPosts("title")
+        posts = userPosts.className.includes('resident') ? fetchUserPosts('title') : fetchPosts('title');
+
+        posts
         .then((response) =>{
-            const postsWithStatus = response.filter((post) => post.status === postStatusDisplayed);
-
-            if (postsWithStatus.length === 0) {
-                userPosts.textContent = `There are currently no ${postStatusDisplayed} posts.`;
-        
-                return;
-            }
-
-            for (const post of postsWithStatus) {
-                renderPost(post, userPosts);
-            }
+            renderManagePostCard(response, postStatusDisplayed, userPosts);
         })
     }
 
@@ -251,19 +154,11 @@ postSortStartDate.addEventListener("click", () => {
 
         userPosts.innerHTML = "";
 
-        fetchUserPosts("start date")
+        posts = userPosts.className.includes('resident') ? fetchUserPosts('start date') : fetchPosts('start date');
+
+        posts
         .then((response) =>{
-            const postsWithStatus = response.filter((post) => post.status === postStatusDisplayed);
-
-            if (postsWithStatus.length === 0) {
-                userPosts.textContent = `There are currently no ${postStatusDisplayed} posts.`;
-        
-                return;
-            }
-
-            for (const post of postsWithStatus) {
-                renderPost(post, userPosts);
-            }
+            renderManagePostCard(response, postStatusDisplayed, userPosts);
         })
     }
 
@@ -276,19 +171,11 @@ postSortEndDate.addEventListener("click", () => {
 
         userPosts.innerHTML = "";
 
-        fetchUserPosts("end date")
-        .then((response) =>{
-            const postsWithStatus = response.filter((post) => post.status === postStatusDisplayed);
-
-            if (postsWithStatus.length === 0) {
-                userPosts.textContent = `There are currently no ${postStatusDisplayed} posts.`;
+        posts = userPosts.className.includes('resident') ? fetchUserPosts('end date') : fetchPosts('end date');
         
-                return;
-            }
-
-            for (const post of postsWithStatus) {
-                renderPost(post, userPosts);
-            }
+        posts
+        .then((response) =>{
+            renderManagePostCard(response, postStatusDisplayed, userPosts);
         })
     }
     
@@ -301,20 +188,12 @@ postSortCatSearch.addEventListener("click", () => {
 
         userPosts.innerHTML = "";
 
-        fetchUserPosts("in search of")
+        posts = userPosts.className.includes('resident') ? fetchUserPosts('in search of') : fetchPosts('in search of');
+
+        posts
         .then((response) =>{
-            const postsWithStatus = response.filter((post) => post.status === postStatusDisplayed);
-
-            if (postsWithStatus.length === 0) {
-                userPosts.textContent = `There are currently no ${postStatusDisplayed} posts with the category "In Search Of".`;
-        
-                return;
-            }
-
-            for (const post of postsWithStatus) {
-                renderPost(post, userPosts);
-            }
-            })
+            renderManagePostCard(response, postStatusDisplayed, userPosts);
+        })
     }
 
     return;
@@ -326,20 +205,12 @@ postSortCatGive.addEventListener("click", () => {
 
         userPosts.innerHTML = "";
 
-        fetchUserPosts("to give away")
+        posts = userPosts.className.includes('resident') ? fetchUserPosts('to give away') : fetchPosts('to give away');
+
+        posts
         .then((response) =>{
-            const postsWithStatus = response.filter((post) => post.status === postStatusDisplayed);
-
-            if (postsWithStatus.length === 0) {
-                userPosts.textContent = `There are currently no ${postStatusDisplayed} posts with the category "To Give Away".`;
-        
-                return;
-            }
-
-                for (const post of postsWithStatus) {
-                    renderPost(post, userPosts);
-                }
-            })
+            renderManagePostCard(response, postStatusDisplayed, userPosts);
+        })
     }      
     
     return;
@@ -351,19 +222,11 @@ postSortCatShare.addEventListener("click", () => {
 
         userPosts.innerHTML = "";
 
-        fetchUserPosts("something to share")
+        posts = userPosts.className.includes('resident') ? fetchUserPosts('something to share') : fetchPosts('something to share');
+
+        posts
         .then((response) => {
-            const postsWithStatus = response.filter((post) => post.status === postStatusDisplayed);
-
-            if (postsWithStatus.length === 0) {
-                userPosts.textContent = `There are currently no ${postStatusDisplayed} posts with the category "Something to Share".`;
-        
-                return;
-            }
-
-            for (const post of postsWithStatus) {
-                renderPost(post, userPosts);
-            }
+            renderManagePostCard(response, postStatusDisplayed, userPosts);
         })
     } 
         

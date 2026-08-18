@@ -719,22 +719,32 @@ section.posts {
                         color: var(--on-secondary-light-accent);
                     }
 
+                    .btn.archive:hover,
                     .btn.delete:hover {
                         background-color: transparent;
                         color: var(--secondary-color);
                     }
 
+                    .btn.approve,
                     .btn.edit {
                         background-color: var(--secondary-color);
                         color: var(--on-secondary);
                         border-radius: var(--radius) 0 0 0;
                     }
                     
+                    .btn.reject,
+                    .btn.archive,
                     .btn.delete {
                         background-color: var(--secondary-light);
                         color: var(--text-mid);
                         height: 100%;
                         border-radius: 0 var(--radius) 0 0;
+                    }
+
+                    .btn.archive {
+                        border-radius: 0;
+                        border-left: 0;
+                        border-right: 0;
                     }
                 }
             }

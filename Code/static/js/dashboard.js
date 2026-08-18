@@ -157,6 +157,7 @@ fetchPosts("recent")
     postCardsDiv.innerHTML = "";
     
     const approvedPosts = response.filter((post) => post.isApproved);
+    console.log(approvedPosts.length);
     
     if (approvedPosts.length === 0) {
         postCardsDiv.textContent = "There are currently no posts."
@@ -164,8 +165,7 @@ fetchPosts("recent")
         return;
     }
     
-    // for (const post of approvedPosts) {
-        for (const post of response) {
+    for (const post of approvedPosts) {
             renderPost(post, postCardsDiv);
     }
 })
@@ -190,13 +190,12 @@ postSortRecent.addEventListener("click", () => {
 
         fetchPosts("recent")
         .then((response) =>{
-            // for (const post of approvedPosts) {
-                for (const post of response) {
-                    renderPost(post, postCardsDiv);
-                }
-            })
-        }        
-        return;
+            for (const post of approvedPosts) {
+                renderPost(post, postCardsDiv);
+            }
+        })
+    }        
+    return;
 });
 
 postSortOldest.addEventListener("click", () => {
@@ -207,13 +206,12 @@ postSortOldest.addEventListener("click", () => {
 
         fetchPosts("oldest")
         .then((response) =>{
-            // for (const post of approvedPosts) {
-                for (const post of response) {
-                    renderPost(post, postCardsDiv);
-                }
-            })
-        }        
-        return;
+            for (const post of approvedPosts) {
+                renderPost(post, postCardsDiv);
+            }
+        })
+    }        
+    return;
 });
 
 postSortTitle.addEventListener("click", () => {
@@ -224,9 +222,7 @@ postSortTitle.addEventListener("click", () => {
 
         fetchPosts("title")
         .then((response) =>{
-            // for (const post of approvedPosts) {
-            for (const post of response) {
-                console.log(post.id);
+            for (const post of approvedPosts) {
                 renderPost(post, postCardsDiv);
             }
         })
@@ -243,13 +239,12 @@ postSortStartDate.addEventListener("click", () => {
 
         fetchPosts("start date")
         .then((response) =>{
-            // for (const post of approvedPosts) {
-                for (const post of response) {
-                    renderPost(post, postCardsDiv);
-                }
-            })
-        }        
-        return;
+            for (const post of approvedPosts) {
+                renderPost(post, postCardsDiv);
+            }
+        })
+    }        
+    return;
 });
 
 postSortEndDate.addEventListener("click", () => {
@@ -260,13 +255,12 @@ postSortEndDate.addEventListener("click", () => {
 
         fetchPosts("end date")
         .then((response) =>{
-            // for (const post of approvedPosts) {
-                for (const post of response) {
-                    renderPost(post, postCardsDiv);
-                }
-            })
-        }        
-        return;
+            for (const post of approvedPosts) {
+                renderPost(post, postCardsDiv);
+            }
+        })
+    }        
+    return;
 });
 
 postSortCatSearch.addEventListener("click", () => {
@@ -277,13 +271,12 @@ postSortCatSearch.addEventListener("click", () => {
 
         fetchPosts("in search of")
         .then((response) =>{
-            // for (const post of approvedPosts) {
-                for (const post of response) {
-                    renderPost(post, postCardsDiv);
-                }
-            })
-        }        
-        return;
+            for (const post of approvedPosts) {
+                renderPost(post, postCardsDiv);
+            }
+        })
+    }        
+    return;
 });
 
 postSortCatGive.addEventListener("click", () => {
@@ -294,13 +287,12 @@ postSortCatGive.addEventListener("click", () => {
 
         fetchPosts("to give away")
         .then((response) =>{
-            // for (const post of approvedPosts) {
-                for (const post of response) {
-                    renderPost(post, postCardsDiv);
-                }
-            })
-        }        
-        return;
+            for (const post of approvedPosts) {
+                renderPost(post, postCardsDiv);
+            }
+        })
+    }        
+    return;
 });
 
 postSortCatShare.addEventListener("click", () => {
@@ -311,11 +303,10 @@ postSortCatShare.addEventListener("click", () => {
 
         fetchPosts("something to share")
         .then((response) =>{
-            // for (const post of approvedPosts) {
-                for (const post of response) {
-                    renderPost(post, postCardsDiv);
-                }
-            })
-        }        
-        return;
+            for (const post of approvedPosts) {
+                renderPost(post, postCardsDiv);
+            }
+        })
+    }        
+    return;
 });

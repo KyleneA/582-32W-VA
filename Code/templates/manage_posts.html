@@ -7,6 +7,7 @@
     {% endblock %}
 
     {% block content %}
+    {% if not current_user.is_admin() %}
     <section class="quick-access">
         <div class="container">
             <div class="button-div">
@@ -21,6 +22,7 @@
             </div>
         </div>
     </section>
+    {% endif %}
 
     <section class="posts">
         <div class="container">
@@ -45,12 +47,6 @@
                 {% endif %}
             </div>
 
-            {% if current_user.is_admin() %}
-            <div class="pending-posts">
-
-            </div>
-
-            {% else %}
             <div class="user-posts-div">
                 <div class="sorting-btns">
                     <button class="btn active" id="recent">Recent</button>
@@ -62,8 +58,11 @@
                     <button class="btn" id="category-give">to give away category (desc)</button>
                     <button class="btn" id="category-share">something to share category (desc)</button>
                 </div>
+                {% if current_user.is_admin() %}
+                <div class="user-posts admin"></div>
 
-                <div class="user-posts"></div>
+                {% else %}
+                <div class="user-posts residents"></div>
             </div>
             {% endif %}
         </div>
