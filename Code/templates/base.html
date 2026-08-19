@@ -45,7 +45,7 @@
                     
                     {% elif current_user.is_authenticated %}
                     <li>
-                        <button class="btn{% if request.endpoint == 'dashboard' %} active {% endif %}">
+                        <button class="{% if request.endpoint == 'dashboard' %} active {% endif %}">
                             <a 
                             href="{{ url_for('dashboard') }}" 
                             >
@@ -59,7 +59,7 @@
                         action="{{ url_for('logout') }}"
                         method="POST"
                         >
-                            <button type="submit" class="btn">
+                            <button type="submit" class="">
                                 Logout
                             </button>
                         </form>

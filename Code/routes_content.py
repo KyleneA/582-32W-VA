@@ -11,7 +11,8 @@ content = Blueprint("content", __name__)
 @content.route("/announcement", methods=["GET"])
 @login_required
 def announcement_manage():
-    ...
+    if not current_user.is_admin():
+        return redirect(url_for('dashboard'))
 
     return render_template("manage_announcements.html")
 
@@ -19,7 +20,7 @@ def announcement_manage():
 @login_required
 def announcement_add():
     if not current_user.is_admin():
-        return redirect(url_for("home")) # change redirect url to dashboard
+        return redirect(url_for("dashboard"))
 
     if request.method == "POST":
         title = request.form["title"].strip().title()
@@ -48,7 +49,7 @@ def announcement_add():
             flash_errors(errors)
             return render_template("add_announcement.html", area_options=area_options, urgency_options=urgency_options, title=title, body=body, affected_area=affected_area, urgency=urgency, start_date=start_date, end_date=end_date, image=image_url)
 
-        announcement = Announcement(admin=current_user, title=title, body=body, status="posted",affected_area=",".join(affected_area), urgency=urgency, start_date=convert_to_date(start_date), end_date=convert_to_date(end_date), image_url=image_url)
+        announcement = Announcement(admin=current_user, title=title, body=body, status="posted", affected_area=",".join(affected_area), urgency=urgency, start_date=convert_to_date(start_date), end_date=convert_to_date(end_date), image_url=image_url)
 
         db.session.add(announcement)
         db.session.commit()
@@ -58,6 +59,96 @@ def announcement_add():
         return redirect(url_for("dashboard"))
     
     return render_template("add_announcement.html", area_options=area_options, urgency_options=urgency_options)
+
+@content.route('/announcement/edit/<int:announcement_id>', methods=["GET", "POST"])
+@login_required
+def announcement_edit(announcement_id):
+    if not current_user.is_admin():
+        return redirect(url_for('dashboard'))
+    
+    announcement = Announcement.query.get_or_404(announcement_id)
+
+    if request.method == "POST":
+        title = request.form["title"].strip().title()
+        body = request.form["body"].strip()
+        affected_area = request.form.getlist("affected-area")
+        urgency = request.form["urgency"]
+        start_date = request.form["start-date"]
+        end_date = request.form["end-date"]
+        image_url = request.form["image"]
+        errors = []
+
+        title_errors = validate_title(title, "announcement")
+        body_errors = validate_body(body, "announcement")
+        affected_area_errors = validate_affected_area(affected_area)
+        urgency_errors = validate_select_options(urgency, "urgency", urgency_options)
+        start_date_errors = validate_date(start_date, False, input_type="start")
+        end_date_errors = validate_date(end_date, False, input_type="end")
+        
+        validation_results = [title_errors, body_errors, affected_area_errors, urgency_errors, start_date_errors, end_date_errors]
+
+        for result in validation_results:
+            if result:
+                errors.append(result)
+        
+        if errors:
+            flash_errors(errors)
+
+            return render_template("add_announcement.html", area_options=area_options, urgency_options=urgency_options, title=title, body=body, affected_area=affected_area, urgency=urgency, start_date=start_date, end_date=end_date, image=image_url)
+        
+        announcement.admin = current_user
+        announcement.title = title
+        announcement.body = body
+        announcement.status = "posted"
+        announcement.affected_area = ",".join(affected_area)
+        announcement.urgency = urgency
+        announcement.start_date = convert_to_date(start_date)
+        announcement.end_date = convert_to_date(end_date)
+        announcement.image_url = image_url
+
+        db.session.commit()
+
+        flash(f"Announcement has been updated", "success")
+
+        return redirect(url_for("dashboard"))
+
+    return render_template("edit_announcement.html", area_options=area_options, urgency_options=urgency_options, announcement=announcement)
+
+# announcement archive
+@content.route("/announcement/archive/<int:announcement_id>", methods=["POST"])
+@login_required
+def announcement_archive(announcement_id):
+    announcement = Announcement.query.get_or_404(announcement_id)
+
+    if not current_user.is_admin():
+        return redirect(url_for('dashboard'))
+
+    if current_user.is_admin():        
+        if request.method == "POST":
+            announcement.status = 'archived'
+
+            db.session.commit()
+
+            flash("Post was successfully was moved to user's archives", "success")
+            return redirect(url_for("content.announcement_manage"))
+        
+        return redirect(url_for("content.announcement_manage"))
+
+# announcement delete
+@content.route("/announcement/delete/<int:announcement_id>", methods=["POST"])
+@login_required
+def announcement_delete(announcement_id):
+    if not current_user.is_admin():
+        return redirect(url_for('dashboard'))
+    
+    announcement = Announcement.query.get_or_404(announcement_id)
+    
+    if request.method == "POST":
+        db.session.delete(announcement)
+        db.session.commit()
+
+        flash("Announcement was successfully was deleted", "success")
+        return redirect(url_for("content.announcement_manage"))
 
 # POSTS
 @content.route("/post", methods=["GET"])
@@ -192,12 +283,12 @@ def post_status(post_id, update_status):
     
     if current_user.is_admin():
         if request.method == "POST" and status == 'approve':
-            post.status = 'approved'
+            post.status = 'posted'
             post.approve_post()
 
             db.session.commit()
 
-            flash("Post was successfully was approved", "success")
+            flash("Post was successfully was posted", "success")
             return redirect(url_for("content.post_manage"))
         
         if request.method == "POST" and status == 'reject':

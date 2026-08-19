@@ -1,8 +1,8 @@
 {% extends "base.html" %} 
-    {% block title %} Create Announcement | XYZ Apartment {% endblock %} 
-
+    {% block title %} Edit Announcement | XYZ Apartment {% endblock %} 
+    
     {% block banner %}
-    <h1>Create Announcement</h1>
+    <h1>Edit Announcement</h1>
     {% endblock %}
     
     {% block content %}
@@ -16,7 +16,7 @@
                         id="title"
                         name="title"
                         maxlength="100"
-                        value="{{ title or '' }}"
+                        value="{{ title or announcement.title }}"
                         required
                     >
                 </div>
@@ -25,7 +25,7 @@
                     <legend>Affected Area</legend>
                     
                     {% for option in area_options %}
-                    {% if option in affected_area %}
+                    {% if option in announcement.affected_area %}
                     <div class="checkbox-option">
                         <input 
                             type="checkbox"
@@ -57,7 +57,7 @@
                     <select name="urgency" id="urgency">
                         <option value="">Select urgency level</option>
                         {% for option in urgency_options %}
-                        {% if urgency == option %}
+                        {% if announcement.urgency == option %}
                         <option value="{{ option }}" selected>{{ option | title }}</option>
                         {% else %}
                         <option value="{{ option }}">{{ option | title }}</option>
@@ -73,7 +73,7 @@
                         type="date" 
                         name="start-date" 
                         id="start-date"
-                        value="{{ start_date or '' }}"
+                        value="{{ start_date or announcement.start_date }}"
                         >
                     </div>
                         
@@ -83,14 +83,14 @@
                         type="date" 
                         name="end-date" 
                         id="end-date"
-                        value="{{ end_date or '' }}"
+                        value="{{ end_date or announcement.end_date }}"
                         >
                     </div>
                 </div>
                 
                 <div class="input-div">
                     <label for="body">Announcement Body</label>
-                    <textarea name="body" id="body" rows="10" required>{{ body or '' }}</textarea>
+                    <textarea name="body" id="body" rows="10" required>{{ body or announcement.body }}</textarea>
                 </div>
                 
                 <div class="input-div">
@@ -99,13 +99,13 @@
                         type="url" 
                         name="image" 
                         id="image"
-                        value="{{ image or '' }}"
+                        value="{{ image or announcement.image_url }}"
                     >
                 </div>
         
                 <div class="button-div">
-                    <button type="submit" class="btn submit">Create Announcement</button>
-                    <a href="{{ url_for('dashboard') }}" class="btn cancel">cancel</a>
+                    <button type="submit" class="btn submit">Update Announcement</button>
+                    <a href="{{ url_for('content.announcement_manage') }}" class="btn cancel">cancel</a>
                 </div>
             </form>
         </div>

@@ -62,10 +62,12 @@ ADMIN
 ```
 Apartment Website
     ├── Login (Unauthenticated)
+    ├── Logout (Authenticated)
     ├── Home (Unauthenticated and Authenticated)
     |    ├── building_info_add (Authenticated)
     |    └── building_info_edit (Authenticated)
     ├── Dashboard (Authenticated)
+    |    ├── manage_users (Authenticated)
     |    ├── post_manage (Authenticated)
     |    |   └── post_status (Authenticated)
     |    └── announcement_manage (Authenticated)
@@ -85,6 +87,7 @@ Resident
 ```
 Apartment Website
     ├── Login (Unauthenticated)
+    ├── Logout (Unauthenticated)
     ├── Home (Unauthenticated and Authenticated)
     ├── Dashboard (Authenticated)
     |    └── post_manage (Authenticated)

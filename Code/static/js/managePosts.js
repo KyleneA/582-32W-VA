@@ -1,9 +1,6 @@
 import { fetchUserPosts, fetchPosts } from "./api.js";
 import { changeSortBtn, renderPost, renderManagePostCard } from "./ui.js";
 
-// 3 fetches: pending, approved, rejected, & archived
-// in each fetch sort buttons (need to provide inputs for post status displaying)
-
 const userPostsDiv = document.querySelector(".user-posts-div");
 const sortBtnsDiv = userPostsDiv.querySelector(".sorting-btns");
 const userPosts = userPostsDiv.querySelector(".user-posts");

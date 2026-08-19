@@ -6,7 +6,7 @@
     {% endblock %}
 
     {% block content %}
-    <section class="announcements">
+    <section class="quick-access">
         <div class="container">
             <div class="button-div">
                 <a 
@@ -18,7 +18,30 @@
             </div>
         </div>
     </section>
+
+    <section class="announcements">
+        <div class="container">
+            <div class="announcements-div">
+                <div class="sorting-btns">
+                    <button class="btn active" id="recent">Recent</button>
+                    <button class="btn" id="id">Oldest</button>
+                    <button class="btn" id="title">title (asc)</button>
+                    <button class="btn" id="start-date">start date (asc)</button>
+                    <button class="btn" id="end-date">end date (desc)</button>
+                </div>
+
+                <div class="announcement-cards"></div>
+            </div>
+        </div>
+    </section>
+
+    <template id="template-announcement">
+        {% import 'components.html' as components %}
+        {{ components.style('announcement') }}
+        {{ components.card('announcement', label_1='area', label_2='urgency', label_3='duration') }}
+    </template>
     {% endblock %}
     
     {% block script %}
+    <script type="module" src="{{ url_for('static', filename='js/manageAnnouncements.js') }}"></script>
     {% endblock %}

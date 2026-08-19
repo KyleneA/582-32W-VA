@@ -31,6 +31,18 @@ export function renderAdmins(response, adminList) {
 }
 
 
+export function renderAnnouncement(announcement, cardsDiv, isImmediate) {
+    const announcementCard = document.createElement('announcement-card');
+    announcementCard.announcementDetails = Announcement.fromObject(announcement);
+
+    if (isImmediate) {
+        announcementCard.section = cardsDiv;
+        announcementCard.highlight = true;
+    }
+    
+    cardsDiv.appendChild(announcementCard);
+}
+
 export function renderAnnouncements(response, cardsDiv) {
     cardsDiv.innerHTML = "";
 
@@ -39,10 +51,54 @@ export function renderAnnouncements(response, cardsDiv) {
     }
 
     for (const announcement of response) {
-        const announcementCard = document.createElement('announcement-card');
-        announcementCard.announcementDetails = Announcement.fromObject(announcement);
+        renderAnnouncement(announcement, cardsDiv, false);
+    }
+}
+
+function addManageAnnouncementBtns(cardBtnsDiv, announcement) {
+    const manageBtnsDiv = document.createElement('div');
+    manageBtnsDiv.className = "button-div"
+    cardBtnsDiv.appendChild(manageBtnsDiv);
+
+    const editBtn = document.createElement('a');
+        editBtn.className = "btn edit";
+        editBtn.textContent = "edit announcement"
+        editBtn.href = `/announcement/edit/${announcement.id}`;
+        manageBtnsDiv.appendChild(editBtn);
         
-        cardsDiv.appendChild(announcementCard);
+        const archiveForm = document.createElement('form');
+        archiveForm.innerHTML = `<form>
+        <button class="btn archive" type="submit">archive announcement</button>
+        </form>`;
+        archiveForm.action = `/announcement/archive/${announcement.id}`;
+        archiveForm.method = "POST";
+        manageBtnsDiv.appendChild(archiveForm);
+        
+        const deleteForm = document.createElement('form');
+        deleteForm.innerHTML = `<form>
+        <button class="btn delete" type="submit">delete announcement</button>
+        </form>`;
+        deleteForm.action = `/announcement/delete/${announcement.id}`;
+        deleteForm.method = "POST";
+        manageBtnsDiv.appendChild(deleteForm);
+}
+
+export function renderManageAnnouncements(response, cardsDiv) {
+    cardsDiv.innerHTML = "";
+
+    if (response.length === 0) {
+        cardsDiv.textContent = "There are currently no announcements."
+    }
+
+    for (const announcement of response) {
+        const cardBtnsDiv = document.createElement('div');
+        cardBtnsDiv.className = 'card-btns';
+
+        addManageAnnouncementBtns(cardBtnsDiv, announcement);
+
+        renderAnnouncement(announcement, cardBtnsDiv);
+
+        cardsDiv.appendChild(cardBtnsDiv);
     }
 }
 

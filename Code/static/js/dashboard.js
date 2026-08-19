@@ -4,21 +4,15 @@ import Announcement from "./Announcement.js";
 import { AnnouncementCard } from "./AnnouncementCard.js";
 import Post from "./Post.js";
 import { PostCard } from "./PostCard.js";
-import { renderAnnouncements, renderPost, changeSortBtn } from "./ui.js";
+import { renderAnnouncement, renderAnnouncements, renderPost, changeSortBtn } from "./ui.js";
 
 // IMMEDIATE ANNOUNCEMENT SECTION
 const immediateAnnouncements = document.querySelector("section.immediate-announcements div.container");
 fetchAnnouncements("recent-immediate")
 .then((response) => {
     for (const announcement of response) {
-        if (announcement.urgency === "immediate") {
-        const announcementCard = document.createElement('announcement-card');
-        announcementCard.announcementDetails = Announcement.fromObject(announcement);
-        announcementCard.section = immediateAnnouncements;
-
-            announcementCard.highlight = true;
-            
-            immediateAnnouncements.appendChild(announcementCard);
+        if (announcement.urgency === "immediate" && announcement.status === "posted") {
+            renderAnnouncement(announcement, immediateAnnouncements, true);
         }
     }
 })
@@ -53,27 +47,44 @@ const announcementCardsDiv = dashboardAnnouncements.querySelector("div.announcem
 
 fetchAnnouncements("recent")
 .then((response) => {
-    renderAnnouncements(response, announcementCardsDiv);
+    announcementCardsDiv.innerHTML = "";
+
+    if (response.length === 0) {
+        announcementCardsDiv.textContent = "There are currently no announcements."
+    }
+
+    for (const announcement of response) {
+        if (announcement.status === "posted") {
+            renderAnnouncement(announcement, announcementCardsDiv, false);
+        }
+    }
 })
 
 // SORT BUTTONS LOGIC
-const announcementSortRecent = dashboardAnnouncements.querySelector("#recent");
-const announcementSortOldest = dashboardAnnouncements.querySelector("#id");
-const announcementSortTitle = dashboardAnnouncements.querySelector("#title");
-const announcementSortStartDate = dashboardAnnouncements.querySelector("#start-date");
-const announcementSortEndDate = dashboardAnnouncements.querySelector("#end-date");
+const announcementSortBtnsDiv = dashboardAnnouncements.querySelector('div.sorting-btns');
+const announcementSortRecent = announcementSortBtnsDiv.querySelector("#recent");
+const announcementSortOldest = announcementSortBtnsDiv.querySelector("#id");
+const announcementSortTitle = announcementSortBtnsDiv.querySelector("#title");
+const announcementSortStartDate = announcementSortBtnsDiv.querySelector("#start-date");
+const announcementSortEndDate = announcementSortBtnsDiv.querySelector("#end-date");
 
 announcementSortRecent.addEventListener("click", () => {
     if (!announcementSortRecent.className.includes('active')) {
-        announcementSortRecent.className = "btn active";
-        announcementSortOldest.className = "btn";
-        announcementSortTitle.className = "btn";
-        announcementSortStartDate.className = "btn";
-        announcementSortEndDate.className = "btn";
+        changeSortBtn(announcementSortBtnsDiv, announcementSortRecent);
         
         fetchAnnouncements("recent")
         .then((response) =>{
-            renderAnnouncements(response, announcementCardsDiv);
+            announcementCardsDiv.innerHTML = "";
+
+            if (response.length === 0) {
+                announcementCardsDiv.textContent = "There are currently no announcements."
+            }
+
+            for (const announcement of response) {
+                if (announcement.status === "posted") {
+                    renderAnnouncement(announcement, announcementCardsDiv, false);
+                }
+            }
         })
     }
     
@@ -82,15 +93,21 @@ announcementSortRecent.addEventListener("click", () => {
 
 announcementSortOldest.addEventListener("click", () => {
     if (!announcementSortOldest.className.includes('active')) {
-        announcementSortRecent.className = "btn";
-        announcementSortOldest.className = "btn active";
-        announcementSortTitle.className = "btn";
-        announcementSortStartDate.className = "btn";
-        announcementSortEndDate.className = "btn";
+        changeSortBtn(announcementSortBtnsDiv, announcementSortOldest);
         
-        fetchAnnouncements("recent")
+        fetchAnnouncements("oldest")
         .then((response) =>{
-            renderAnnouncements(response, announcementCardsDiv);
+            announcementCardsDiv.innerHTML = "";
+
+            if (response.length === 0) {
+                announcementCardsDiv.textContent = "There are currently no announcements."
+            }
+
+            for (const announcement of response) {
+                if (announcement.status === "posted") {
+                    renderAnnouncement(announcement, announcementCardsDiv, false);
+                }
+            }
         })
     }
     
@@ -99,15 +116,21 @@ announcementSortOldest.addEventListener("click", () => {
 
 announcementSortTitle.addEventListener("click", () => {
     if (!announcementSortTitle.className.includes('active')) {
-        announcementSortRecent.className = "btn";
-        announcementSortOldest.className = "btn";
-        announcementSortTitle.className = "btn active";
-        announcementSortStartDate.className = "btn";
-        announcementSortEndDate.className = "btn";
+        changeSortBtn(announcementSortBtnsDiv, announcementSortTitle);
         
         fetchAnnouncements("title")
         .then((response) =>{
-            renderAnnouncements(response, announcementCardsDiv);
+            announcementCardsDiv.innerHTML = "";
+
+            if (response.length === 0) {
+                announcementCardsDiv.textContent = "There are currently no announcements."
+            }
+
+            for (const announcement of response) {
+                if (announcement.status === "posted") {
+                    renderAnnouncement(announcement, announcementCardsDiv, false);
+                }
+            }
         })
     }
     
@@ -116,15 +139,21 @@ announcementSortTitle.addEventListener("click", () => {
 
 announcementSortStartDate.addEventListener("click", () => {
     if (!announcementSortStartDate.className.includes('active')) {
-        announcementSortRecent.className = "btn";
-        announcementSortOldest.className = "btn";
-        announcementSortTitle.className = "btn";
-        announcementSortStartDate.className = "btn active";
-        announcementSortEndDate.className = "btn";
-        
+        changeSortBtn(announcementSortBtnsDiv, announcementSortStartDate);
+
         fetchAnnouncements("start-date")
         .then((response) =>{
-            renderAnnouncements(response, announcementCardsDiv);
+            announcementCardsDiv.innerHTML = "";
+
+            if (response.length === 0) {
+                announcementCardsDiv.textContent = "There are currently no announcements."
+            }
+
+            for (const announcement of response) {
+                if (announcement.status === "posted") {
+                    renderAnnouncement(announcement, announcementCardsDiv, false);
+                }
+            }
         })
     }
     
@@ -133,15 +162,21 @@ announcementSortStartDate.addEventListener("click", () => {
 
 announcementSortEndDate.addEventListener("click", () => {
     if (!announcementSortEndDate.className.includes('active')) {
-        announcementSortRecent.className = "btn";
-        announcementSortOldest.className = "btn";
-        announcementSortTitle.className = "btn";
-        announcementSortStartDate.className = "btn";
-        announcementSortEndDate.className = "btn active";
+        changeSortBtn(announcementSortBtnsDiv, announcementSortEndDate);
         
         fetchAnnouncements("end-date")
         .then((response) =>{
-            renderAnnouncements(response, announcementCardsDiv);
+            announcementCardsDiv.innerHTML = "";
+
+            if (response.length === 0) {
+                announcementCardsDiv.textContent = "There are currently no announcements."
+            }
+
+            for (const announcement of response) {
+                if (announcement.status === "posted") {
+                    renderAnnouncement(announcement, announcementCardsDiv, false);
+                }
+            }
         })
     }
 
@@ -157,7 +192,6 @@ fetchPosts("recent")
     postCardsDiv.innerHTML = "";
     
     const approvedPosts = response.filter((post) => post.isApproved);
-    console.log(approvedPosts.length);
     
     if (approvedPosts.length === 0) {
         postCardsDiv.textContent = "There are currently no posts."
