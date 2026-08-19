@@ -757,18 +757,7 @@ section.announcements {
                         width: 100%;
                         border: 1px solid var(--secondary-color);
                     }
-
-                    .btn.edit:hover {
-                        background-color: var(--secondary-light);
-                        color: var(--on-secondary-light-accent);
-                    }
-
-                    .btn.archive:hover,
-                    .btn.delete:hover {
-                        background-color: transparent;
-                        color: var(--secondary-color);
-                    }
-
+                    
                     .btn.approve,
                     .btn.edit {
                         background-color: var(--secondary-color);
@@ -788,11 +777,23 @@ section.announcements {
                     .btn.reject.unapprove {
                         border-radius: var(--radius) var(--radius) 0 0;
                     }
-
+                    
                     .btn.archive {
                         border-radius: 0;
                         border-left: 0;
                         border-right: 0;
+                    }
+
+                    .btn.approve:hover,
+                    .btn.edit:hover {
+                        background-color: var(--secondary-light);
+                        color: var(--on-secondary-light-accent);
+                    }
+
+                    .btn.archive:hover,
+                    .btn.delete:hover {
+                        background-color: transparent;
+                        color: var(--secondary-color);
                     }
                 }
             }

@@ -4,6 +4,7 @@ export class PostCard extends HTMLElement {
 
         this._postDetails = null;
         this.__isExpanded = false;
+        this._isManagePage = false 
 
         const shadow = this.attachShadow({
             mode: "open"
@@ -31,6 +32,16 @@ export class PostCard extends HTMLElement {
 
     get isExpanded() {
         return this.__isExpanded;
+    }
+
+    set isManagePage(value) {
+        if (typeof value === "boolean") {
+            this._isManagePage = value;
+        }
+    }
+
+    get isManagePage() {
+        return this._isManagePage;
     }
 
     connectedCallback() {
@@ -79,6 +90,10 @@ export class PostCard extends HTMLElement {
 
         else {
             image.style.backgroundImage = post.urlImageString;
+        }
+
+        if (this.isManagePage) {
+            card.querySelector('article.post-card').className = 'post-card manage';
         }
 
         const expandBtn = card.querySelector("button.btn.expand")

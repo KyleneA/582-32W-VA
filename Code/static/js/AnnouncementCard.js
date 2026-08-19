@@ -5,7 +5,8 @@ export class AnnouncementCard extends HTMLElement {
         this._announcementDetails = null;
         this.__isExpanded = false;
         this._highlight = false;
-        this._section = null
+        this._section = null;
+        this._isManagePage = false;
 
         const shadow = this.attachShadow({
             mode: "open"
@@ -53,6 +54,16 @@ export class AnnouncementCard extends HTMLElement {
         return this._section;
     }
 
+    set isManagePage(value) {
+        if (typeof value === "boolean") {
+            this._isManagePage = value;
+        }
+    }
+
+    get isManagePage() {
+        return this._isManagePage;
+    }
+
     connectedCallback() {
         this.render();
     }
@@ -83,6 +94,10 @@ export class AnnouncementCard extends HTMLElement {
 
         else {
             image.style.backgroundImage = announcement.urlImageString;
+        }
+
+        if (this.isManagePage) {
+            card.querySelector('article.announcement-card').className = 'announcement-card manage';
         }
 
         const expandBtn = card.querySelector("button.btn.expand")
@@ -119,7 +134,7 @@ export class AnnouncementCard extends HTMLElement {
             if (isEmptySection) {
                 main.removeChild(immediateAnnouncementsSection.parentElement);
             }
-        })
+        });
 
         if (!this.highlight) {
             closeBtn.style.display = "none";

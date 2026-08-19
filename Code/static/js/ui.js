@@ -31,7 +31,7 @@ export function renderAdmins(response, adminList) {
 }
 
 
-export function renderAnnouncement(announcement, cardsDiv, isImmediate) {
+export function renderAnnouncement(announcement, cardsDiv, isImmediate, isManage) {
     const announcementCard = document.createElement('announcement-card');
     announcementCard.announcementDetails = Announcement.fromObject(announcement);
 
@@ -39,11 +39,15 @@ export function renderAnnouncement(announcement, cardsDiv, isImmediate) {
         announcementCard.section = cardsDiv;
         announcementCard.highlight = true;
     }
+
+    if (isManage) {
+        announcementCard.isManagePage = true;
+    }
     
     cardsDiv.appendChild(announcementCard);
 }
 
-export function renderAnnouncements(response, cardsDiv) {
+export function renderAnnouncements(response, cardsDiv, isManage) {
     cardsDiv.innerHTML = "";
 
     if (response.length === 0) {
@@ -110,15 +114,19 @@ export function renderManageAnnouncements(response, cardsDiv, displayedStatus) {
 
         addManageAnnouncementBtns(cardBtnsDiv, announcement);
 
-        renderAnnouncement(announcement, cardBtnsDiv);
+        renderAnnouncement(announcement, cardBtnsDiv, false, true);
 
         cardsDiv.appendChild(cardBtnsDiv);
     }
 }
 
-export function renderPost(post, cardsDiv) {
+export function renderPost(post, cardsDiv, isManage) {
     const postCard = document.createElement('post-card');
     postCard.postDetails = Post.fromObject(post);
+
+    if (isManage) {
+        postCard.isManagePage = true;
+    }
     
     cardsDiv.appendChild(postCard);
 }
@@ -218,7 +226,7 @@ export function renderManagePostCard(response, postStatusDisplayed, userPosts) {
     
             addManagePostBtns(cardBtnsDiv, post, userPosts);
             
-            renderPost(post, cardBtnsDiv);
+            renderPost(post, cardBtnsDiv, true);
     
             userPosts.appendChild(cardBtnsDiv);
         }
