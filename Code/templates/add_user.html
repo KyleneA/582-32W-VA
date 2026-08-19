@@ -10,55 +10,37 @@
         <div class="container">
             <form method="POST">
                 <div class="general-inputs">
-                    <!-- <div class="input-div">
-                        <label for="user-role">User role</label>
-        
-                        <select name="user-role" id="user-role" required>
-                            <option value="">Select User Role</option>
-                            {% if user_role == "admin" %}
-                            <option value="admin" selected>Admin</option>
-                            <option value="resident">Resident</option>
-        
-                            {% elif user_role == "resident" %}
-                            <option value="admin">Admin</option>
-                            <option value="resident" selected>Resident</option>
-        
-                            {% else %}
-                            <option value="admin">Admin</option>
-                            <option value="resident">Resident</option>
-                            {% endif %}
-                        </select>
-                    </div> -->
-        
-                    <div class="input-div">
-                        <label for="full-name"> Full Name </label>
-                        <input 
-                            id="full-name"
-                            name="full-name"
-                            type="text"
-                            value="{{ full_name or '' }}"
-                            maxlength="100"
-                            required
-                        >
-                    </div>
-        
-                    <div class="input-div">
-                        <label for="email">
-                            Email Address
-                        </label>
+                    <div class="info">
+                        <div class="input-div">
+                            <label for="full-name" class="required"> Full Name </label>
+                            <input 
+                                id="full-name"
+                                name="full-name"
+                                type="text"
+                                value="{{ full_name or '' }}"
+                                maxlength="100"
+                                required
+                            >
+                        </div>
             
-                        <input
-                            id="email"
-                            name="email"
-                            type="email"
-                            value="{{ email or '' }}"
-                            maxlength="255"
-                            required
-                        />
+                        <div class="input-div">
+                            <label for="email" class="required">
+                                Email Address
+                            </label>
+                
+                            <input
+                                id="email"
+                                name="email"
+                                type="email"
+                                value="{{ email or '' }}"
+                                maxlength="255"
+                                required
+                            />
+                        </div>
                     </div>
             
                     <div class="input-div">
-                        <label for="password"> Password </label>
+                        <label for="password" class="required"> Password </label>
                         <input 
                             id="password" 
                             name="password" 
@@ -71,43 +53,45 @@
 
                 {% if user_role == 'resident' %}
                 <div class="resident-inputs">
-                    <div class="input-div">
-                        <label for="apartment"> Apartment </label>
-                        <input 
-                            id="apartment"
-                            name="apartment"
-                            type="text"
-                            value="{{ apartment or '' }}"
-                            maxlength="4"
-                            required
-                        >
+                    <div class="info">
+                        <div class="input-div">
+                            <label for="apartment" class="required"> Apartment </label>
+                            <input 
+                                id="apartment"
+                                name="apartment"
+                                type="text"
+                                value="{{ apartment or '' }}"
+                                maxlength="4"
+                                required
+                            >
+                        </div>
+            
+                        <div class="input-div">
+                            <label for="locker" class="required"> Locker </label>
+                            <input 
+                                id="locker"
+                                name="locker"
+                                type="text"
+                                value="{{ locker or '' }}"
+                                maxlength="100"
+                                required
+                            >
+                        </div>
+            
+                        <div class="input-div">
+                            <label for="lease-date" class="required"> Lease Date </label>
+                            <input 
+                                id="lease-date"
+                                name="lease-date"
+                                type="date"
+                                value="{{ lease_date or '' }}"
+                                required
+                            >
+                        </div>
                     </div>
         
                     <div class="input-div">
-                        <label for="locker"> Locker </label>
-                        <input 
-                            id="locker"
-                            name="locker"
-                            type="text"
-                            value="{{ locker or '' }}"
-                            maxlength="100"
-                            required
-                        >
-                    </div>
-        
-                    <div class="input-div">
-                        <label for="lease-date"> Lease Date </label>
-                        <input 
-                            id="lease-date"
-                            name="lease-date"
-                            type="date"
-                            value="{{ lease_date or '' }}"
-                            required
-                        >
-                    </div>
-        
-                    <div class="input-div">
-                        <label for="parking-status"> Parking Status </label>
+                        <label for="parking-status" class="required"> Parking Status </label>
                         <select name="parking-status" id="parking-status" required>
                             <option value="">Select Parking Status</option>
                             {% if parking_status == "paid" %}

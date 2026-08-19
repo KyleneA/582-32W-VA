@@ -10,7 +10,7 @@
         <div class="container">
             <form method="POST">
                 <div class="input-div">
-                    <label for="title">Announcement Title</label>
+                    <label for="title" class="required">Announcement Title</label>
                     <input 
                         type="text"
                         id="title"
@@ -22,7 +22,7 @@
                 </div>
         
                 <div class="input-div checkbox">
-                    <legend>Affected Area</legend>
+                    <legend class="required">Affected Area</legend>
                     
                     {% for option in area_options %}
                     {% if option in affected_area %}
@@ -52,7 +52,7 @@
                 </div>
                 
                 <div class="input-div">
-                    <label for="urgency">Urgency</label>
+                    <label for="urgency" class="required">Urgency</label>
         
                     <select name="urgency" id="urgency">
                         <option value="">Select urgency level</option>
@@ -89,7 +89,7 @@
                 </div>
                 
                 <div class="input-div">
-                    <label for="body">Announcement Body</label>
+                    <label for="body"  class="required">Announcement Body</label>
                     <textarea name="body" id="body" rows="10" required>{{ body or '' }}</textarea>
                 </div>
                 

@@ -11,7 +11,7 @@
 
             <form method="POST">
                 <div class="input-div">
-                    <label for="title">Post Title</label>
+                    <label for="title" class="required">Post Title</label>
                     <input 
                         type="text"
                         id="title"
@@ -23,7 +23,7 @@
                 </div>
                 
                 <div class="input-div">
-                    <label for="category">Post Category</label>
+                    <label for="category" class="required">Post Category</label>
         
                     <select name="category" id="category">
                         <option value="">Select post category</option>
@@ -114,7 +114,7 @@
                 </div>
                 
                 <div class="input-div">
-                    <label for="body">Post Body</label>
+                    <label for="body" class="required">Post Body</label>
                     <textarea name="body" id="body" rows="10" required>{{ body or post.body }}</textarea>
                 </div>
                 
