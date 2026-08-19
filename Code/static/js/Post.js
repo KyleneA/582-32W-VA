@@ -29,21 +29,6 @@ export default class Post {
         this.imageURL = imageURL;
     }
 
-    // will do on backend
-    // set isApproved(value) {
-    //     if (typeof(value) === "boolean") {
-    //         this.__isApproved = value;
-    //     }
-
-    //     else {
-    //         throw new Error("isApproved must be a boolean value.")
-    //     }
-    // }
-
-    // get isApproved() {
-    //     return this.__isApproved;
-    // }
-
     get duration(){
         if (this.startDate && this.endDate) {
             return `${this.startDate} to ${this.endDate}`;

@@ -34,10 +34,23 @@
     <section class="resident-users">
         <div class="container">
             <h2>Residents</h2>
-            <ul class="resident-list">
-                <template class="template-resident-display">
-                    <li class="resident-display">
-                        <h3 class="name">name</h3>
+            
+            <div class="sorting-btns">
+                <button class="btn active" id="default">default sort</button>
+                <button class="btn" id="name">Sort by name</button>
+                <button class="btn" id="email">Sort by email</button>
+                <button class="btn" id="apartment">Sort by apartment</button>
+                <button class="btn" id="lease">Sort by lease date</button>
+                <button class="btn" id="parking">Sort by parking status</button>
+            </div>
+
+            <ul class="resident-list"></ul>
+
+            <template class="template-resident-display">
+                <li class="resident-display">
+                    <h3 class="name">name</h3>
+                    
+                    <div class="details-div">
                         <div class="detail">
                             <p class="label">Email:</p>
                             <p class="email">email</p>
@@ -58,15 +71,16 @@
                             <p class="label">parking status:</p>
                             <p class="parking">parking</p>
                         </div>
-                        <div class="button-div">
-                            <a href="" class="btn edit">edit user</a>
-                            <form method="post">
-                                <button class="btn delete" type="submit">delete user</button>
-                            </form>
-                        </div>
-                    </li>
-                </template>
-            </ul>
+                    </div>
+
+                    <div class="button-div">
+                        <a href="" class="btn edit">edit user</a>
+                        <form method="post" class="delete-user">
+                            <button class="btn delete" type="submit">delete user</button>
+                        </form>
+                    </div>
+                </li>
+            </template>
         </div>
     </section>
     
@@ -74,14 +88,14 @@
         <div class="container">
             <h2>Admins</h2>
 
-            <div class="button-div">
+            <div class="sorting-btns">
                 <button class="btn active" id="default">default sort</button>
                 <button class="btn" id="name">Sort by name</button>
                 <button class="btn" id="email">Sort by email</button>
             </div>
 
-            <ul class="admin-list">
-            </ul>
+            <ul class="admin-list"></ul>
+
             <template class="template-admin-display">
                 <li class="admin-display">
                     <h3 class="name">name</h3>
@@ -102,5 +116,5 @@
     {% endblock %}
 
     {% block script %}
-    <script type="module" src="{{ url_for('static', filename='js/users.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/manageUsers.js') }}"></script>
     {% endblock %}

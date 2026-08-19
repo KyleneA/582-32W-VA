@@ -34,7 +34,7 @@ def validate_name(name):
 
     return name_errors
 
-def validate_email(email):
+def validate_email(email, form='add'):
     email_errors = []
 
     if not email:
@@ -48,9 +48,10 @@ def validate_email(email):
     if not ("@" in email and "." in email):
         email_errors.append("Please enter a valid email address")
 
-    existing_email = User.query.filter_by(email=email).first()
-    if existing_email:
-        email_errors.append("This email is not available. Enter a different email address")
+    if form == 'add':
+        existing_email = User.query.filter_by(email=email).first()
+        if existing_email:
+            email_errors.append("This email is not available. Enter a different email address")
     
     if not email_errors:
         return None
@@ -79,15 +80,16 @@ def validate_password(password):
 
     return password_errors
 
-def validate_apartment(apartment):
+def validate_apartment(apartment, form='add'):
     apartment_errors = []
 
     if not apartment:
         apartment_errors.append("Apartment is a required field")
     
-    existing_apartment = Resident.query.filter_by(apartment=apartment).first()
-    if existing_apartment:
-        apartment_errors.append("Selected apartment is already assigned")
+    if form == 'add':
+        existing_apartment = Resident.query.filter_by(apartment=apartment).first()
+        if existing_apartment:
+            apartment_errors.append("Selected apartment is already assigned")
     
     if len(apartment) < 4 or len(apartment) > 4:
         apartment_errors.append("Apartment number should be 4 characters")
@@ -103,15 +105,16 @@ def validate_apartment(apartment):
     
     return apartment_errors
 
-def validate_locker(locker):
+def validate_locker(locker, form='add'):
     locker_errors = []
 
     if not locker:
         locker_errors.append("Locker location is a required field")
     
-    existing_locker = Resident.query.filter_by(locker_location=locker).first()
-    if existing_locker:
-        locker_errors.append("Selected locker location is already assigned")
+    if form == 'add':
+        existing_locker = Resident.query.filter_by(locker_location=locker).first()
+        if existing_locker:
+            locker_errors.append("Selected locker location is already assigned")
         
     if len(locker) < 4 or len(locker) > 4:
         locker_errors.append("Locker location should be 4 characters")
@@ -148,9 +151,10 @@ def validate_date(input_date, is_required=True, input_type="lease"):
 
         return date_errors
 
+status_options = ["paid", "late", "revoked", "inactive"]
+
 def validate_parking_status(parking_status):
     parking_errors = []
-    status_options = ["paid", "late", "revoked", "inactive"]
 
     if not parking_status:
         parking_errors.append("Parking status is a required field")

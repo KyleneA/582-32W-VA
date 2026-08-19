@@ -6,4 +6,128 @@
     {% endblock %}
     
     {% block content %}
+    <section class="create-user">
+        <div class="container">
+            <form method="POST">
+                <div class="general-inputs">
+                    <div class="input-div">
+                        <label for="full-name"> Full Name </label>
+                        <input 
+                            id="full-name"
+                            name="full-name"
+                            type="text"
+                            value="{{ full_name or user.name }}"
+                            maxlength="100"
+                            required
+                        >
+                    </div>
+        
+                    <div class="input-div">
+                        <label for="email">
+                            Email Address
+                        </label>
+            
+                        <input
+                            id="email"
+                            name="email"
+                            type="email"
+                            value="{{ email or user.email }}"
+                            maxlength="255"
+                            required
+                        />
+                    </div>
+
+                {% if user_role == 'resident' %}
+                <div class="resident-inputs">
+                    <div class="input-div">
+                        <label for="apartment"> Apartment </label>
+                        <input 
+                            id="apartment"
+                            name="apartment"
+                            type="text"
+                            value="{{ apartment or user.apartment }}"
+                            maxlength="4"
+                            required
+                        >
+                    </div>
+        
+                    <div class="input-div">
+                        <label for="locker"> Locker </label>
+                        <input 
+                            id="locker"
+                            name="locker"
+                            type="text"
+                            value="{{ locker or user.locker_location }}"
+                            maxlength="100"
+                            required
+                        >
+                    </div>
+        
+                    <div class="input-div">
+                        <label for="lease-date"> Lease Date </label>
+                        <input 
+                            id="lease-date"
+                            name="lease-date"
+                            type="date"
+                            value="{{ lease_date or user.lease_date }}"
+                            required
+                        >
+                    </div>
+        
+                    <div class="input-div">
+                        <label for="parking-status"> Parking Status </label>
+                        <select name="parking-status" id="parking-status" required>
+                            <option value="">Select Parking Status</option>
+
+                            {% for option in status_options %}
+                            {% if user.parking_status == option %}
+                            <option value="{{ option }}" selected>{{ option }}</option>
+
+                            {% else %}
+                            <option value="{{ option }}">{{ option }}</option>
+                            {% endif %}
+                            {% endfor %}
+                            <!-- {% if user.parking_status == "paid" %}
+                            <option value="paid" selected>Paid</option>
+                            <option value="late">Late</option>
+                            <option value="revoked">Revoked</option>
+                            <option value="inactive">Inactive</option>
+                            
+                            
+                            {% elif parking_status == "late" %}
+                            <option value="paid">Paid</option>
+                            <option value="late" selected>Late</option>
+                            <option value="revoked">Revoked</option>
+                            <option value="inactive">Inactive</option>
+                            
+                            {% elif parking_status == "revoked" %}
+                            <option value="paid">Paid</option>
+                            <option value="late">Late</option>
+                            <option value="revoked" selected>Revoked</option>
+                            <option value="inactive">Inactive</option>
+                            
+                            {% elif parking_status == "inactive" %}
+                            <option value="paid">Paid</option>
+                            <option value="late">Late</option>
+                            <option value="revoked">Revoked</option>
+                            <option value="inactive" selected>Inactive</option>
+                            
+                            {% else %}
+                            <option value="paid">Paid</option>
+                            <option value="late">Late</option>
+                            <option value="revoked">Revoked</option>
+                            <option value="inactive">Inactive</option>
+                            {% endif %} -->
+                        </select>
+                    </div>
+                </div>
+                {% endif %}
+        
+                <div class="button-div">
+                    <button type="submit" class="btn submit">Update {{ user_role }} user</button>
+                    <a href="{{ url_for('user.manage_users') }}" class="btn cancel">cancel</a>
+                </div>
+            </form>
+        </div>
+    </section>
     {% endblock %}

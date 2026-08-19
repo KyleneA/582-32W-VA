@@ -1,9 +1,13 @@
 import Admin from "./Admin.js";
+import Resident from "./Resident.js"
 import Announcement from "./Announcement.js";
 import { AnnouncementCard } from "./AnnouncementCard.js";
 import Post from "./Post.js";
 import { PostCard } from "./PostCard.js";
 
+// USERS
+
+// Admin
 export function renderAdmins(response, adminList) {
     adminList.innerHTML = "";
 
@@ -24,9 +28,68 @@ export function renderAdmins(response, adminList) {
         editA.href = `/user/${userObj.role}/${userObj.id}/edit`
 
         const deleteForm = clone.querySelector('.delete-user');
-        deleteForm.action = `/user/${userObj.role}/${userObj.id}/delete`
+        deleteForm.action = `/user/${userObj.role}/${userObj.id}/delete`;
+
+        deleteForm.addEventListener("click", (event) => {
+            event.preventDefault();
+
+            if (confirm("Are you sure you want to delete this admin user?")) {
+                deleteForm.submit();
+            }
+
+            return;
+        });
 
         adminList.appendChild(clone);
+    }
+}
+
+// Resident
+export function renderResidents(response, residentList) {
+    residentList.innerHTML = "";
+
+    const template = document.querySelector('.template-resident-display');
+
+    for (const user of response) {
+        const userObj = Resident.fromObject(user);
+
+        const clone = template.content.cloneNode(true);
+
+        const nameH3 = clone.querySelector('.name');
+        nameH3.textContent = userObj.displayName;
+
+        const emailP = clone.querySelector('.email');
+        emailP.textContent = userObj.email;
+
+        const apartmentP = clone.querySelector('.apartment');
+        apartmentP.textContent = userObj.apartment;
+
+        const lockerP = clone.querySelector('.locker');
+        lockerP.textContent = userObj.lockerLocation;
+        
+        const leaseP = clone.querySelector('.lease');
+        leaseP.textContent = userObj.leaseDate;
+
+        const parkingP = clone.querySelector('.parking');
+        parkingP.textContent = userObj.parkingStatus;
+
+        const editA = clone.querySelector('.btn.edit');
+        editA.href = `/user/${userObj.role}/${userObj.id}/edit`
+
+        const deleteForm = clone.querySelector('.delete-user');
+        deleteForm.action = `/user/${userObj.role}/${userObj.id}/delete`;
+
+        deleteForm.addEventListener("click", (event) => {
+            event.preventDefault();
+
+            if (confirm("Are you sure you want to delete this resisdent user?")) {
+                deleteForm.submit();
+            }
+
+            return;
+        });
+
+        residentList.appendChild(clone);
     }
 }
 

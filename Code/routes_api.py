@@ -24,7 +24,23 @@ def get_admins(sort_type):
 @api.route("/api/user/resident/<string:sort_type>", methods=["GET"])
 @login_required
 def get_residents(sort_type):
-    residents = Resident.query.order_by(Resident.id).all()
+    if sort_type == "id":
+        residents = Resident.query.order_by(Resident.id).all()
+
+    if sort_type == "name":
+        residents = Resident.query.order_by(Resident.name).all()
+
+    if sort_type == "email":
+        residents = Resident.query.order_by(Resident.email).all()
+
+    if sort_type == "apartment":
+        residents = Resident.query.order_by(Resident.apartment).all()
+
+    if sort_type == "lease-date":
+        residents = Resident.query.order_by(Resident.lease_date).all()
+
+    if sort_type == "parking-status":
+        residents = Resident.query.order_by(Resident.parking_status).all()
 
     return jsonify([user.to_dict() for user in residents])
 
