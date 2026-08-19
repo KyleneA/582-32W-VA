@@ -149,6 +149,7 @@ h1:last-child {
 
 h2 {
     margin-bottom: 20px;
+    text-transform: capitalize;
 }
 
 /* Specific Variables */
@@ -799,4 +800,15 @@ section.announcements {
             }
         }
     }
+}
+
+section.first-login {
+    div.password-requirements {
+        margin-bottom: 30px;
+
+        ul {
+            padding-left: 30px;
+        }
+    }
+
 }

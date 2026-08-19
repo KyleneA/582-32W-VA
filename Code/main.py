@@ -82,7 +82,7 @@ def first_login():
         return redirect(url_for("home"))
     
     if request.method == "POST":
-        new_password = request.form["password"]
+        new_password = request.form["new-password"]
         confirm_password = request.form["confirm-password"]
 
         errors = []
