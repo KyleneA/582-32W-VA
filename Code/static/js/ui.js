@@ -66,13 +66,15 @@ function addManageAnnouncementBtns(cardBtnsDiv, announcement) {
         editBtn.href = `/announcement/edit/${announcement.id}`;
         manageBtnsDiv.appendChild(editBtn);
         
-        const archiveForm = document.createElement('form');
-        archiveForm.innerHTML = `<form>
-        <button class="btn archive" type="submit">archive announcement</button>
-        </form>`;
-        archiveForm.action = `/announcement/archive/${announcement.id}`;
-        archiveForm.method = "POST";
-        manageBtnsDiv.appendChild(archiveForm);
+        if (announcement.status === 'posted') {
+            const archiveForm = document.createElement('form');
+            archiveForm.innerHTML = `<form>
+            <button class="btn archive" type="submit">archive announcement</button>
+            </form>`;
+            archiveForm.method = "POST";
+            archiveForm.action = `/announcement/archive/${announcement.id}`;
+            manageBtnsDiv.appendChild(archiveForm);
+        }
         
         const deleteForm = document.createElement('form');
         deleteForm.innerHTML = `<form>
@@ -81,16 +83,28 @@ function addManageAnnouncementBtns(cardBtnsDiv, announcement) {
         deleteForm.action = `/announcement/delete/${announcement.id}`;
         deleteForm.method = "POST";
         manageBtnsDiv.appendChild(deleteForm);
+
+        deleteForm.addEventListener("click", (event) => {
+            event.preventDefault();
+
+            if (confirm("Are you sure you want to delete this announcement?")) {
+                deleteForm.submit();
+            }
+
+            return;
+        });
 }
 
-export function renderManageAnnouncements(response, cardsDiv) {
+export function renderManageAnnouncements(response, cardsDiv, displayedStatus) {
     cardsDiv.innerHTML = "";
 
-    if (response.length === 0) {
+    const postedAnnouncements = response.filter((announcement) => announcement.status === displayedStatus);
+
+    if (postedAnnouncements.length === 0) {
         cardsDiv.textContent = "There are currently no announcements."
     }
 
-    for (const announcement of response) {
+    for (const announcement of postedAnnouncements) {
         const cardBtnsDiv = document.createElement('div');
         cardBtnsDiv.className = 'card-btns';
 
@@ -145,10 +159,19 @@ function addManagePostBtns(cardBtnsDiv, post, userPosts) {
         deleteForm.action = `/post/delete/${post.id}`;
         deleteForm.method = "POST";
         manageBtnsDiv.appendChild(deleteForm);
+
+        deleteForm.addEventListener("click", (event) => {
+            event.preventDefault();
+
+            if (confirm("Are you sure you want to delete this announcement?")) {
+                deleteForm.submit();
+            }
+
+            return;
+        });
     }
     
     if (userPosts.className.includes('admin')) {
-        // change buttons if already approved
         if (!post.isApproved) {
             const approveForm = document.createElement('form');
             approveForm.innerHTML = `<form>
@@ -171,6 +194,7 @@ function addManagePostBtns(cardBtnsDiv, post, userPosts) {
         } else if (post.status === 'approved') {
             rejectForm.action =`/post/reject/${post.id}`;
             rejectForm.firstElementChild.textContent = 'unapprove post';
+            rejectForm.firstElementChild.className = 'btn reject unapprove';
         } else if (post.status === 'rejected') {
             rejectForm.action =`/post/archive/${post.id}`;
             rejectForm.firstElementChild.textContent = 'remove post';

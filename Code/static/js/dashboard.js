@@ -13,6 +13,7 @@ fetchAnnouncements("recent-immediate")
     for (const announcement of response) {
         if (announcement.urgency === "immediate" && announcement.status === "posted") {
             renderAnnouncement(announcement, immediateAnnouncements, true);
+            return; // to only get the first announcement
         }
     }
 })
@@ -49,11 +50,13 @@ fetchAnnouncements("recent")
 .then((response) => {
     announcementCardsDiv.innerHTML = "";
 
-    if (response.length === 0) {
+    const postedAnnouncements = response.filter((announcement) => announcement.status === 'posted');
+
+    if (postedAnnouncements.length === 0) {
         announcementCardsDiv.textContent = "There are currently no announcements."
     }
 
-    for (const announcement of response) {
+    for (const announcement of postedAnnouncements) {
         if (announcement.status === "posted") {
             renderAnnouncement(announcement, announcementCardsDiv, false);
         }
@@ -76,11 +79,13 @@ announcementSortRecent.addEventListener("click", () => {
         .then((response) =>{
             announcementCardsDiv.innerHTML = "";
 
-            if (response.length === 0) {
+            const postedAnnouncements = response.filter((announcement) => announcement.status === 'posted');
+
+            if (postedAnnouncements.length === 0) {
                 announcementCardsDiv.textContent = "There are currently no announcements."
             }
 
-            for (const announcement of response) {
+            for (const announcement of postedAnnouncements) {
                 if (announcement.status === "posted") {
                     renderAnnouncement(announcement, announcementCardsDiv, false);
                 }
@@ -99,11 +104,13 @@ announcementSortOldest.addEventListener("click", () => {
         .then((response) =>{
             announcementCardsDiv.innerHTML = "";
 
-            if (response.length === 0) {
+            const postedAnnouncements = response.filter((announcement) => announcement.status === 'posted');
+
+            if (postedAnnouncements.length === 0) {
                 announcementCardsDiv.textContent = "There are currently no announcements."
             }
 
-            for (const announcement of response) {
+            for (const announcement of postedAnnouncements) {
                 if (announcement.status === "posted") {
                     renderAnnouncement(announcement, announcementCardsDiv, false);
                 }
@@ -122,11 +129,13 @@ announcementSortTitle.addEventListener("click", () => {
         .then((response) =>{
             announcementCardsDiv.innerHTML = "";
 
-            if (response.length === 0) {
+            const postedAnnouncements = response.filter((announcement) => announcement.status === 'posted');
+
+            if (postedAnnouncements.length === 0) {
                 announcementCardsDiv.textContent = "There are currently no announcements."
             }
 
-            for (const announcement of response) {
+            for (const announcement of postedAnnouncements) {
                 if (announcement.status === "posted") {
                     renderAnnouncement(announcement, announcementCardsDiv, false);
                 }
@@ -145,11 +154,13 @@ announcementSortStartDate.addEventListener("click", () => {
         .then((response) =>{
             announcementCardsDiv.innerHTML = "";
 
-            if (response.length === 0) {
+            const postedAnnouncements = response.filter((announcement) => announcement.status === 'posted');
+
+            if (postedAnnouncements.length === 0) {
                 announcementCardsDiv.textContent = "There are currently no announcements."
             }
 
-            for (const announcement of response) {
+            for (const announcement of postedAnnouncements) {
                 if (announcement.status === "posted") {
                     renderAnnouncement(announcement, announcementCardsDiv, false);
                 }
@@ -168,11 +179,13 @@ announcementSortEndDate.addEventListener("click", () => {
         .then((response) =>{
             announcementCardsDiv.innerHTML = "";
 
-            if (response.length === 0) {
+            const postedAnnouncements = response.filter((announcement) => announcement.status === 'posted');
+
+            if (postedAnnouncements.length === 0) {
                 announcementCardsDiv.textContent = "There are currently no announcements."
             }
 
-            for (const announcement of response) {
+            for (const announcement of postedAnnouncements) {
                 if (announcement.status === "posted") {
                     renderAnnouncement(announcement, announcementCardsDiv, false);
                 }

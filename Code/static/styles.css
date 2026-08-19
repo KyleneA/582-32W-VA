@@ -451,12 +451,12 @@ section.dashboard {
             background-color: var(--primary-light);
             color: var(--on-primary-light-main);
         }
-
+        
         .btn:hover {
             background-color: var(--secondary-light);
             border: var(--secondary-color) 1px solid;
         }
-
+        
         .btn.active {
             background-color: var(--primary-color);
             color: var(--on-primary);
@@ -702,6 +702,13 @@ section.announcements {
             color: var(--on-primary);
             cursor: default;
         }
+
+        
+        .btn.active:hover {
+            background-color: var(--primary-color);
+            color: var(--on-primary);
+            cursor: default;
+        }
     }
     
     div.user-posts-div,
@@ -776,6 +783,10 @@ section.announcements {
                         color: var(--text-mid);
                         height: 100%;
                         border-radius: 0 var(--radius) 0 0;
+                    }
+                    
+                    .btn.reject.unapprove {
+                        border-radius: var(--radius) var(--radius) 0 0;
                     }
 
                     .btn.archive {

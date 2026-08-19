@@ -15,7 +15,7 @@ posts
 })
 
 // DISPLAY BUTTONS
-const displayBtnsDiv = document.querySelector(".display-btns")
+const displayBtnsDiv = document.querySelector("div.display-btns");
 const pendingDisplayBtn = displayBtnsDiv.querySelector("div.display-btns button#btn-pending");
 const approvedDisplayBtn = displayBtnsDiv.querySelector("div.display-btns button#btn-approved");
 const rejectedDisplayBtn = displayBtnsDiv.querySelector("div.display-btns button#btn-rejected");

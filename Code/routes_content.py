@@ -56,7 +56,7 @@ def announcement_add():
 
         flash(f"Announcement has been created", "success")
 
-        return redirect(url_for("dashboard"))
+        return redirect(url_for("content.announcement_manage"))
     
     return render_template("add_announcement.html", area_options=area_options, urgency_options=urgency_options)
 
