@@ -201,6 +201,27 @@ section.banner.home{
     padding: 150px 0;
 }
 
+section.breadcrumbs {
+    padding-bottom: 30px;
+
+    ul.page-list {
+        display: flex;
+        gap: 15px;
+        list-style: none;
+        font-size: 16px;
+        text-transform: capitalize;
+
+        li a {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        li p {
+            text-decoration: none;
+            color: var(--text-subtle);
+        }
+    }
+}
+
 section.flash-section {
     padding: 30px 0 0;
 

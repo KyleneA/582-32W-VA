@@ -468,3 +468,40 @@
         </div>
     </article>
 {%- endmacro %}
+
+{% macro breadcrumbs(page2, page2_link='', page3='') -%}
+<section class="breadcrumbs">
+    <div class="container">
+        <ul class="page-list">
+            <li>
+                <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            </li>
+
+            <li>
+                <p>></p>
+            </li>
+
+            {% if not page3 %}
+            <li>
+                <p>{{ page2 }}</p>
+            </li>
+
+            {% elif page3 %}
+            <li>
+                <a href="{{ url_for(page2_link) }}">{{ page2 }}</a>
+            </li>
+            
+            <li>
+                <p>></p>
+            </li>
+
+            <li>
+                <p>
+                    {{ page3 }}
+                </p>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</section>
+{%- endmacro %}

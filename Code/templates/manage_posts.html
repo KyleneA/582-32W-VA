@@ -6,6 +6,11 @@
     <h1>Manage Posts</h1>
     {% endblock %}
 
+    {% block breadcrumbs_nav %}
+    {% import 'components.html' as components %}
+    {{ components.breadcrumbs('Manage Posts', 'content.post_manage') }}
+    {% endblock %}
+
     {% block content %}
     {% if not current_user.is_admin() %}
     <section class="quick-access">
