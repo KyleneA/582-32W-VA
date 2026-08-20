@@ -1,12 +1,12 @@
 import { fetchAdmins, fetchResidents } from "./api.js";
-import { changeSortBtn, renderAdmins, renderResidents } from "./ui.js";
+import { changeSortBtn, renderAdmins, renderResidents, displayError } from "./ui.js";
 import Admin from "./Admin.js";
 
 // Residents
 const residentSection = document.querySelector('section.resident-users');
 const residentList = residentSection.querySelector("div.container ul.resident-list");
 const residentSortBtns = residentSection.querySelector("div.sorting-btns");
-
+const errorMsgR = residentSection.querySelector('div.error-msg');
 
 const residentSortDefault = residentSortBtns.querySelector('#default');
 const residentSortName = residentSortBtns.querySelector('#name');
@@ -19,15 +19,21 @@ fetchResidents("id")
 .then((response) => {
     renderResidents(response, residentList);
 })
+.catch((error) => {
+    displayError(error, errorMsgR);
+});
 
 residentSortDefault.addEventListener(("click"), () => {
     if (!residentSortDefault.className.includes('active')) {
-        changeSortBtn(residentSortBtns, residentSortDefault);
-
         fetchResidents("id")
         .then((response) => {
+            changeSortBtn(residentSortBtns, residentSortDefault);
+            
             renderResidents(response, residentList);
         })
+        .catch((error) => {
+            displayError(error, errorMsgR);
+        });
     }
 
     return;
@@ -35,12 +41,15 @@ residentSortDefault.addEventListener(("click"), () => {
 
 residentSortName.addEventListener(("click"), () => {
     if (!residentSortName.className.includes('active')) {
-        changeSortBtn(residentSortBtns, residentSortName);
-
         fetchResidents("name")
         .then((response) => {
+            changeSortBtn(residentSortBtns, residentSortName);
+    
             renderResidents(response, residentList);
         })
+        .catch((error) => {
+            displayError(error, errorMsgR);
+        });
     }
 
     return;
@@ -48,12 +57,15 @@ residentSortName.addEventListener(("click"), () => {
 
 residentSortEmail.addEventListener(("click"), () => {
     if (!residentSortEmail.className.includes('active')) {
-        changeSortBtn(residentSortBtns, residentSortEmail);
-
         fetchResidents("email")
         .then((response) => {
+            changeSortBtn(residentSortBtns, residentSortEmail);
+    
             renderResidents(response, residentList);
         })
+        .catch((error) => {
+            displayError(error, errorMsgR);
+        });
     }
 
     return;
@@ -61,12 +73,15 @@ residentSortEmail.addEventListener(("click"), () => {
 
 residentSortApartment.addEventListener(("click"), () => {
     if (!residentSortApartment.className.includes('active')) {
-        changeSortBtn(residentSortBtns, residentSortApartment);
-
         fetchResidents("apartment")
         .then((response) => {
+            changeSortBtn(residentSortBtns, residentSortApartment);
+    
             renderResidents(response, residentList);
         })
+        .catch((error) => {
+            displayError(error, errorMsgR);
+        });
     }
 
     return;
@@ -74,12 +89,15 @@ residentSortApartment.addEventListener(("click"), () => {
 
 residentSortLease.addEventListener(("click"), () => {
     if (!residentSortLease.className.includes('active')) {
-        changeSortBtn(residentSortBtns, residentSortLease);
-
         fetchResidents("lease date")
         .then((response) => {
+            changeSortBtn(residentSortBtns, residentSortLease);
+    
             renderResidents(response, residentList);
         })
+        .catch((error) => {
+            displayError(error, errorMsgR);
+        });
     }
 
     return;
@@ -87,12 +105,15 @@ residentSortLease.addEventListener(("click"), () => {
 
 residentSortParking.addEventListener(("click"), () => {
     if (!residentSortParking.className.includes('active')) {
-        changeSortBtn(residentSortBtns, residentSortParking);
-
         fetchResidents("parking status")
         .then((response) => {
+            changeSortBtn(residentSortBtns, residentSortParking);
+    
             renderResidents(response, residentList);
         })
+        .catch((error) => {
+            displayError(error, errorMsgR);
+        });
     }
 
     return;
@@ -102,26 +123,33 @@ residentSortParking.addEventListener(("click"), () => {
 // Admins
 const adminSection = document.querySelector('section.admin-users');
 const adminList = adminSection.querySelector("div.container ul.admin-list");
+const errorMsgA = adminSection.querySelector('div.error-msg');
+
+const adminSortBtns = adminSection.querySelector("div.sorting-btns");
 const adminSortDefault = adminSection.querySelector('#default');
 const adminSortName = adminSection.querySelector('#name');
 const adminSortEmail = adminSection.querySelector('#email');
+
 
 // Admins
 fetchAdmins("id")
 .then((response) => {
     renderAdmins(response,adminList);
 })
+.catch((error) => {
+    displayError(error, errorMsgA);
+});
 
 adminSortDefault.addEventListener(("click"), () => {
     if (!adminSortDefault.className.includes('active')) {
-        adminSortDefault.className = "btn active";
-        adminSortName.className = "btn";
-        adminSortEmail.className = "btn";
-
         fetchAdmins("id")
         .then((response) => {
+            changeSortBtn(adminSortBtns, adminSortDefault);
             renderAdmins(response,adminList);
         })
+        .catch((error) => {
+            displayError(error, errorMsgA);
+        });
     }
 
     return;
@@ -129,14 +157,14 @@ adminSortDefault.addEventListener(("click"), () => {
 
 adminSortName.addEventListener(("click"), () => {
     if (!adminSortName.className.includes('active')) {
-        adminSortDefault.className = "btn";
-        adminSortName.className = "btn active";
-        adminSortEmail.className = "btn";
-        
         fetchAdmins("name")
         .then((response) =>{
+            changeSortBtn(adminSortBtns, adminSortName);
             renderAdmins(response, adminList);
         })
+        .catch((error) => {
+            displayError(error, errorMsgA);
+        });
     }
 
     return;
@@ -144,14 +172,14 @@ adminSortName.addEventListener(("click"), () => {
 
 adminSortEmail.addEventListener(("click"), () => {
     if (!adminSortEmail.className.includes('active')) {
-        adminSortDefault.className = "btn";
-        adminSortName.className = "btn";
-        adminSortEmail.className = "btn active";
-        
         fetchAdmins("email")
         .then((response) =>{
+            changeSortBtn(adminSortBtns, adminSortName);
             renderAdmins(response, adminList);
         })
+        .catch((error) => {
+            displayError(error, errorMsgA);
+        });
     }
 
     return;

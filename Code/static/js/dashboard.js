@@ -67,7 +67,6 @@ fetchAnnouncements("recent")
     }
 })
 .catch((error) => {
-    errorMsgA.className = "error-msg active";
     displayError(error, errorMsgA);
 });
 
@@ -81,10 +80,10 @@ const announcementSortEndDate = announcementSortBtnsDiv.querySelector("#end-date
 
 announcementSortRecent.addEventListener("click", () => {
     if (!announcementSortRecent.className.includes('active')) {
-        changeSortBtn(announcementSortBtnsDiv, announcementSortRecent);
-        
         fetchAnnouncements("recent")
         .then((response) =>{
+            changeSortBtn(announcementSortBtnsDiv, announcementSortRecent);
+            
             announcementCardsDiv.innerHTML = "";
 
             const postedAnnouncements = response.filter((announcement) => announcement.status === 'posted');
@@ -100,7 +99,7 @@ announcementSortRecent.addEventListener("click", () => {
             }
         }) 
         .catch((error) => {
-            errorMsgA.className = "error-msg active";
+    
             displayError(error, errorMsgA);
         });
     }
@@ -110,10 +109,10 @@ announcementSortRecent.addEventListener("click", () => {
 
 announcementSortOldest.addEventListener("click", () => {
     if (!announcementSortOldest.className.includes('active')) {
-        changeSortBtn(announcementSortBtnsDiv, announcementSortOldest);
-        
         fetchAnnouncements("oldest")
         .then((response) =>{
+            changeSortBtn(announcementSortBtnsDiv, announcementSortOldest);
+            
             announcementCardsDiv.innerHTML = "";
 
             const postedAnnouncements = response.filter((announcement) => announcement.status === 'posted');
@@ -129,7 +128,6 @@ announcementSortOldest.addEventListener("click", () => {
             }
         })
         .catch((error) => {
-            errorMsgA.className = "error-msg active";
             displayError(error, errorMsgA);
         });
     }
@@ -139,10 +137,10 @@ announcementSortOldest.addEventListener("click", () => {
 
 announcementSortTitle.addEventListener("click", () => {
     if (!announcementSortTitle.className.includes('active')) {
-        changeSortBtn(announcementSortBtnsDiv, announcementSortTitle);
-        
         fetchAnnouncements("title")
         .then((response) =>{
+            changeSortBtn(announcementSortBtnsDiv, announcementSortTitle);
+            
             announcementCardsDiv.innerHTML = "";
 
             const postedAnnouncements = response.filter((announcement) => announcement.status === 'posted');
@@ -158,7 +156,7 @@ announcementSortTitle.addEventListener("click", () => {
             }
         })
         .catch((error) => {
-            errorMsgA.className = "error-msg active";
+    
             displayError(error, errorMsgA);
         });
     }
@@ -168,10 +166,10 @@ announcementSortTitle.addEventListener("click", () => {
 
 announcementSortStartDate.addEventListener("click", () => {
     if (!announcementSortStartDate.className.includes('active')) {
-        changeSortBtn(announcementSortBtnsDiv, announcementSortStartDate);
-
         fetchAnnouncements("start-date")
         .then((response) =>{
+            changeSortBtn(announcementSortBtnsDiv, announcementSortStartDate);
+    
             announcementCardsDiv.innerHTML = "";
 
             const postedAnnouncements = response.filter((announcement) => announcement.status === 'posted');
@@ -187,7 +185,7 @@ announcementSortStartDate.addEventListener("click", () => {
             }
         })
         .catch((error) => {
-            errorMsgA.className = "error-msg active";
+    
             displayError(error, errorMsgA);
         });
     }
@@ -197,10 +195,10 @@ announcementSortStartDate.addEventListener("click", () => {
 
 announcementSortEndDate.addEventListener("click", () => {
     if (!announcementSortEndDate.className.includes('active')) {
-        changeSortBtn(announcementSortBtnsDiv, announcementSortEndDate);
-        
         fetchAnnouncements("end-date")
         .then((response) =>{
+            changeSortBtn(announcementSortBtnsDiv, announcementSortEndDate);
+            
             announcementCardsDiv.innerHTML = "";
 
             const postedAnnouncements = response.filter((announcement) => announcement.status === 'posted');
@@ -216,7 +214,6 @@ announcementSortEndDate.addEventListener("click", () => {
             }
         })
         .catch((error) => {
-            errorMsgA.className = "error-msg active";
             displayError(error, errorMsgA);
         });
     }
@@ -246,7 +243,6 @@ fetchPosts("recent")
     }
 })
 .catch ((error) => {
-    errorMsgP.className = "error-msg active";
     displayError(error, errorMsgP);
 });
 
@@ -264,12 +260,12 @@ const postSortCatShare = dashboardPosts.querySelector("#category-share");
 
 postSortRecent.addEventListener("click", () => {
     if (!postSortRecent.className.includes('active')) {
-        changeSortBtn(sortBtnsDiv, postSortRecent);
-        
-        postCardsDiv.innerHTML = "";
-
         fetchPosts("recent")
         .then((response) =>{
+            changeSortBtn(sortBtnsDiv, postSortRecent);
+            
+            postCardsDiv.innerHTML = "";
+    
             const approvedPosts = response.filter((post) => post.isApproved);
     
             if (approvedPosts.length === 0) {
@@ -283,7 +279,6 @@ postSortRecent.addEventListener("click", () => {
             }
         })
         .catch ((error) => {
-            errorMsgP.className = "error-msg active";
             displayError(error, errorMsgP);
         });
     }
@@ -291,12 +286,12 @@ postSortRecent.addEventListener("click", () => {
 
 postSortOldest.addEventListener("click", () => {
     if (!postSortOldest.className.includes('active')) {
-        changeSortBtn(sortBtnsDiv, postSortOldest);
-
-        postCardsDiv.innerHTML = "";
-
         fetchPosts("oldest")
         .then((response) =>{
+            changeSortBtn(sortBtnsDiv, postSortOldest);
+    
+            postCardsDiv.innerHTML = "";
+    
             const approvedPosts = response.filter((post) => post.isApproved);
     
             if (approvedPosts.length === 0) {
@@ -310,7 +305,6 @@ postSortOldest.addEventListener("click", () => {
             }
         })
         .catch ((error) => {
-            errorMsgP.className = "error-msg active";
             displayError(error, errorMsgP);
         });
     }
@@ -318,12 +312,12 @@ postSortOldest.addEventListener("click", () => {
 
 postSortTitle.addEventListener("click", () => {
     if (!postSortTitle.className.includes('active')) {
-        changeSortBtn(sortBtnsDiv, postSortTitle);
-
-        postCardsDiv.innerHTML = "";
-
         fetchPosts("title")
         .then((response) =>{
+            changeSortBtn(sortBtnsDiv, postSortTitle);
+    
+            postCardsDiv.innerHTML = "";
+    
             const approvedPosts = response.filter((post) => post.isApproved);
     
             if (approvedPosts.length === 0) {
@@ -337,7 +331,6 @@ postSortTitle.addEventListener("click", () => {
             }
         })
         .catch ((error) => {
-            errorMsgP.className = "error-msg active";
             displayError(error, errorMsgP);
         });
     }
@@ -345,12 +338,12 @@ postSortTitle.addEventListener("click", () => {
 
 postSortStartDate.addEventListener("click", () => {
     if (!postSortStartDate.className.includes('active')) {
-        changeSortBtn(sortBtnsDiv, postSortStartDate);
-
-        postCardsDiv.innerHTML = "";
-
         fetchPosts("start date")
         .then((response) =>{
+            changeSortBtn(sortBtnsDiv, postSortStartDate);
+    
+            postCardsDiv.innerHTML = "";
+    
             const approvedPosts = response.filter((post) => post.isApproved);
     
             if (approvedPosts.length === 0) {
@@ -364,7 +357,6 @@ postSortStartDate.addEventListener("click", () => {
             }
         })
         .catch ((error) => {
-            errorMsgP.className = "error-msg active";
             displayError(error, errorMsgP);
         });
     }
@@ -372,12 +364,12 @@ postSortStartDate.addEventListener("click", () => {
 
 postSortEndDate.addEventListener("click", () => {
     if (!postSortEndDate.className.includes('active')) {
-        changeSortBtn(sortBtnsDiv, postSortEndDate);
-
-        postCardsDiv.innerHTML = "";
-
         fetchPosts("end date")
         .then((response) =>{
+            changeSortBtn(sortBtnsDiv, postSortEndDate);
+    
+            postCardsDiv.innerHTML = "";
+    
             const approvedPosts = response.filter((post) => post.isApproved);
     
             if (approvedPosts.length === 0) {
@@ -391,7 +383,6 @@ postSortEndDate.addEventListener("click", () => {
             }
         })
         .catch ((error) => {
-            errorMsgP.className = "error-msg active";
             displayError(error, errorMsgP);
         });
     }
@@ -399,12 +390,12 @@ postSortEndDate.addEventListener("click", () => {
 
 postSortCatSearch.addEventListener("click", () => {
     if (!postSortCatSearch.className.includes('active')) {
-        changeSortBtn(sortBtnsDiv, postSortCatSearch);
-
-        postCardsDiv.innerHTML = "";
-
         fetchPosts("in search of")
         .then((response) =>{
+            changeSortBtn(sortBtnsDiv, postSortCatSearch);
+            
+            postCardsDiv.innerHTML = "";
+            
             const approvedPosts = response.filter((post) => post.isApproved);
     
             if (approvedPosts.length === 0) {
@@ -418,7 +409,6 @@ postSortCatSearch.addEventListener("click", () => {
             }
         })
         .catch ((error) => {
-            errorMsgP.className = "error-msg active";
             displayError(error, errorMsgP);
         });
     }
@@ -426,12 +416,12 @@ postSortCatSearch.addEventListener("click", () => {
 
 postSortCatGive.addEventListener("click", () => {
     if (!postSortCatGive.className.includes('active')) {
-        changeSortBtn(sortBtnsDiv, postSortCatGive);
-
-        postCardsDiv.innerHTML = "";
-
         fetchPosts("to give away")
         .then((response) =>{
+            changeSortBtn(sortBtnsDiv, postSortCatGive);
+    
+            postCardsDiv.innerHTML = "";
+    
             const approvedPosts = response.filter((post) => post.isApproved);
     
             if (approvedPosts.length === 0) {
@@ -445,7 +435,6 @@ postSortCatGive.addEventListener("click", () => {
             }
         })
         .catch ((error) => {
-            errorMsgP.className = "error-msg active";
             displayError(error, errorMsgP);
         });
     }
@@ -453,12 +442,12 @@ postSortCatGive.addEventListener("click", () => {
 
 postSortCatShare.addEventListener("click", () => {
     if (!postSortCatShare.className.includes('active')) {
-        changeSortBtn(sortBtnsDiv, postSortCatShare);
-
-        postCardsDiv.innerHTML = "";
-
         fetchPosts("something to share")
         .then((response) =>{
+            changeSortBtn(sortBtnsDiv, postSortCatShare);
+    
+            postCardsDiv.innerHTML = "";
+    
             const approvedPosts = response.filter((post) => post.isApproved);
     
             if (approvedPosts.length === 0) {
@@ -472,7 +461,6 @@ postSortCatShare.addEventListener("click", () => {
             }
         })
         .catch ((error) => {
-            errorMsgP.className = "error-msg active";
             displayError(error, errorMsgP);
         });
     }

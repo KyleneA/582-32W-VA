@@ -172,10 +172,22 @@ h2 {
     text-transform: capitalize;
 }
 
+div.error-msg {
+    display: none;
+}
+
+div.error-msg.active {
+    display: block;
+    color: var(--error-color);
+    margin-bottom: 20px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
 /* Specific Variables */
-.banner {
+section.banner {
     background-image: url(https://montrealgazette.com/wp-content/uploads/sites/2/2026/03/0328-oped-letters-polaris.jpg);
-    background-color: rgba(0, 0, 0, .35);
+    background-color: rgba(0, 0, 0, .45);
     background-position: center;
     background-size: cover;
     background-blend-mode: multiply;
@@ -184,11 +196,12 @@ h2 {
     text-align: center;
 }
 
-.banner.home{
+section.banner.home{
+    background-color: rgba(0, 0, 0, .55);
     padding: 150px 0;
 }
 
-.flash-section {
+section.flash-section {
     padding: 30px 0 0;
 
     .flash-messages {
@@ -454,11 +467,40 @@ form {
         justify-content: space-between;
         margin-bottom: 30px;
 
+        p {
+            width: 100%;
+            font-size: 18px;
+            font-style: italic;
+        }
+        
         div.input-div {
             min-width: 300px;
             width: calc(50% - 20px);
             margin-bottom: 0;
         }
+    }
+    
+    div.contact-div {
+        p {
+            width: 100%;
+            font-size: 18px;
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+        
+        div.input-div {
+            margin: 15px 0 30px;
+        }
+        
+    }
+}
+
+section.add-post.description {
+    background-color: var(--secondary-light);
+    color: var(--on-secondary-light-main);
+
+    h2 {
+        color: var(--on-secondary-light-mid);
     }
 }
 
@@ -560,15 +602,6 @@ section.dashboard {
             }
         }
 
-        div.error-msg {
-            display: none;
-        }
-
-        div.error-msg.active {
-            display: block;
-            color: var(--error-color);
-        }
-        
         div.announcement-cards,
         div.post-cards {
             display: flex;
@@ -749,14 +782,16 @@ section.announcements {
     div.announcements-div {
         div.sorting-btns {
             display: flex;
-            gap: 5px 20px;
+            gap: 10px 20px;
             flex-wrap: wrap;
             justify-content: space-between;
-            margin-bottom: 20px;
+            margin-bottom: 40px;
 
             button.btn {
                 background-color: transparent;
                 color: var(--text-subtle);
+                flex-grow: 1;
+                width: calc(20% - 20px);
             }
             
             button.btn:hover {

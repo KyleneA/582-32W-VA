@@ -8,6 +8,7 @@ import { PostCard } from "./PostCard.js";
 // Display ERRORS
 export function displayError(error, div){
     console.error(error);
+    div.className = "error-msg active";
     div.textContent = "Content failed to load. " + error;
 }
 
@@ -117,7 +118,7 @@ export function renderAnnouncement(announcement, cardsDiv, isImmediate, isManage
     cardsDiv.appendChild(announcementCard);
 }
 
-export function renderAnnouncements(response, cardsDiv, isManage) {
+export function renderAnnouncements(response, cardsDiv) {
     cardsDiv.innerHTML = "";
 
     if (response.length === 0) {
