@@ -44,7 +44,20 @@
     /* SIZES */
     --radius: 4px;
 
-    --box-shadow-qa: 4px 4px 10px rgba(83, 74, 70, .25)
+    --box-shadow: 4px 4px 10px rgba(83, 74, 70, .25);
+
+    /* Responsive values */
+    @media only screen and (max-width: 992px) {
+
+    }
+
+    @media only screen and (max-width: 768px) {
+
+    }
+
+    @media only screen and (max-width: 576px) {
+
+    }
 }
 
 body {
@@ -470,7 +483,7 @@ section.quick-access {
             text-align: center;
             background-color: var(--primary-color);
             color: var(--on-primary);
-            box-shadow: var(--box-shadow-qa);
+            box-shadow: var(--box-shadow);
         }
         
         a.btn:hover {
@@ -512,59 +525,27 @@ section.dashboard {
         }
     }
 
-    div.announcements-div{
+    div.announcements-div,
+    div.posts-div {
         display: none;
     }
 
-    div.announcements-div.active{
+    div.announcements-div.active,
+    div.posts-div.active {
         display: block;
 
         div.sorting-btns {
-            margin-bottom: 15px;
-
-            button.btn {
-                background-color: transparent;
-                color: var(--text-subtle);
-            }
-            
-            button.btn:hover {
-                background-color: var(--primary-light);
-                color: var(--on-primary-light-mid);
-            }
-            
-            button.btn.active {
-                background-color: var(--primary-color);
-                color: var(--on-primary);
-                cursor: default;
-            }
-        }
-        
-        div.announcement-cards {
             display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-    }
-
-    div.posts-div{
-        display: none;
-    }
-
-    div.posts-div.active{
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        
-        div.sorting-btns {
-            display: flex;
-            gap: 20px;
+            gap: 10px 20px;
             flex-wrap: wrap;
             justify-content: space-between;
-            margin-bottom: 15px;
+            margin-bottom: 40px;
 
             button.btn {
                 background-color: transparent;
                 color: var(--text-subtle);
+                flex-grow: 1;
+                width: calc(20% - 20px);
             }
             
             button.btn:hover {
@@ -578,11 +559,21 @@ section.dashboard {
                 cursor: default;
             }
         }
+
+        div.error-msg {
+            display: none;
+        }
+
+        div.error-msg.active {
+            display: block;
+            color: var(--error-color);
+        }
         
+        div.announcement-cards,
         div.post-cards {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 40px;
         }
     }
 }

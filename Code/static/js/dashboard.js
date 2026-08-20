@@ -4,7 +4,7 @@ import Announcement from "./Announcement.js";
 import { AnnouncementCard } from "./AnnouncementCard.js";
 import Post from "./Post.js";
 import { PostCard } from "./PostCard.js";
-import { renderAnnouncement, renderAnnouncements, renderPost, changeSortBtn } from "./ui.js";
+import { displayError, renderAnnouncement, renderAnnouncements, renderPost, changeSortBtn } from "./ui.js";
 
 // IMMEDIATE ANNOUNCEMENT SECTION
 const immediateAnnouncements = document.querySelector("section.immediate-announcements div.container");
@@ -17,6 +17,9 @@ fetchAnnouncements("recent-immediate")
         }
     }
 })
+.catch((error) => {
+    displayError(error, immediateAnnouncements);
+});
 
 // TAB BUTTONS - ANNOUNCEMENTS
 const announcementBtn = document.getElementById("btn-announcements");
@@ -45,6 +48,7 @@ postBtn.addEventListener("click", () => {
 // GETTING AND DISPLAYING ANNOUNCEMENTS
 const dashboardAnnouncements = document.querySelector("section.dashboard div.container div.announcements-div");
 const announcementCardsDiv = dashboardAnnouncements.querySelector("div.announcement-cards");
+const errorMsgA = dashboardAnnouncements.querySelector("div.error-msg");
 
 fetchAnnouncements("recent")
 .then((response) => {
@@ -62,6 +66,10 @@ fetchAnnouncements("recent")
         }
     }
 })
+.catch((error) => {
+    errorMsgA.className = "error-msg active";
+    displayError(error, errorMsgA);
+});
 
 // SORT BUTTONS LOGIC
 const announcementSortBtnsDiv = dashboardAnnouncements.querySelector('div.sorting-btns');
@@ -90,7 +98,11 @@ announcementSortRecent.addEventListener("click", () => {
                     renderAnnouncement(announcement, announcementCardsDiv, false);
                 }
             }
-        })
+        }) 
+        .catch((error) => {
+            errorMsgA.className = "error-msg active";
+            displayError(error, errorMsgA);
+        });
     }
     
     return;
@@ -116,6 +128,10 @@ announcementSortOldest.addEventListener("click", () => {
                 }
             }
         })
+        .catch((error) => {
+            errorMsgA.className = "error-msg active";
+            displayError(error, errorMsgA);
+        });
     }
     
     return;
@@ -141,6 +157,10 @@ announcementSortTitle.addEventListener("click", () => {
                 }
             }
         })
+        .catch((error) => {
+            errorMsgA.className = "error-msg active";
+            displayError(error, errorMsgA);
+        });
     }
     
     return;
@@ -166,6 +186,10 @@ announcementSortStartDate.addEventListener("click", () => {
                 }
             }
         })
+        .catch((error) => {
+            errorMsgA.className = "error-msg active";
+            displayError(error, errorMsgA);
+        });
     }
     
     return;
@@ -191,6 +215,10 @@ announcementSortEndDate.addEventListener("click", () => {
                 }
             }
         })
+        .catch((error) => {
+            errorMsgA.className = "error-msg active";
+            displayError(error, errorMsgA);
+        });
     }
 
     return;
@@ -199,6 +227,7 @@ announcementSortEndDate.addEventListener("click", () => {
 // GETTING AND DISPLAYING POSTS
 const dashboardPosts = document.querySelector("section.dashboard div.container div.posts-div");
 const postCardsDiv = dashboardPosts.querySelector("div.post-cards");
+const errorMsgP = dashboardPosts.querySelector("div.error-msg");
 
 fetchPosts("recent")
 .then((response) =>{
@@ -216,6 +245,10 @@ fetchPosts("recent")
             renderPost(post, postCardsDiv);
     }
 })
+.catch ((error) => {
+    errorMsgP.className = "error-msg active";
+    displayError(error, errorMsgP);
+});
 
 // SORT BUTTONS LOGIC
 const sortBtnsDiv = dashboardPosts.querySelector(".sorting-btns");
@@ -237,12 +270,23 @@ postSortRecent.addEventListener("click", () => {
 
         fetchPosts("recent")
         .then((response) =>{
+            const approvedPosts = response.filter((post) => post.isApproved);
+    
+            if (approvedPosts.length === 0) {
+                postCardsDiv.textContent = "There are currently no posts."
+
+                return;
+            }
+            
             for (const post of approvedPosts) {
-                renderPost(post, postCardsDiv);
+                    renderPost(post, postCardsDiv);
             }
         })
-    }        
-    return;
+        .catch ((error) => {
+            errorMsgP.className = "error-msg active";
+            displayError(error, errorMsgP);
+        });
+    }
 });
 
 postSortOldest.addEventListener("click", () => {
@@ -253,12 +297,23 @@ postSortOldest.addEventListener("click", () => {
 
         fetchPosts("oldest")
         .then((response) =>{
+            const approvedPosts = response.filter((post) => post.isApproved);
+    
+            if (approvedPosts.length === 0) {
+                postCardsDiv.textContent = "There are currently no posts."
+
+                return;
+            }
+            
             for (const post of approvedPosts) {
-                renderPost(post, postCardsDiv);
+                    renderPost(post, postCardsDiv);
             }
         })
-    }        
-    return;
+        .catch ((error) => {
+            errorMsgP.className = "error-msg active";
+            displayError(error, errorMsgP);
+        });
+    }
 });
 
 postSortTitle.addEventListener("click", () => {
@@ -269,13 +324,23 @@ postSortTitle.addEventListener("click", () => {
 
         fetchPosts("title")
         .then((response) =>{
+            const approvedPosts = response.filter((post) => post.isApproved);
+    
+            if (approvedPosts.length === 0) {
+                postCardsDiv.textContent = "There are currently no posts."
+
+                return;
+            }
+            
             for (const post of approvedPosts) {
-                renderPost(post, postCardsDiv);
+                    renderPost(post, postCardsDiv);
             }
         })
+        .catch ((error) => {
+            errorMsgP.className = "error-msg active";
+            displayError(error, errorMsgP);
+        });
     }
-    
-    return;
 });
 
 postSortStartDate.addEventListener("click", () => {
@@ -286,12 +351,23 @@ postSortStartDate.addEventListener("click", () => {
 
         fetchPosts("start date")
         .then((response) =>{
+            const approvedPosts = response.filter((post) => post.isApproved);
+    
+            if (approvedPosts.length === 0) {
+                postCardsDiv.textContent = "There are currently no posts."
+
+                return;
+            }
+            
             for (const post of approvedPosts) {
-                renderPost(post, postCardsDiv);
+                    renderPost(post, postCardsDiv);
             }
         })
-    }        
-    return;
+        .catch ((error) => {
+            errorMsgP.className = "error-msg active";
+            displayError(error, errorMsgP);
+        });
+    }
 });
 
 postSortEndDate.addEventListener("click", () => {
@@ -302,12 +378,23 @@ postSortEndDate.addEventListener("click", () => {
 
         fetchPosts("end date")
         .then((response) =>{
+            const approvedPosts = response.filter((post) => post.isApproved);
+    
+            if (approvedPosts.length === 0) {
+                postCardsDiv.textContent = "There are currently no posts."
+
+                return;
+            }
+            
             for (const post of approvedPosts) {
-                renderPost(post, postCardsDiv);
+                    renderPost(post, postCardsDiv);
             }
         })
-    }        
-    return;
+        .catch ((error) => {
+            errorMsgP.className = "error-msg active";
+            displayError(error, errorMsgP);
+        });
+    }
 });
 
 postSortCatSearch.addEventListener("click", () => {
@@ -318,12 +405,23 @@ postSortCatSearch.addEventListener("click", () => {
 
         fetchPosts("in search of")
         .then((response) =>{
+            const approvedPosts = response.filter((post) => post.isApproved);
+    
+            if (approvedPosts.length === 0) {
+                postCardsDiv.textContent = "There are currently no posts."
+
+                return;
+            }
+            
             for (const post of approvedPosts) {
-                renderPost(post, postCardsDiv);
+                    renderPost(post, postCardsDiv);
             }
         })
-    }        
-    return;
+        .catch ((error) => {
+            errorMsgP.className = "error-msg active";
+            displayError(error, errorMsgP);
+        });
+    }
 });
 
 postSortCatGive.addEventListener("click", () => {
@@ -334,12 +432,23 @@ postSortCatGive.addEventListener("click", () => {
 
         fetchPosts("to give away")
         .then((response) =>{
+            const approvedPosts = response.filter((post) => post.isApproved);
+    
+            if (approvedPosts.length === 0) {
+                postCardsDiv.textContent = "There are currently no posts."
+
+                return;
+            }
+            
             for (const post of approvedPosts) {
-                renderPost(post, postCardsDiv);
+                    renderPost(post, postCardsDiv);
             }
         })
-    }        
-    return;
+        .catch ((error) => {
+            errorMsgP.className = "error-msg active";
+            displayError(error, errorMsgP);
+        });
+    }
 });
 
 postSortCatShare.addEventListener("click", () => {
@@ -350,10 +459,21 @@ postSortCatShare.addEventListener("click", () => {
 
         fetchPosts("something to share")
         .then((response) =>{
+            const approvedPosts = response.filter((post) => post.isApproved);
+    
+            if (approvedPosts.length === 0) {
+                postCardsDiv.textContent = "There are currently no posts."
+
+                return;
+            }
+            
             for (const post of approvedPosts) {
-                renderPost(post, postCardsDiv);
+                    renderPost(post, postCardsDiv);
             }
         })
-    }        
-    return;
+        .catch ((error) => {
+            errorMsgP.className = "error-msg active";
+            displayError(error, errorMsgP);
+        });
+    }
 });

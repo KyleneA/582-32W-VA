@@ -5,6 +5,13 @@ import { AnnouncementCard } from "./AnnouncementCard.js";
 import Post from "./Post.js";
 import { PostCard } from "./PostCard.js";
 
+// Display ERRORS
+export function displayError(error, div){
+    console.error(error);
+    div.textContent = "Content failed to load. " + error;
+}
+
+
 // USERS
 
 // Admin
