@@ -46,7 +46,7 @@ pendingDisplayBtn.addEventListener("click", () => {
 // APPROVED
 approvedDisplayBtn.addEventListener("click", () => {
     if (!approvedDisplayBtn.className.includes('active')) {
-        postStatusDisplayed = "approved";
+        postStatusDisplayed = "posted";
         
         posts
         .then((response) => {

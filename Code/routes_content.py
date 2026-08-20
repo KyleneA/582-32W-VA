@@ -94,7 +94,7 @@ def announcement_edit(announcement_id):
         if errors:
             flash_errors(errors)
 
-            return render_template("add_announcement.html", area_options=area_options, urgency_options=urgency_options, title=title, body=body, affected_area=affected_area, urgency=urgency, start_date=start_date, end_date=end_date, image=image_url)
+            return render_template("edit_announcement.html", area_options=area_options, urgency_options=urgency_options, announcement=announcement, title=title, body=body, affected_area=affected_area, urgency=urgency, start_date=start_date, end_date=end_date, image=image_url)
         
         announcement.admin = current_user
         announcement.title = title
@@ -236,7 +236,7 @@ def post_edit(post_id):
         if errors:
             flash_errors(errors)
             
-            return render_template("add_post.html", post_categories=post_categories, contact_types=contact_types, title=title, body=body, category=category, start_date=start_date, end_date=end_date, image=image_url, contact=contact, contact_method=contact_method)
+            return render_template("edit_post.html", post_categories=post_categories, contact_types=contact_types, post=post,title=title, body=body, category=category, start_date=start_date, end_date=end_date, image=image_url, contact=contact, contact_method=contact_method)
 
         post.title = title
         post.body = body

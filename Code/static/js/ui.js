@@ -270,7 +270,7 @@ function addManagePostBtns(cardBtnsDiv, post, userPosts) {
         if (post.status === 'pending') {
             rejectForm.action = `/post/reject/${post.id}`;
             rejectForm.firstElementChild.textContent = 'reject post';
-        } else if (post.status === 'approved') {
+        } else if (post.status === 'posted') {
             rejectForm.action =`/post/reject/${post.id}`;
             rejectForm.firstElementChild.textContent = 'unapprove post';
             rejectForm.firstElementChild.className = 'btn reject unapprove';
@@ -284,21 +284,22 @@ function addManagePostBtns(cardBtnsDiv, post, userPosts) {
 
 export function renderManagePostCard(response, postStatusDisplayed, userPosts) {
     const postsWithStatus = response.filter((post) => post.status === postStatusDisplayed);
-        
-        if (postsWithStatus.length === 0) {
-            userPosts.textContent = `There are currently no ${postStatusDisplayed} posts.`;
-            
-            return;
-        }
-        
-        for (const post of postsWithStatus) {
-            const cardBtnsDiv = document.createElement('div');
-            cardBtnsDiv.className = 'card-btns';
     
-            addManagePostBtns(cardBtnsDiv, post, userPosts);
-            
-            renderPost(post, cardBtnsDiv, true);
+    if (postsWithStatus.length === 0) {
+        userPosts.textContent = `There are currently no ${postStatusDisplayed} posts.`;
+        
+        return;
+    }
     
-            userPosts.appendChild(cardBtnsDiv);
-        }
+    // for (const post of postsWithStatus) {
+    for (const post of postsWithStatus) {
+        const cardBtnsDiv = document.createElement('div');
+        cardBtnsDiv.className = 'card-btns';
+
+        addManagePostBtns(cardBtnsDiv, post, userPosts);
+        
+        renderPost(post, cardBtnsDiv, true);
+
+        userPosts.appendChild(cardBtnsDiv);
+    }
 }
