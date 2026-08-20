@@ -5,10 +5,9 @@
     <h1>First Login | Password Reset</h1>
     {% endblock %}
     
-    {% block content %}
+    {% block description %}
     <section class="first-login">
         <div class="container">
-
             <div class="password-requirements">
                 <h2>Password Requirements:</h2>
                 <ul>
@@ -17,7 +16,13 @@
                     <li> Password must contain at least 1 digit </li>
                 </ul>
             </div>
-        
+        </div>
+    </section>
+    {% endblock %}
+            
+    {% block content %}
+    <section class="first-login">
+        <div class="container">
             <form method="POST">
                 <h2>Change your password</h2>
 

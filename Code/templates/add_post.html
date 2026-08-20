@@ -1,12 +1,11 @@
 {% extends "base.html" %} 
-    {% block title %} Create Post | XYZ Apartment {% endblock %} 
+{% block title %} Create Post | XYZ Apartment {% endblock %} 
 
     {% block banner %}
     <h1>Create new post</h1>
     {% endblock %}
 
-
-    {% block content %}
+    {% block description %}
     <section class="add-post description">
         <div class="container">
             <div class="description-container">
@@ -14,14 +13,16 @@
                 <p>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. In metus ipsum, gravida vel dapibus in, suscipit sed tortor. Proin venenatis aliquet lorem eu volutpat. Duis quis eros consequat, luctus lectus vel, pharetra metus. Donec quis odio quis mi aliquet auctor ac sit amet magna. Nunc in porta lorem. Suspendisse mattis commodo magna, vel ultrices erat hendrerit eu. Ut non mauris nec purus blandit sodales iaculis quis risus. Quisque interdum erat non accumsan porttitor. Morbi at pulvinar dolor.
                 </p>
-        
+                
                 <p>
                     Sed pharetra massa magna, et fermentum lorem posuere quis. Suspendisse enim diam, lacinia et volutpat id, consequat a purus. Vestibulum odio ipsum, rhoncus quis elit non, feugiat posuere lectus. Duis quis auctor odio, sit amet maximus augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent pretium justo in posuere convallis. Donec viverra justo vel imperdiet commodo. Mauris viverra ligula est, vitae sodales dolor fermentum id. Aenean non dui eu eros tincidunt tempus. Ut ullamcorper accumsan sapien, a iaculis magna rhoncus nec. Cras imperdiet neque ut ante rutrum posuere.
                 </p>
             </div>
         </div>
     </section>
+    {% endblock %}
     
+    {% block content %}
     <section class="add-post form">
         <div class="container">
             <h2>Create your post</h2>
