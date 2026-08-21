@@ -57,7 +57,7 @@ def user_add(user_type):
     user_role = user_type
 
     if request.method == "POST":
-        name = request.form["full-name"].strip()
+        name = request.form["full-name"].strip().title()
         email = request.form["email"].strip()
         password = request.form["password"].strip()
         errors = []

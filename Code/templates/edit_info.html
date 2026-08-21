@@ -71,7 +71,7 @@
                                 type="text" 
                                 name="room" 
                                 id="room"
-                                value="{{ room or 'Room 0' }}"
+                                value="{{ location.room or info.office_room }}"
                                 >
                             </div>
                     
@@ -81,7 +81,7 @@
                                 type="text" 
                                 name="address" 
                                 id="address"
-                                value="{{ address or '821 Sainte Croix Ave' }}"
+                                value="{{ location.address or info.street_address }}"
                                 >
                             </div>
                         </div>
@@ -93,7 +93,7 @@
                                 type="text" 
                                 name="city" 
                                 id="city"
-                                value="{{ city or 'Saint-Laurent' }}"
+                                value="{{ location.city or info.city }}"
                                 >
                             </div>
                             
@@ -103,7 +103,7 @@
                                 type="text" 
                                 name="province" 
                                 id="province"
-                                value="{{ province or 'Quebec' }}"
+                                value="{{ location.province or info.province }}"
                                 >
                             </div>
                             
@@ -113,7 +113,7 @@
                                 type="text" 
                                 name="postal-code" 
                                 id="postal-code"
-                                value="{{ postal_code or 'H4L 3X9' }}"
+                                value="{{ location.postal_code or info.postal_code }}"
                                 >
                             </div>
                         </div>
@@ -128,7 +128,7 @@
                                 type="tel" 
                                 name="phone" 
                                 id="phone"
-                                value="{{ phone or '(514) 123-4567' }}"
+                                value="{{ contact.phone or info.phone }}"
                                 >
                             </div>
                     
@@ -138,7 +138,7 @@
                                 type="email" 
                                 name="email" 
                                 id="email"
-                                value="{{ email or 'xyzApartment@email.com' }}"
+                                value="{{ contact.email or info.email }}"
                                 >
                             </div>
                         </div>
@@ -146,7 +146,7 @@
                 </div>
 
                 <div class="button-div">
-                    <button type="submit" class="btn submit">Confirm</button>
+                    <button type="submit" class="btn submit">Confirm Building Information</button>
                     <a href="{{ url_for('home') }}" class="btn cancel">cancel</a>
                 </div>
             </form>

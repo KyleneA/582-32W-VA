@@ -27,7 +27,7 @@ export function renderAdmins(response, adminList) {
         const clone = template.content.cloneNode(true);
 
         const nameH3 = clone.querySelector('.name');
-        nameH3.textContent = userObj.displayName;
+        nameH3.textContent = userObj.name;
 
         const emailP = clone.querySelector('.email');
         emailP.textContent = userObj.email;
@@ -64,7 +64,7 @@ export function renderResidents(response, residentList) {
         const clone = template.content.cloneNode(true);
 
         const nameH3 = clone.querySelector('.name');
-        nameH3.textContent = userObj.displayName;
+        nameH3.textContent = `${userObj.name} (${userObj.displayName})`;
 
         const emailP = clone.querySelector('.email');
         emailP.textContent = userObj.email;

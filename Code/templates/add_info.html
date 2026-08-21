@@ -64,7 +64,7 @@
                                 type="text" 
                                 name="room" 
                                 id="room"
-                                value="{{ room or 'Room 0' }}"
+                                value="{{ location.room or 'Room 0' }}"
                                 >
                             </div>
                     
@@ -74,7 +74,7 @@
                                 type="text" 
                                 name="address" 
                                 id="address"
-                                value="{{ address or '821 Sainte Croix Ave' }}"
+                                value="{{ location.address or '821 Sainte Croix Ave' }}"
                                 >
                             </div>
                         </div>
@@ -86,7 +86,7 @@
                                 type="text" 
                                 name="city" 
                                 id="city"
-                                value="{{ city or 'Saint-Laurent' }}"
+                                value="{{ location.city or 'Saint-Laurent' }}"
                                 >
                             </div>
                             
@@ -96,7 +96,7 @@
                                 type="text" 
                                 name="province" 
                                 id="province"
-                                value="{{ province or 'Quebec' }}"
+                                value="{{ location.province or 'Quebec' }}"
                                 >
                             </div>
                             
@@ -106,7 +106,7 @@
                                 type="text" 
                                 name="postal-code" 
                                 id="postal-code"
-                                value="{{ postal_code or 'H4L 3X9' }}"
+                                value="{{ location.postal_code or 'H4L 3X9' }}"
                                 >
                             </div>
                         </div>
@@ -121,7 +121,7 @@
                                 type="tel" 
                                 name="phone" 
                                 id="phone"
-                                value="{{ phone or '(514) 123-4567' }}"
+                                value="{{ location.phone or '(514) 123-4567' }}"
                                 >
                             </div>
                     
@@ -131,7 +131,7 @@
                                 type="email" 
                                 name="email" 
                                 id="email"
-                                value="{{ email or 'xyzApartment@email.com' }}"
+                                value="{{ location.email or 'xyzApartment@email.com' }}"
                                 >
                             </div>
                         </div>

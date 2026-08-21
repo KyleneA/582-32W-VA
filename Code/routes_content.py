@@ -3,7 +3,7 @@ from flask_login import login_required, current_user
 
 from models import db, Announcement, Post, BuildingInfo, Guideline
 
-from helperFunctions import find_user, convert_to_date, validate_apartment, validate_email, validate_date, validate_locker, validate_name, validate_parking_status, validate_password, flash_errors, area_options, urgency_options, validate_affected_area, validate_body, validate_title, validate_select_options, post_categories, contact_types, validate_contact, check_for_errors
+from helperFunctions import find_user, convert_to_date, validate_apartment, validate_email, validate_date, validate_start_end_dates, validate_locker, validate_name, validate_parking_status, validate_password, flash_errors, area_options, urgency_options, validate_affected_area, validate_body, validate_title, validate_select_options, post_categories, contact_types, validate_contact, validate_building_hours, validate_location, validate_office_contact,check_for_errors
 
 content = Blueprint("content", __name__)
 
@@ -36,10 +36,9 @@ def announcement_add():
         body_errors = validate_body(body, "announcement")
         affected_area_errors = validate_affected_area(affected_area)
         urgency_errors = validate_select_options(urgency, "urgency", urgency_options)
-        start_date_errors = validate_date(start_date, False, input_type="start")
-        end_date_errors = validate_date(end_date, False, input_type="end")
+        date_errors = validate_start_end_dates(start_date, end_date)
         
-        validation_results = [title_errors, body_errors, affected_area_errors, urgency_errors, start_date_errors, end_date_errors]
+        validation_results = [title_errors, body_errors, affected_area_errors, urgency_errors, date_errors]
 
         for result in validation_results:
             if result:
@@ -82,10 +81,9 @@ def announcement_edit(announcement_id):
         body_errors = validate_body(body, "announcement")
         affected_area_errors = validate_affected_area(affected_area)
         urgency_errors = validate_select_options(urgency, "urgency", urgency_options)
-        start_date_errors = validate_date(start_date, False, input_type="start")
-        end_date_errors = validate_date(end_date, False, input_type="end")
+        date_errors = validate_start_end_dates(start_date, end_date)
         
-        validation_results = [title_errors, body_errors, affected_area_errors, urgency_errors, start_date_errors, end_date_errors]
+        validation_results = [title_errors, body_errors, affected_area_errors, urgency_errors, date_errors]
 
         for result in validation_results:
             if result:
@@ -177,10 +175,9 @@ def post_add():
         body_errors = validate_body(body, "community post")
         category_errors = validate_select_options(category, "post category", post_categories)
         contact_errors = validate_contact(contact_types, contact_method, contact)
-        start_date_errors = validate_date(start_date, is_required=False, input_type="start date")
-        end_date_errors = validate_date(end_date, is_required=False, input_type="end date")
-
-        validation_results = [title_errors, body_errors, category_errors, contact_errors, start_date_errors, end_date_errors]
+        date_errors = validate_start_end_dates(start_date, end_date)
+        
+        validation_results = [title_errors, body_errors, category_errors, contact_errors, date_errors]
 
         errors = check_for_errors(validation_results)
 
@@ -226,10 +223,9 @@ def post_edit(post_id):
         body_errors = validate_body(body, "community post")
         category_errors = validate_select_options(category, "post category", post_categories)
         contact_errors = validate_contact(contact_types, contact_method, contact)
-        start_date_errors = validate_date(start_date, is_required=False, input_type="start date")
-        end_date_errors = validate_date(end_date, is_required=False, input_type="end date")
-
-        validation_results = [title_errors, body_errors, category_errors, contact_errors, start_date_errors, end_date_errors]
+        date_errors = validate_start_end_dates(start_date, end_date)
+        
+        validation_results = [title_errors, body_errors, category_errors, contact_errors, date_errors]
 
         errors = check_for_errors(validation_results)
 
@@ -331,9 +327,7 @@ def post_status(post_id, update_status):
 def edit_guidelines():
     if not current_user.is_admin():
         return redirect(url_for("home"))
-    
 
-    
     return render_template("building_info.html")
 
 @content.route("/building-info/add", methods=["GET", "POST"])
@@ -381,6 +375,19 @@ def building_info_add():
             "opening": '',
             "closing": ''
         }
+    }
+    
+    location = {
+            'room': '',
+            'address': '',
+            'city': '',
+            'province': '',
+            'postal_code': ''
+        }
+    
+    contact = {
+        'phone': '',
+        'email': ''
     }
     
     if request.method == "POST":
@@ -433,6 +440,43 @@ def building_info_add():
         postal_code = request.form['postal-code'].strip()
         phone = request.form['phone'].strip()
         email = request.form['email'].strip()
+
+        
+        new_hrs = {
+            'monday': monday, 
+            'tuesday': tuesday, 
+            'wednesday': wednesday, 
+            'thursday': thursday, 
+            'friday': friday, 
+            'saturday': saturday, 
+            'sunday': sunday
+            }
+        
+        location = {
+            'room': room,
+            'address': address,
+            'city': city,
+            'province': province,
+            'postal_code': postal_code
+        }
+
+        contact = {
+            'phone': phone,
+            'email': email
+        }
+
+        hours_errors = validate_building_hours(new_hrs)
+        location_errors = validate_location(location)
+        contact_errors = validate_office_contact(contact)
+
+        validation_results = [hours_errors, location_errors, contact_errors]
+
+        errors = check_for_errors(validation_results)
+
+        if errors:
+            flash_errors(errors)
+            
+            return render_template("add_info.html", building_hrs=new_hrs, location=location, contact=contact)
 
         office_hours = {}
 
@@ -513,6 +557,19 @@ def building_info_edit():
             "closing": info.sunday_hours.split(" - ")[1] if not info.sunday_hours == "" else ''
         }
     }
+
+    location = {
+            'room': '',
+            'address': '',
+            'city': '',
+            'province': '',
+            'postal_code': ''
+        }
+    
+    contact = {
+        'phone': '',
+        'email': ''
+    }
     
     if request.method == "POST":
         monday = {
@@ -565,6 +622,42 @@ def building_info_edit():
         phone = request.form['phone'].strip()
         email = request.form['email'].strip()
 
+        new_hrs = {
+            'monday': monday, 
+            'tuesday': tuesday, 
+            'wednesday': wednesday, 
+            'thursday': thursday, 
+            'friday': friday, 
+            'saturday': saturday, 
+            'sunday': sunday
+            }
+        
+        location = {
+            'room': room,
+            'address': address,
+            'city': city,
+            'province': province,
+            'postal_code': postal_code
+        }
+
+        contact = {
+            'phone': phone,
+            'email': email
+        }
+
+        hours_errors = validate_building_hours(new_hrs)
+        location_errors = validate_location(location)
+        contact_errors = validate_office_contact(contact)
+
+        validation_results = [hours_errors, location_errors, contact_errors]
+
+        errors = check_for_errors(validation_results)
+
+        if errors:
+            flash_errors(errors)
+            
+            return render_template("edit_info.html", building_hrs=new_hrs, location=location, contact=contact, info=info)
+
         office_hours = {}
 
         office_hours["monday_hrs"] = f"{monday['opening']} - {monday['closing']}" if not monday["is_closed"] else ''
@@ -596,4 +689,4 @@ def building_info_edit():
 
         return redirect(url_for("home"))
     
-    return render_template("edit_info.html", building_hrs=current_hrs, room=info.office_room, address=info.street_address, city=info.city, province=info.province, postal_code=info.postal_code, phone=info.phone, email=info.email)
+    return render_template("edit_info.html", building_hrs=current_hrs, location=location, contact=contact, info=info)

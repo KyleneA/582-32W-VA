@@ -100,6 +100,9 @@ def validate_apartment(apartment, form='add'):
     if not apartment[:3].isdigit():
         apartment_errors.append("The first three characters of the apartment number should be numbers")
     
+    if int(apartment[0]) < 1 or int(apartment[0]) > 5:
+        apartment_errors.append("The first digit can only be between 1 and 5")
+    
     if not apartment_errors:
         return None
     
@@ -126,6 +129,11 @@ def validate_locker(locker, form='add'):
     if not locker_digits.isdigit():
         locker_errors.append("All characters other than the '-' should be a number")
     
+    floor = int(locker[0])
+    if floor < 1 or floor > 5:
+        locker_errors.append("Locker location can only be between 1 and 5")
+
+    
     if not locker_errors:
         return None
     
@@ -150,6 +158,32 @@ def validate_date(input_date, is_required=True, input_type="lease"):
             date_errors.append(f"{input_type.lower().capitalize()} date should follow YYYY-mm-dd format")
 
         return date_errors
+
+def validate_start_end_dates(start_date, end_date):
+    date_errors = []
+
+    start_errors = validate_date(start_date, False, 'start')
+    if start_errors:
+        date_errors.extend(start_errors)
+    
+    end_errors = validate_date(end_date, False, 'end')
+    if end_errors:
+        date_errors.extend(end_errors)
+
+    if start_date and end_date:
+        if end_date < start_date:
+            date_errors.append("End date cannot come before the start date.")
+
+            return date_errors
+
+        elif not date_errors:
+            return None
+
+    elif not date_errors:
+        return None
+    
+    return date_errors
+
 
 status_options = ["paid", "late", "revoked", "inactive"]
 
@@ -249,6 +283,75 @@ def validate_contact(contact_types, contact_method, contact):
         contact_errors.append(f"Please add your {contact_method} information in the Contact Information field or set the contact type to No Contact Needed.")
     
     return contact_errors
+
+def validate_building_hours(hours):
+    hrs_errors = []
+
+    for day, hrs in hours.items():
+        if hrs['is_closed'] == 'on' and (hrs['opening'] or hrs['closing'] ):
+            hrs_errors.append(f"{day.capitalize()} cannot be marked as closed and have hours listed")
+        
+        if hrs['closing'] < hrs['opening']:
+            hrs_errors.append("Closing time cannot be before opening time")
+    
+    if not hrs_errors:
+        return None
+    
+    return hrs_errors
+
+def validate_location(location):
+    location_errors = []
+
+    for key, value in location.items():
+        if value == '':
+            clean_key = key.replace('_', ' ')
+            location_errors.append(f"Office {clean_key} is a required field")
+    
+        if key == 'address':
+            if value.count(" ") < 2:
+                location_errors.append("Street address must include a civic number, street name, and street type")
+        
+        if key == 'province':
+            provinces = ['British Columbia', 'Alberta', 'Saskatchewan', 'Manitoba', 'Ontario', 'Quebec', 'New Brunswick', 'Nova Scotia', 'Prince Edward Island', 'Newfoundland and Labrador', 'Yukon', 'Northwest Territories', 'Nunavut']
+
+            if not value.lower().capitalize() in provinces:
+                location_errors.append("Province should be a canadian province or territory")
+        
+        if key == 'postal_code' and not value == '':
+            pc = value.replace(" ", '')
+            letters = [pc[0], pc[2],pc[4]]
+            digits = [pc[1], pc[3], pc[5]]
+
+            if not all(item.isalpha() for item in letters) or not all(item.isdigit() for item in digits):
+                location_errors.append("Invalid postal code")
+        
+    if not location_errors:
+        return None
+    
+    return location_errors
+
+def validate_office_contact(contact):
+    contact_errors = []
+
+    email_errors = validate_email(contact['email'])
+
+    if email_errors:
+        contact_errors.append(email_errors)
+    
+    if not len(contact['phone']) == 14:
+        print(len(contact['phone']) == 14)
+        contact_errors.append("Phone number must follow the following format '(123) 456-7890'")
+    
+    numbers = contact['phone'].replace("(", "").replace(")", "").replace(" ", "").replace("-", "")
+    if not all(digit.isdigit() for digit in numbers):
+        print(numbers)
+        contact_errors.append("Phone number must include 10 digits")
+    
+    if not contact_errors:
+        return None
+
+    return contact_errors
+
 
 def check_for_errors(validation_results):
     errors = []

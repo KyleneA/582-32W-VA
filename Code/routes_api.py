@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify
 from flask_login import login_required, current_user
 
 from models import db, User, Admin, Resident, Announcement, Post, BuildingInfo, Guideline
-from sqlalchemy import desc, nullslast, nullsfirst
+from sqlalchemy import desc, nullslast, nullsfirst, func
 
 api = Blueprint("api", __name__)
 
@@ -17,7 +17,7 @@ def get_admins(sort_type):
         admins = Admin.query.order_by(Admin.name).all()
 
     if sort_type == "email":
-        admins = Admin.query.order_by(Admin.email).all()
+        admins = Admin.query.order_by(func.lower(Admin.email)).all()
 
     return jsonify([user.to_dict() for user in admins])
 
@@ -31,7 +31,7 @@ def get_residents(sort_type):
         residents = Resident.query.order_by(Resident.name).all()
 
     if sort_type == "email":
-        residents = Resident.query.order_by(Resident.email).all()
+        residents = Resident.query.order_by(func.lower(Resident.email)).all()
 
     if sort_type == "apartment":
         residents = Resident.query.order_by(Resident.apartment).all()
