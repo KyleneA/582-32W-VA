@@ -4,15 +4,12 @@
     {% block banner %}
 
     {% if current_user.is_authenticated %}
-    <h1>Hi, {{ current_user.name }}</h1>
+    <h1>Welcome back, {{ current_user.name }}!</h1>
     
     {% else %}
-    <h1>Hello</h1>
+    <h1>XYZ Aparment Complex</h1>
+    <p>Inquire about available rooms</p>
     {% endif %}
-
-    <p>
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatibus voluptas culpa, sed, odio porro laudantium amet expedita eos, molestiae saepe a. Iure est rerum voluptas consequuntur velit. Nihil, aspernatur explicabo?
-    </p>
     {% endblock %}
 
     {% block content %}
@@ -31,31 +28,31 @@
                     <h2>Office Hours</h2>
                     <ul>
                         <li>
-                            <p>Monday:</p>
+                            <p class="label">Monday:</p>
                             <p>{{ building_info.monday_hours or 'closed' }}</p>
                         </li>
                         <li>
-                            <p>Tuesday:</p>
+                            <p class="label">Tuesday:</p>
                             <p>{{ building_info.tuesday_hours or 'closed' }}</p>
                         </li>
                         <li>
-                            <p>Wednesday:</p>
+                            <p class="label">Wednesday:</p>
                             <p>{{ building_info.wednesday_hours or 'closed' }}</p>
                         </li>
                         <li>
-                            <p>Thursday:</p>
+                            <p class="label">Thursday:</p>
                             <p>{{ building_info.thursday_hours or 'closed' }}</p>
                         </li>
                         <li>
-                            <p>Friday:</p>
+                            <p class="label">Friday:</p>
                             <p>{{ building_info.friday_hours or 'closed' }}</p>
                         </li>
                         <li>
-                            <p>Saturday:</p>
+                            <p class="label">Saturday:</p>
                             <p>{{ building_info.saturday_hours or 'closed' }}</p>
                         </li>
                         <li>
-                            <p>Sunday:</p>
+                            <p class="label">Sunday:</p>
                             <p>{{ building_info.sunday_hours or 'closed' }}</p>
                         </li>
                     </ul>
@@ -74,11 +71,11 @@
                     <h2>How to reach us</h2>
                     <ul>
                         <li> 
-                            <p>Phone: </p>
+                            <p class="label">Phone: </p>
                             <p>{{ building_info.phone }}</p>
                         </li>
                         <li> 
-                            <p>Email Address: </p>
+                            <p class="label">Email Address: </p>
                             <p>{{ building_info.email }}</p>
                         </li>
                     </ul>

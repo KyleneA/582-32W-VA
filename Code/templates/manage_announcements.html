@@ -5,6 +5,11 @@
     <h1>Manage Announcements</h1>
     {% endblock %}
 
+    {% block breadcrumbs_nav %}
+    {% import 'components.html' as components %}
+    {{ components.breadcrumbs('Manage Announcements') }}
+    {% endblock %}
+
     {% block content %}
     <section class="quick-access">
         <div class="container">

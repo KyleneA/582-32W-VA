@@ -4,6 +4,18 @@
     {% block banner %}
     <h1>Edit {{ user_role }}</h1>
     {% endblock %}
+
+    {% block breadcrumbs_nav %}
+        {% import 'components.html' as components %}
+        {% if user_role == 'admin' %}
+            {% set url = 'user.manage_users(admin)' %}
+            {% set text = 'Edit Admin' %}
+        {% elif user_role == 'resident' %}
+            {% set url = 'user.manage_users' %}
+            {% set text = 'Edit Resident' %}
+        {% endif %}
+        {{ components.breadcrumbs('Manage Users', url, text) }}
+    {% endblock %}
     
     {% block content %}
     <section class="create-user">

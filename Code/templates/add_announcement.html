@@ -4,6 +4,11 @@
     {% block banner %}
     <h1>Create Announcement</h1>
     {% endblock %}
+
+    {% block breadcrumbs_nav %}
+    {% import 'components.html' as components %}
+    {{ components.breadcrumbs('Manage Announcements', 'content.post_manage', 'Create Announcement') }}
+    {% endblock %}
     
     {% block content %}
     <section class="add-announcement">

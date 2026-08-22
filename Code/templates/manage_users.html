@@ -4,6 +4,11 @@
     {% block banner %}
     <h1>Manage users</h1>
     {% endblock %}
+
+    {% block breadcrumbs_nav %}
+    {% import 'components.html' as components %}
+    {{ components.breadcrumbs('Manage Users') }}
+    {% endblock %}
     
     {% block content %}
     <section class="quick-access">
